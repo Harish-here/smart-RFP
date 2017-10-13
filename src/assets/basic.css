@@ -6,11 +6,13 @@ nav a{ text-decoration: none; display: block;color :#fff;padding-left: 10px;}
 nav a:hover { text-decoration: none !important; color:#fff;background-color:rgba(53, 64, 82, 0.54);}
 nav a.active:hover{background-color: #2c3544;}
 select,input{ height: 30px;width:300px;}
+ul,li{padding: 0px;margin: 0px;list-style: none;}
 
 /* -- layout ------*/
 .fl{ float : left ; display : inline;}
 .fr{ float : right ; display : inline;}
 
+.w10{ width : 10%; }
 .w15{width : 15%;}
 .w20{width : 20%;}
 .w30{width : 30%;}
@@ -33,13 +35,17 @@ select,input{ height: 30px;width:300px;}
 
 
 /* ---- component  -----*/
-
-
+.tb{ border-left: none; border-right: none;border-top:none; border-bottom:1px solid #ddd;}
+.tb:hover{background-color: #ddd; cursor: pointer;}
+.tb--active{ border-bottom: 2px solid #4285f4; color: #4285f4; }
+.tb-v--active{ border-right:2px solid #4285f4; color: #4285f4; }
+.tb-v--active:hover,.tb--active:hover{background-color: #fff;}
 
 /* ---- color  -----   */
 .bg-dark{ background-color: #354052;}
 .hover{ background-color: #50617c; }
 .active{background-color: #2c3544; }
+
 
 
 /* font / text */
