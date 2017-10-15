@@ -29,7 +29,8 @@
         <li class='p20-40 tb'>Service / Amenities</li>
         <li class='p20-40 tb'>Payment</li>
       </ul>
-      <div id='tab_v_body fl w80'>
+      <div id='tab_v_body' class='fl w80 p10-20'>
+        <Question quesData='null' />
       </div>
     </div>
     
@@ -37,8 +38,11 @@
 </template>
 
 <script>
+import Question from '@/components/question'
+
 export default {
   name: 'display',
+  components: {Question},
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -54,5 +58,24 @@ export default {
 <style>
 hr{
   margin-bottom:0px !important;
+}
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
 }
 </style>

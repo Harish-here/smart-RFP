@@ -188,5 +188,5 @@ hr{
 	background-color: #555;
 }
 
-
+select,input{ height: 30px;width:300px;}
 </style>
