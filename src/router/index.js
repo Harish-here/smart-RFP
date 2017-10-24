@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Create from '@/components/create';
 import Display from '@/components/display';
+import Question from '@/components/question';
 
 Vue.use(Router);
 
@@ -14,9 +15,12 @@ export default new Router({
       component: Create,
     },
     {
-      path: '/display',
+      path: '/questions',
       name: 'Display',
       component: Display,
+      children: [
+        {path: '/questions/:category',component: Question }
+      ]
     },
   ],
 });

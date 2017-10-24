@@ -2,13 +2,15 @@
   <div id="app">
     <nav class='fl w15 bg-dark h-full white al-left b6 f16'>
       <a href='#' class='p20-40'>RFP's</a>
-      <a href='#' class='p20-40 hover'>Create RFP</a>
+      <a href='#' class='p20-40 hover'><router-link to='/'>Create RFP</router-link></a>
       <a href='#' class='p20-40'>Drafts</a>
-      <a href='#' class='p20-40'>Trash</a>
+      <a href='#' class='p20-40'><router-link to='/questions'>Trash</router-link></a>
     </nav>
    
     <div id='main_container' class='h-full'>
-      <router-view/>
+      <transition name='fade'>
+        <router-view/>
+      </transition>
     </div>
     
   </div>

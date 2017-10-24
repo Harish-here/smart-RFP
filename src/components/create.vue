@@ -164,7 +164,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 hr{
   margin-bottom:0px !important;
 }
@@ -177,7 +177,7 @@ hr{
 
 ::-webkit-scrollbar
 {
-	width: 8px;
+	width: 5px;
 	background-color: #F5F5F5;
 }
 

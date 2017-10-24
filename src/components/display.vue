@@ -68,7 +68,7 @@ hr{
 
 ::-webkit-scrollbar
 {
-	width: 8px;
+	width: 5px;
 	background-color: #F5F5F5;
 }
 
