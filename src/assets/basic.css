@@ -46,7 +46,7 @@ ul,li{padding: 0px;margin: 0px;list-style: none;}
 /* ---- component  -----*/
 .tb{ border-left: none; border-right: none;border-top:none; border-bottom:none;}
 .tb:hover{border-bottom: 3px solid #ddd; cursor: pointer;}
-.tb--active{ border-bottom: 3px solid #4285f4; color: #4285f4; }
+.tb--active{ border-top: 3px solid #4285f4; color: #4285f4; }
 .tb-v--active{ border-right:3px solid #4285f4; color: #4285f4; }
 .tb-v--active:hover,.tb--active:hover{background-color: #fff;}
 

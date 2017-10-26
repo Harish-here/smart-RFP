@@ -13,13 +13,13 @@
       <hr>
     </header>
     <ul id='tab_head' class='fl w100 p5-10 b6 f12 center'>
-      <li id='tab1' class='fl p10-20 tb tb--active'>Property Baisc</li>
-      <li id='tab2' class='fl p10-20 tb'>Client Specific</li>
-      <li id='tab3' class='fl p10-20 tb'>Safety & Security</li>
-      <li id='tab4' class='fl p10-20 tb'>Blackout / Fair Dates</li>
-      <li id='tab5' class='fl p10-20 tb'>Extended Stay</li>
-      <li id='tab6' class='fl p10-20 tb'>Group / Meetings</li>
-      <li id='tab7' class='fl p10-20 tb'>Corporate Q/A</li>
+      <li id='tab1' class='fl p10-20 tb tb--active' @click='getQuestion("Property Baisc")'>Property Baisc</li>
+      <li id='tab2' class='fl p10-20 tb' @click='getQuestion("Property Baisc")' disabled>Client Specific</li>
+      <li id='tab3' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Safety & Security</li>
+      <li id='tab4' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Blackout / Fair Dates</li>
+      <li id='tab5' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Extended Stay</li>
+      <li id='tab6' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Group / Meetings</li>
+      <li id='tab7' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Corporate Q/A</li>
     </ul>
     <div id='tab_body' class='fl w100 p5-10 h-75'>
         <Question quesData='null' />
@@ -42,8 +42,8 @@ export default {
   methods: {
     sumbit: () => {
     },
-    getQuestion : () =>{
-
+    getQuestion : (id) =>{
+      console.log(id);
     }
   },
 };
