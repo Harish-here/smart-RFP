@@ -58,7 +58,7 @@
 </template>
 <script>
 import axios from 'axios'
-import _ from 'lodash/function'
+//import _ from 'lodash'
 export default {
     name: 'questionCorp',
     props: ['quesData'],
@@ -83,10 +83,10 @@ export default {
             $('li').removeClass('tb-v--active');
             $('li#'+id).addClass('tb-v--active');
         },
-        txtAns: _.debounce(function(id){
-            console.log($('#ans_'+id).data('ans'));
-            console.log($('#ans_'+id).data('que'));
-        },700),
+        // txtAns: _.debounce(function(id){
+        //     console.log($('#ans_'+id).data('ans'));
+        //     console.log($('#ans_'+id).data('que'));
+        // },700),
         emits: function(){
             this.$emit('close',1)
         }

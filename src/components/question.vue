@@ -1,13 +1,20 @@
 <template>
  <div id='question' class='h-75'>
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
-        <span v-for='i in qData.quesCategory'>
-        <li class='p20-40 tb' @click='show(i.questionCategoryId)' :id='i.questionCategoryId'>{{i.questionCategory}}</li>
+        <span v-for='(i,index) in qData.quesCategory'>
+        <li class='p20-40 tb' @click='show(index)' :id='"tab_"+index'>{{i.questionCategory}}</li>
         </span>
         <li class='p20-40 tb tb-v--active'>Payment</li>
     </ul>
+   <!-- <pre>{{ cData }}</pre> -->
     <div id='content'>
-        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 y-flow' :id='"body_"+ y.questionCategoryId'>
+        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 h-75 y-flow' :id='"body_"+index_1'>
+            <div class='fl w100 center'>
+              <ul>
+               <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'><button class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next</button></li>
+               <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
+              </ul>
+            </div>
             <div v-for='(i,index_2) in y.ques'>
                     <div v-if='i.questionSubTypeId === "7"'>
                         <div class=' fl w60 p10-20'>
@@ -50,22 +57,21 @@
                         </ul>
                     </div>
             </div>
-            <button type='submit'>Submit</button>
         </section>
     </div>
  </div>
 </template>
 <script>
 import axios from 'axios'
-import _ from 'lodash/function'
+import _ from 'lodash'
+
 export default {
     name: 'question',
     props: ['quesData'],
     data() {
         return {
             qData: [],
-            cData:[],
-            sample: 0
+            cData:[]
         }
     },
     methods: {
@@ -74,37 +80,63 @@ export default {
 
         },
         addAns: function(id){
-            console.log($('#ans_'+id).data('ans'));
+            const self= this;
+            let ansObj,quesObj,isThere =false,isId9 = false;
+                ansObj = $('#ans_'+id).data('ans');
+                quesObj = $('#ans_'+id).data('que');
+                //delete the unneccessary
+                delete quesObj.questionText;
+                delete quesObj.isMandatory;
+                if(quesObj.hasOwnProperty('concatAns')) {
+                    delete quesObj.concatAns;
+                } 
+                var qId = quesObj.questionId;
+                var qsubId = quesObj.questionSubTypeId;
+                if(qsubId === "1" || qsubId === "2" || qsubId === "3" || qsubId === "4" ||  qsubId === "6"){
+                    ansObj['answer'] = $('#ans_'+id).val();  
+                }
+                quesObj['answers'] = [ansObj];
+            if(self.cData.length > 0){ 
+               var arr = _.filter(self.cData,{'questionId' : qId});
+                if(arr.length == 0){
+                    //questionObj not present
+                    self.cData.push(quesObj);
+                }else{//questionObj present
+                     var index = _.findIndex(self.cData,{'questionId' : qId});
+                     if(qsubId == "8"){
+                         var arr2 = _.filter(self.cData[index].answers,ansObj);
+                        ( arr2.length == 0 ) ? 
+                        self.cData[index].answers.push(ansObj) ://add the new answer  
+                        self.cData[index].answers.splice(_.findIndex(self.cData[index].answers.ansObj),1); //remmove the naswer if he unchecked; 
+                     }
+                     else{
+                         self.cData[index].answers = [];
+                         self.cData[index].answers.push(ansObj);
+                     }
+                }        
+            }
+            else{
+                
+                self.cData.push(quesObj);
+            }
         },
         show: function(id){
             $('div#content section').hide();
             $('div#content section#body_'+id).show();
             $('li').removeClass('tb-v--active');
-            $('li#'+id).addClass('tb-v--active');
+            $('li#tab_'+id).addClass('tb-v--active');
         },
         txtAns: _.debounce(function(id){
-            console.log($('#ans_'+id).data('ans'));
-            console.log($('#ans_'+id).data('que'));
+            this.addAns(id);
         },700)
     },
     created(){
         const self = this;
         axios("https://api.myjson.com/bins/l9br3").then(function(data){
             var temp = data.data
-           for(var j of temp.quesCategory){
-               for(var i of j.ques){
-                   i['answers'] = (  i.questionSubTypeId === "1" ||
-                                     i.questionSubTypeId === "2" ||
-                                     i.questionSubTypeId === "3" || 
-                                     i.questionSubTypeId === "4" ||  
-                                     i.questionSubTypeId === "6"  ) ? [{answerId:"",answer: ""}] : []; //insert the eanswer property
-
-                   self.cData.push(j)
-               }
-           }
            self.qData = data.data
         });
-        
+   
     },
     mounted: function(){  
             this.$nextTick(function () {

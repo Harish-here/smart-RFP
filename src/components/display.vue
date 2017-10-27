@@ -44,6 +44,7 @@ export default {
     },
     getQuestion : (id) =>{
       console.log(id);
+      
     }
   },
 };
