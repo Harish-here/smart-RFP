@@ -2,12 +2,13 @@
  <div id='question' class='h-75'>
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
         <span v-for='(i,index) in qData.quesCategory'>
-        <li class='p20-40 tb' @click='show(index)' :id='"tab_"+index'>{{i.questionCategory}}</li>
+        <li class='p20-40 tb' @click='show(index)' :id='"tabc_"+index'>{{i.questionCategory}}</li>
         </span>
         <li class='p20-40 tb tb-v--active'>Payment</li>
     </ul>
    <!-- <pre>{{ cData }}</pre> -->
     <div id='content'>
+    {{cData}}
         <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 h-75 y-flow' :id='"body_"+index_1'>
             <div class='fl w100 center'>
               <ul>
@@ -22,7 +23,7 @@
                         </div>
                         <div class='fl w40 p10-20'>
                             <div class='di  pl-25' v-for='(j,z) in i.concatAns'>
-                                <input @click='addAns(j.answerId)' :data-ans='JSON.stringify(j)' :data-que='JSON.stringify(i)'  type='radio' :name='"q_"+i.questionId' :id='"ans_" + j.answerId' :value='j'> {{j.answerText}}
+                                <input @click='addAns(i.questionId)' :data-ans='JSON.stringify(j)' :data-que='JSON.stringify(i)'  type='radio' :name='"q_"+i.questionId' :id='"ans_" + i.questionId' :value='j'> {{j.answerText}}
                             </div>
                         </div>
                     </div>
@@ -64,19 +65,30 @@
 <script>
 import axios from 'axios'
 import _ from 'lodash'
+import api from '@/api/api'
 
 export default {
     name: 'question',
-    props: ['quesData'],
+    props: ['quesData','current','next'],
     data() {
         return {
-            qData: [],
-            cData:[]
+            cData:[],
+            sample : []
+        }
+    },
+    computed : {
+        qData(){
+            return this.quesData
         }
     },
     methods: {
-        submitAnswers: () => {
-            const self = this;console.log('hi')
+        submitAnswers: function(){
+            const self = this;
+            $.post(api.sendQues,{ans: self.cData}).done(function(data){
+                console.log(data);
+                //self.$store.commit('changeHotelMode','edit');
+                self.$emit('finish',self.next);
+            })
 
         },
         addAns: function(id){
@@ -87,15 +99,17 @@ export default {
                 //delete the unneccessary
                 delete quesObj.questionText;
                 delete quesObj.isMandatory;
+                delete quesObj.answer;
                 if(quesObj.hasOwnProperty('concatAns')) {
                     delete quesObj.concatAns;
                 } 
                 var qId = quesObj.questionId;
                 var qsubId = quesObj.questionSubTypeId;
                 if(qsubId === "1" || qsubId === "2" || qsubId === "3" || qsubId === "4" ||  qsubId === "6"){
-                    ansObj['answer'] = $('#ans_'+id).val();  
+                    ansObj['answer'] = $('#ans_'+id).val();
+                    console.log(ansObj['answer']); 
                 }
-                quesObj['answers'] = [ansObj];
+                quesObj['answer'] = [ansObj];
             if(self.cData.length > 0){ 
                var arr = _.filter(self.cData,{'questionId' : qId});
                 if(arr.length == 0){
@@ -104,14 +118,14 @@ export default {
                 }else{//questionObj present
                      var index = _.findIndex(self.cData,{'questionId' : qId});
                      if(qsubId == "8"){
-                         var arr2 = _.filter(self.cData[index].answers,ansObj);
+                         var arr2 = _.filter(self.cData[index].answer,ansObj);
                         ( arr2.length == 0 ) ? 
-                        self.cData[index].answers.push(ansObj) ://add the new answer  
-                        self.cData[index].answers.splice(_.findIndex(self.cData[index].answers.ansObj),1); //remmove the naswer if he unchecked; 
+                        self.cData[index].answer.push(ansObj) ://add the new answer  
+                        self.cData[index].answer.splice(_.findIndex(self.cData[index].answer.ansObj),1); //remmove the naswer if he unchecked; 
                      }
                      else{
-                         self.cData[index].answers = [];
-                         self.cData[index].answers.push(ansObj);
+                         self.cData[index].answer = [];
+                         self.cData[index].answer.push(ansObj);
                      }
                 }        
             }
@@ -123,26 +137,14 @@ export default {
         show: function(id){
             $('div#content section').hide();
             $('div#content section#body_'+id).show();
-            $('li').removeClass('tb-v--active');
-            $('li#tab_'+id).addClass('tb-v--active');
+            $('#tab_v_head li').removeClass('tb-v--active');
+            $('li#tabc_'+id).addClass('tb-v--active');
         },
         txtAns: _.debounce(function(id){
             this.addAns(id);
         },700)
     },
-    created(){
-        const self = this;
-        axios("https://api.myjson.com/bins/l9br3").then(function(data){
-            var temp = data.data
-           self.qData = data.data
-        });
-   
-    },
-    mounted: function(){  
-            this.$nextTick(function () {
-                $('section:first-child').show();
-            })
-    }
+
 }
 </script>
 <style scoped>

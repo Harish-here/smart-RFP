@@ -3,13 +3,33 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+import Vuex from 'vuex';
 
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+  state : {
+    hotel : {
+      mode: 'create',
+      nextScreen:7
+    }
+  },
+  mutations: {
+    changeHotelMode (state,mode){
+        state.hotel.mode = mode;
+    },
+    setNextScreen (state,screen){
+      state.hotel.nextScreen = screen;
+    }
+  }
+})
 
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   template: '<App/>',
   components: { App },

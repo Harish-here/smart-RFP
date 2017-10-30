@@ -16,40 +16,37 @@ export default new Router({
   mode : 'history',
   routes: [
     {
-      path: '/',
+      path: '/:foo(.*?)/rfp/',
       name: 'Create',
       component: Create,
     },
     {
-      path: '/proposal',
+      path: '/:foo(.*?)/hotel/',
       name: 'proposal',
       component: Proposal,
     },
     {
-      path: '/review',
+      path: '/:foo(.*?)/hotel/review',
       name: 'review',
       component: Review,
     },
     {
-      path: '/send',
+      path: '/:foo(.*?)/rfp/corprate/send',
       name: 'send',
       component: Send,
     },
     {
-      path: '/questions',
+      path: '/:foo(.*?)/hotel/questions',
       name: 'Display',
-      component: Display,
-      children: [
-        {path: '/questions/:category',component: Question }
-      ]
+      component: Display
     },
     {
-      path: '/questionsCorp',
+      path: '/:foo(.*?)/rfp/corprate/questionsCorp',
       name: 'displayCorp',
       component: DisplayCorp,
     },
     {
-      path: '/engaged',
+      path: ':foo(.*?)/hotel/engaged',
       name: 'engaged',
       component: Engaged,
     },

@@ -29,7 +29,7 @@ hr{ margin-bottom:0px !important; }
 .z-500{ z-index: 5000; }
 .y-flow{overflow-y : auto;}
 .h-100{height: 100%;}
-.h-full{height: 100vh; overflow-y: auto;}
+.h-full{height: 93vh; overflow-y: auto;}
 .di{ display : inline !important;}
 .dib{ display : inline-block !important;}
 .db{ display: block !important; }
