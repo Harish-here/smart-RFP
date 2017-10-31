@@ -16,7 +16,7 @@ export default new Router({
   mode : 'history',
   routes: [
     {
-      path: '/:foo(.*?)/rfp/',
+      path: '/:foo(.*?)/corprate/',
       name: 'Create',
       component: Create,
     },
@@ -31,7 +31,7 @@ export default new Router({
       component: Review,
     },
     {
-      path: '/:foo(.*?)/rfp/corprate/send',
+      path: '/:foo(.*?)/corprate/send',
       name: 'send',
       component: Send,
     },
@@ -41,7 +41,7 @@ export default new Router({
       component: Display
     },
     {
-      path: '/:foo(.*?)/rfp/corprate/questionsCorp',
+      path: '/:foo(.*?)/corprate/questions',
       name: 'displayCorp',
       component: DisplayCorp,
     },
@@ -51,7 +51,7 @@ export default new Router({
       component: Engaged,
     },
     {
-      path: '/received',
+      path: '/:foo(.*?)/corprate/received',
       name: 'received',
       component: Received,
     }

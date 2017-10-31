@@ -24,7 +24,7 @@
             <td>chennai</td>
             <td>123 (143)</td>
             <td>18</td>
-            <td><button class='btn btn-default btn-xs'>Give Quote</button></td>
+            <td><button class='btn btn-default btn-xs' @click='move'>Give Quote</button></td>
             </tr>
             <tr>
             <td>infoNix weblabs</td>
@@ -56,7 +56,9 @@ export default {
 
     },
     methods: {
-
+      move: function(){
+        this.$router.push('./review');
+      }
     }
 }
 

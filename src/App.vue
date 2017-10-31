@@ -1,16 +1,12 @@
 <template>
   <div id="app">
     <nav v-show='!showHotel' class='fl w15 bg-dark h-full white al-left b6 f16'>
-      <a href='#' class='p20-40'>RFP's</a>
-      <a href='#' class='p20-40 hover'><router-link to='/'>Create RFP</router-link></a>
-      <a href='#' class='p20-40'>Drafts</a>
-      <a href='#' class='p20-40'><router-link to='./rfp/hotel/questions'>Settings</router-link></a>
-      <a href='#' class='p20-40'><router-link to='./rfp/hotel/'>Proposal</router-link></a>
-      <a href='#' class='p20-40'><router-link to='./rfp/hotel/review'>Review</router-link></a>
-      <a href='#' class='p20-40'><router-link to='/send'>send</router-link></a>
-      <a href='#' class='p20-40'><router-link to='/received'>Received</router-link></a>
-      <a href='#' class='p20-40'><router-link to='/rfp/hotel/engaged'>Engaged</router-link></a>
-      <a href='#' class='p20-40'><router-link to='/questionsCorp'>Question Corp</router-link></a> 
+      <a href='#' class='p20-40'><i class="fa fa-envelope-o" aria-hidden="true"></i> RFP's</a>
+      <router-link to='./'><a href='#' class='p20-40'><i class="fa fa-copy" aria-hidden="true"></i> Create RFP</a></router-link>
+      <a href='#' class='p20-40'><router-link to='./send'>send</router-link></a>
+      <a href='#' class='p20-40'><router-link to='./received'>Received</router-link></a>
+      <a href='#' class='p20-40'><router-link to='./questions'>Question Corp</router-link></a>
+      <a href='#' class='p20-40'>Drafts</a> 
     </nav>
     <nav v-show='showHotel' class='fl w15 bg-dark h-full white al-left b6 f16'>
       <a href='#' class='p20-40'><router-link to='./'>Proposal</router-link></a>

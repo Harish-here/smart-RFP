@@ -33,14 +33,15 @@ hr{ margin-bottom:0px !important; }
 .di{ display : inline !important;}
 .dib{ display : inline-block !important;}
 .db{ display: block !important; }
-.dbNo{ display: none;}
+.dbNo{ display: none !important;}
 .pab{ position: absolute; }
 .top-right-0{ top:0;right:0; }
 
 
 /* ---- atomic  -----*/
 .pl-25{padding-left:25px; }
-
+.cursor{cursor: pointer;}
+.trans{ transition: 0.3s; }
 
 /* ---- padding  -----*/
 .p5-10{ padding:5px 10px; }
