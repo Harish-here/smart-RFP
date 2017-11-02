@@ -22,18 +22,18 @@
       <li id='tab7' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Corporate Q/A</li>
     </ul>
     <div id='tab_body' class='fl w100 p5-10 h-75'>
-        <QuestionCorp :quesData='show.questionBar' @close='closeQues' />
+        <RfpDisplayQuestions :quesData='show.questionBar' @close='closeQues' />
     </div>
     
  </div>
 </template>
 
 <script>
-import QuestionCorp from '@/components/questionCorp'
+import RfpDisplayQuestions from '@/components/corporate/RfpDisplayQuestions'
 
 export default {
-  name: 'displayCorp',
-  components: {QuestionCorp},
+  name: 'RfpQuestions',
+  components: {RfpDisplayQuestions},
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',

@@ -46,7 +46,7 @@
 <script>
 import axios from 'axios'
 export default {
-    name: 'received',
+    name: 'RfpList',
     data(){
         return {
             listData : []

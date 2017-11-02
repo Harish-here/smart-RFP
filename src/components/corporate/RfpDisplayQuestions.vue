@@ -60,7 +60,7 @@
 import axios from 'axios'
 //import _ from 'lodash'
 export default {
-    name: 'questionCorp',
+    name: 'RfpDisplayQuestions',
     props: ['quesData'],
     data() {
         return {

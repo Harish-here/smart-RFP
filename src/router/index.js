@@ -1,14 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Create from '@/components/create';
+import RfpCreate from '@/components/corporate/RfpCreate';
 import Display from '@/components/display';
 import Question from '@/components/question';
 import Proposal from '@/components/proposal';
 import Review from '@/components/review';
-import Send from '@/components/send';
-import DisplayCorp from '@/components/displayCorp';
+import RfpQuestions from '@/components/corporate/RfpQuestions';
 import Engaged from '@/components/engaged';
-import Received from '@/components/received';
+import RfpList from '@/components/corporate/RfpList';
 
 Vue.use(Router);
 
@@ -18,7 +17,7 @@ export default new Router({
     {
       path: '/:foo(.*?)/corprate/',
       name: 'Create',
-      component: Create,
+      component: RfpCreate,
     },
     {
       path: '/:foo(.*?)/hotel/',
@@ -32,8 +31,8 @@ export default new Router({
     },
     {
       path: '/:foo(.*?)/corprate/send',
-      name: 'send',
-      component: Send,
+      name: 'RfpQuestions',
+      component: RfpQuestions,
     },
     {
       path: '/:foo(.*?)/hotel/questions',
@@ -42,8 +41,8 @@ export default new Router({
     },
     {
       path: '/:foo(.*?)/corprate/questions',
-      name: 'displayCorp',
-      component: DisplayCorp,
+      name: 'RfpQuestions',
+      component: RfpQuestions,
     },
     {
       path: ':foo(.*?)/hotel/engaged',
@@ -52,8 +51,8 @@ export default new Router({
     },
     {
       path: '/:foo(.*?)/corprate/received',
-      name: 'received',
-      component: Received,
+      name: 'RfpList',
+      component: RfpList,
     }
   ],
 });
