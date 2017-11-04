@@ -1,5 +1,6 @@
 <template>
  <div id='questionCorp' class='h-75'>
+ {{cData}}
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
         <span v-for='i in qData.quesCategory'>
         <li class='p20-40 tb' @click='show(i.questionCategoryId)' :id='i.questionCategoryId'>{{i.questionCategory}}</li>
@@ -8,6 +9,7 @@
     </ul>
     <div id='content'>
         <ul class='fr w40 b6 f14'>
+        
           <li  class='fr w10 f14'> <button class='btn btn-default btn-xs' type='button'><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
           </button>
           <!-- dropDown  <ul class="dropdown-menu di">
@@ -28,10 +30,10 @@
                 </div>
                 <ul class='fl w40 p5-10'>
                     <li class='fl w40 p5-10 center'>
-                        <input type='checkbox' id="ans_" value='i' :data-ans='JSON.stringify(i)' :data-que='JSON.stringify(i)' >
+                        <input type='checkbox' id="ans_" value='i' @click='include(i)' :data-ans='JSON.stringify(i)' :data-que='JSON.stringify(i)' >
                     </li>
                     <li class='fl w40 p5-10 center'>
-                        <input type='checkbox' id="ans_" value='i' :data-ans='JSON.stringify(i)' :data-que='JSON.stringify(i)' >
+                        <input type='checkbox' id="ans_" value='i' @click='mand(i)' :data-ans='JSON.stringify(i)' :data-que='JSON.stringify(i)' >
                     </li>
                 </ul>
             </div>
@@ -58,7 +60,7 @@
 </template>
 <script>
 import axios from 'axios'
-//import _ from 'lodash'
+import _ from 'lodash'
 export default {
     name: 'RfpDisplayQuestions',
     props: ['quesData'],
@@ -89,24 +91,56 @@ export default {
         // },700),
         emits: function(){
             this.$emit('close',1)
+        },
+        remove: function(obj){
+            delete obj.questionSubTypeId;
+            delete obj.questionText;
+            if(obj.hasOwnProperty('concatAns')) {
+                    delete obj.concatAns;
+            }
+            for(var i in obj.answer){
+                delete obj.answer[i].answer;
+            }
+            return obj
+        },
+        removeObj: function(index){
+            const self =this;
+            self.cData.splice(index,1);
+        },
+        include: function(obj){
+           const self = this;
+           obj = self.remove(obj);
+           if(self.cData.length > 0){
+               var arr = _.filter(self.cData,{'questionId' : obj.questionId});
+               if(arr.length == 0) {
+                   self.cData.push(obj);//push que obj
+               }else{//remove the ques obj
+               var index = self.cData.findIndex((ele) => { return  ele.questionId == obj.questionId});
+                  if(obj['isMandatory'] == "0" && self.cData[index].isMandatory == "0"){
+                        
+                        self.removeObj(index) ;
+                   }else{
+                       (obj['isMandatory'] == "1" && self.cData[index].isMandatory == "1") ? self.removeObj(index) : self.cData[index].isMandatory == "1" ;
+                        //self.cData.push(obj);
+                   }
+               }
+           }else{
+               self.cData.push(obj);
+           }
+           
+        },
+        mand: function(obj){
+            const self = this;
+           obj['isMandatory'] = "1";
+            self.include(obj);
         }
+
     },
     created(){
         const self = this;
         axios("https://api.myjson.com/bins/l9br3").then(function(data){
-            var temp = data.data
-           for(var j of temp.quesCategory){
-               for(var i of j.ques){
-                   i['answers'] = (  i.questionSubTypeId === "1" ||
-                                     i.questionSubTypeId === "2" ||
-                                     i.questionSubTypeId === "3" || 
-                                     i.questionSubTypeId === "4" ||  
-                                     i.questionSubTypeId === "6"  ) ? [{answerId:"",answer: ""}] : []; //insert the eanswer property
-
-                   self.cData.push(j)
-               }
-           }
            self.qData = data.data
+           console.log(data.data)
         });
         
     },

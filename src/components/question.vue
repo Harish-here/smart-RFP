@@ -107,7 +107,7 @@ export default {
                 var qsubId = quesObj.questionSubTypeId;
                 if(qsubId === "1" || qsubId === "2" || qsubId === "3" || qsubId === "4" ||  qsubId === "6"){
                     ansObj['answer'] = $('#ans_'+id).val();
-                    console.log(ansObj['answer']); 
+                     
                 }
                 quesObj['answer'] = [ansObj];
             if(self.cData.length > 0){ 
