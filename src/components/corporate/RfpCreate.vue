@@ -12,7 +12,7 @@
       </ul>
       <hr>
     </header>
-    {{bData}}
+    {{holder}}
     <!--
     <form v-show='false' id='basic_info' v-on:submit.prevent="sumbit">
       <section class='fl w100 p5-10'>
@@ -212,10 +212,7 @@
             <div class='fl w50 pl-25'
                  v-else-if='j.bqId == 5' 
                  key='Dropdown'>
-              <select name='city'>
-                <option>Tamil Nadu</option>
-                <option>Kerala</option>
-              </select>
+              <v-select multiple  v-model='holder'  :options='cityData'></v-select>
             </div>
             <div class='fl w80 pl-25'
                  v-else-if='j.bqId == 9'>
@@ -238,18 +235,18 @@
             </div>
             <div class='fl w50 pl-25'
                   v-else>
-              <button type='submit' class='btn btn-default btn-xs'>Mon</button>
-              <button type='button' class='btn btn-default btn-xs' >Tue</button>
-              <button type='button' class='btn btn-default btn-xs' >Wed</button>
-              <button type='button' class='btn btn-default btn-xs'>Thu</button>
-              <button type='button' class='btn btn-default btn-xs'>Fri</button>
-              <button type='button' class='btn btn-default btn-xs'>Sat</button>
-              <button type='button' class='btn btn-default btn-xs'>Sun</button>
+              <button type='button' id='Mon' @click='addDay("Mon")' data-active='no' class='btn btn-default btn-xs'>Mon</button>
+              <button type='button' id='Tue' @click='addDay("Tue")'  data-active='no' class='btn btn-default btn-xs' >Tue</button>
+              <button type='button' id='Wed' @click='addDay("Wed")' data-active='no' class='btn btn-default btn-xs' >Wed</button>
+              <button type='button' id='Thu' @click='addDay("Thu")' data-active='no' class='btn btn-default btn-xs'>Thu</button>
+              <button type='button' id='Fri' @click='addDay("Fri")' data-active='no' class='btn btn-default btn-xs'>Fri</button>
+              <button type='button' id='Sat' @click='addDay("Sat")' data-active='no' class='btn btn-default btn-xs'>Sat</button>
+              <button type='button' id='Sun' @click='addDay("Sun")' data-active='no' class='btn btn-default btn-xs'>Sun</button>
             </div>
           </div>
         </section>
         <ul v-if='bData.length > 0' class='fl w100 p5-10' key='submit-area'>
-          <li class='fl w30 center'> <button type='button' class='btn btn-default btn-sm'>Save as Draft</button></li>
+          <li class='fl w30 center'> <button type='button' class='btn btn-default btn-sm' @click='saveDraft'>Save as Draft</button></li>
           <li class='fl w20 center'><button type='submit' class='btn btn-primary btn-sm'>Next</button></li>
         </ul>
     </form>
@@ -259,12 +256,17 @@
 <script>
 import axios from 'axios'
 import api from '@/api/api'
+import vSelect from "vue-select"
+
 export default {
   name: 'RfpCreate',
+  components: {vSelect},
 
   data() {
     return {
       bData:[],
+      cityData:[],
+      holder : null
     };
   },
 
@@ -273,13 +275,23 @@ export default {
     axios.get(api.getBasic).then(function(data){
       self.bData = data.data.division;
       console.log(data.data);
+      $(function(){
+        $('#_1').datepicker();
+        $('#_2').datepicker();
+        $('#_3').datepicker();
+      });
     });
-    $(function(){
-      $('#_1').datepicker();
-      $('#_2').datepicker();
-      $('#_3').datepicker();
+    axios.get(api.listCity).then(function(data){
+      self.cityData = data.data
     });
     
+  },
+
+  watch : {
+    'holder' : function(old,ne,l){
+      const self = this;
+      self.bData[0].ques[3].answer = old;
+    }
   },
 
   methods: {
@@ -287,18 +299,42 @@ export default {
       const self = this;
       $.post(api.sendBasic).done(function(data){
         self.$router.push('./questions')
-      })
+      });
+    },
+    saveDraft: function(){
+      $.post().done(function(){
+
+      });
     },
     addMonth: function(str){
       var obj = $('#'+str);
       const self = this;
-      if(obj.data('active') == 'no') {
+      if(obj.attr('data-active') == 'no') {
           self.bData[1].ques[3].answer += ' ' + str
-          obj.removeClass('btn-default').addClass('btn-primary').data('active','yes')
+          obj.removeClass('btn-default').addClass('btn-primary');
+          obj.attr('data-active','yes');
         }else{
-           console.log(self.bData[1].ques[3].answer.split(' ').splice(self.bData[1].ques[3].answer.indexOf(str),1).join(' '))
+          var arr = self.bData[1].ques[3].answer.split(' ');
+           arr.splice(arr.indexOf(str),1);
+           self.bData[1].ques[3].answer = arr.join(' ');
           
-          obj.removeClass('btn-primary').addClass('btn-default').data('active','no')
+          obj.removeClass('btn-primary').addClass('btn-default');
+          obj.attr('data-active','no');
+        }
+    },
+    addDay: function(str){
+      var obj = $('#'+str);
+      const self = this;
+      if(obj.attr('data-active') == 'no') {
+          self.bData[1].ques[4].answer += ' ' + str
+          obj.removeClass('btn-default').addClass('btn-primary');
+          obj.attr('data-active','yes');
+        }else{
+          var arr = self.bData[1].ques[4].answer.split(' ');
+           arr.splice(arr.indexOf(str),1);
+           self.bData[1].ques[4].answer = arr.join(' ');
+          obj.removeClass('btn-primary').addClass('btn-default');
+          obj.attr('data-active','no');
         }
     }
   },
@@ -308,5 +344,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-select,input{ height: 30px;width:300px;}
+select,input,.v-select{ height: 30px;width:300px;}
+
 </style>
