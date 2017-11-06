@@ -1,7 +1,7 @@
 <template>
   <div id="Rfp_Create">
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>Basic Information</div>
+      <div class='f22 b6 dib'>RFP - Basic Requirements</div>
       <ul  v-show='false' class='fr p5-10'>
         <li class='di p5-10'>
           <button class='btn btn-default btn-xs b6'><i class="fa fa-plus" aria-hidden="true"></i> Add Questions</button>
@@ -12,7 +12,6 @@
       </ul>
       <hr>
     </header>
-    {{holder}}
     <!--
     <form v-show='false' id='basic_info' v-on:submit.prevent="sumbit">
       <section class='fl w100 p5-10'>
@@ -272,6 +271,7 @@ export default {
 
   created(){
     const self = this;
+    self.$store.commit('flushRfp');
     axios.get(api.getBasic).then(function(data){
       self.bData = data.data.division;
       console.log(data.data);
@@ -291,14 +291,17 @@ export default {
     'holder' : function(old,ne,l){
       const self = this;
       self.bData[0].ques[3].answer = old;
-    }
+    },
+    
   },
 
   methods: {
     sumbit: function(){
       const self = this;
       $.post(api.sendBasic).done(function(data){
-        self.$router.push('./questions')
+        var obj = JSON.parse(data);
+        self.$store.commit('setRfp',obj);
+        self.$router.push('./questions');
       });
     },
     saveDraft: function(){

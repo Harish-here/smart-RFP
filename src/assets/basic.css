@@ -38,6 +38,7 @@ hr{ margin-bottom:0px !important; }
 .dbNo{ display: none !important;}
 .pab{ position: absolute; }
 .top-right-0{ top:0;right:0; }
+.hide{ visibility: hidden; }
 
 
 /* ---- atomic  -----*/

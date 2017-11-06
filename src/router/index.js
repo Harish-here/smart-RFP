@@ -8,7 +8,10 @@ import Review from '@/components/review';
 import RfpQuestions from '@/components/corporate/RfpQuestions';
 import Engaged from '@/components/engaged';
 import RfpList from '@/components/corporate/RfpList';
-
+import RfpSend from '@/components/corporate/RfpSend';
+import RfpPreview from '@/components/corporate/RfpPreview';
+import RfpQuoteList from '@/components/corporate/RfpQuoteList';
+import RfpQuoteReview from '@/components/corporate/RfpQuoteReview';
 Vue.use(Router);
 
 export default new Router({
@@ -31,8 +34,8 @@ export default new Router({
     },
     {
       path: '/:foo(.*?)/corprate/send',
-      name: 'RfpQuestions',
-      component: RfpQuestions,
+      name: 'RfpSend',
+      component: RfpSend,
     },
     {
       path: '/:foo(.*?)/hotel/questions',
@@ -53,6 +56,21 @@ export default new Router({
       path: '/:foo(.*?)/corprate/received',
       name: 'RfpList',
       component: RfpList,
+    },
+    {
+      path: '/:foo(.*?)/corprate/preview',
+      name: 'RfpPreview',
+      component: RfpPreview,
+    },
+    {
+      path: '/:foo(.*?)/corprate/quotelist',
+      name: 'RfpQuoteList',
+      component: RfpQuoteList,
+    },
+    {
+      path: '/:foo(.*?)/corprate/quotereview',
+      name: 'RfpQuoteReview',
+      component: RfpQuoteReview,
     }
   ],
 });

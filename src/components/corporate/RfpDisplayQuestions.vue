@@ -1,30 +1,31 @@
 <template>
  <div id='questionCorp' class='h-75'>
- {{cData}}
+ 
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
-        <span v-for='i in qData.quesCategory'>
-        <li class='p20-40 tb' @click='show(i.questionCategoryId)' :id='i.questionCategoryId'>{{i.questionCategory}}</li>
+        <span v-for='(i,index) in qData.quesCategory'>
+        <li class='p20-40 tb' @click='show(index)' :id='index'>{{i.questionCategory}}</li>
         </span>
         <li class='p20-40 tb tb-v--active'>Payment</li>
     </ul>
     <div id='content'>
         <ul class='fr w40 b6 f14'>
-        
-          <li  class='fr w10 f14'> <button class='btn btn-default btn-xs' type='button'><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          <li style='visibility:hidden;'  class='fr w10 f14'> <button class='btn btn-default btn-xs' type='button'><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
           </button>
-          <!-- dropDown  <ul class="dropdown-menu di">
-                <li><a href="#">HTML</a></li>
-                <li><a href="#">CSS</a></li>
-                <li><a href="#">JavaScript</a></li>
-            </ul> -->
           </li>
-          <li  class='fr w10 f10'>skip</li>
+          <li style='visibility:hidden;'  class='fr w10 f10'>skip</li>
           <li class='fr w25 center'>Mandatory</li>
           <li class='fr w25 center'>Include</li>
         </ul>
-        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 y-flow' :id='"body_"+ y.questionCategoryId'>
-            <div v-for='(i,index_2) in y.ques' class='fl w100'>
-                    
+        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 y-flow' :id='"body_"+index_1'>
+            <div id='Next_btn' class='fl w100 center'>
+              <ul>
+               <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
+                <button :id='index_1' class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next</button>
+               </li>
+               <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
+              </ul>
+            </div>
+            <div v-for='(i,index_2) in y.ques' class='fl w100'>    
                 <div class=' fl w60 p10-20'>
                 {{i.questionText}} 
                 </div>
@@ -61,20 +62,81 @@
 <script>
 import axios from 'axios'
 import _ from 'lodash'
+import api from '@/api/api'
 export default {
     name: 'RfpDisplayQuestions',
-    props: ['quesData'],
+    props: ['quesData','sub','nxt'],
     data() {
         return {
-            qData: [],
             cData:[],
-            sample: 0
+            qData:[]
         }
     },
-    methods: {
-        submitAnswers: () => {
-            const self = this;console.log('hi')
 
+    created(){
+        const self = this;
+        if(api.forProd){
+             $.post(api.getQues,{questionCategoryParent : "1"}).done(function(data){
+      //get q obj
+             self.qData = data;
+            });
+        }else{
+            $.get(api.getQues,{questionCategoryParent : "1"}).done(function(data){
+      //get q obj\
+             self.qData = data;
+            });
+        }
+       
+    },
+    
+    computed : {
+        sample() {
+            return this.sub
+        }
+    },
+
+    watch: {
+        'sample' : function(){
+            const self = this;
+            
+            if(self.sample){
+               this.submitAnswersFinal();
+                this.$emit('doneSubmit');
+            }
+        },
+        'nxt' : function(){
+           if(api.forProd){
+             $.post(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
+      //get q obj
+             self.qData = data;
+            });
+        }else{
+            $.get(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
+      //get q obj\
+             self.qData = data;
+            });
+        }
+        }
+    },
+
+    methods: {
+        submitAnswers: function(){
+            const self = this;
+            (self.cData.length > 0) ? self.$store.commit('submitRfpCat',self.cData,"0") : alert('You should include atleast one question') ;
+            self.$emit('parentDone');
+        },
+        submitAnswersFinal: function(){
+            const self = this;
+            if(self.cData.length > 0) {
+                if(confirm('Are you sure you want finish the RFP')){
+                 self.$store.commit('submitRfpCat',self.cData,"1")
+                 self.$router.push('./preview');
+                }
+                 
+             }
+            else{
+                alert('You should include atleast one question') 
+                }
         },
         addAns: function(id){
             console.log($('#ans_'+id).data('ans'));
@@ -116,7 +178,7 @@ export default {
                    self.cData.push(obj);//push que obj
                }else{//remove the ques obj
                var index = self.cData.findIndex((ele) => { return  ele.questionId == obj.questionId});
-                  if(obj['isMandatory'] == "0" && self.cData[index].isMandatory == "0"){
+                  if(obj['isMandatory'] == "0" && self.cData[index].isMandatory != "1"){
                         
                         self.removeObj(index) ;
                    }else{
@@ -136,14 +198,7 @@ export default {
         }
 
     },
-    created(){
-        const self = this;
-        axios("https://api.myjson.com/bins/l9br3").then(function(data){
-           self.qData = data.data
-           console.log(data.data)
-        });
-        
-    },
+    
     mounted: function(){  
             this.$nextTick(function () {
                 $('section:first-child').show();

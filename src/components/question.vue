@@ -2,20 +2,14 @@
  <div id='question' class='h-75'>
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
         <span v-for='(i,index) in qData.quesCategory'>
-        <li class='p20-40 tb' @click='show(index)' :id='"tabc_"+index'>{{i.questionCategory}}</li>
+        <li class='p20-40 tb' @click='show(i.questionId)' :id='"tabc_"+i.questionId'>{{i.questionCategory}}</li>
         </span>
         <li class='p20-40 tb tb-v--active'>Payment</li>
     </ul>
    <!-- <pre>{{ cData }}</pre> -->
     <div id='content'>
     {{cData}}
-        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 h-75 y-flow' :id='"body_"+index_1'>
-            <div class='fl w100 center'>
-              <ul>
-               <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'><button class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next</button></li>
-               <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
-              </ul>
-            </div>
+        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 h-75 y-flow' :id='"body_"+i.questionId'>       
             <div v-for='(i,index_2) in y.ques'>
                     <div v-if='i.questionSubTypeId === "7"'>
                         <div class=' fl w60 p10-20'>

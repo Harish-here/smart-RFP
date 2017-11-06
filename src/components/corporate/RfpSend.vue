@@ -1,7 +1,7 @@
 <template>
 <div id='send'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>Proposals</div>
+      <div class='f22 b6 dib'>RFP - Send</div>
       <ul class='fr p5-10'>
         <li class='di p5-10 f16'><i class="fa fa-pencil" aria-hidden="true"></i></li>
         <li class='di p5-10 f16'><i class="fa fa-trash" aria-hidden="true"></i></li>
@@ -14,8 +14,8 @@
       <li id='tab2' @click='switchTab("hotel_included","tab2")' class='fl p10-20 tb'>Included Hotel</li>
     </ul>
     
-    <section id='hotel_overall' class='fl w100 p5-10'>
-        <div id='action_area' class='fl w100 p5-10'>
+    <section  id='hotel_overall' class='fl w100 p5-10'>
+        <div v-show='false' id='action_area' class='fl w100 p5-10'>
             <ul class='fl w100 p5-10 b6 f16'>
                 <li class='fl w20 p5-10'>Manual</li>
                 <li class='fl w20 p5-10 tb-v--active'>Connected Hotel</li>
@@ -40,61 +40,43 @@
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th><input type='checkbox'></th><th>Hotel Name</th> <th>Star</th> <th>Area</th> <th>Location</th> <th>Proposals Matched</th> <th>Near By</th> <th>Actions</th>
+             <th>Hotel Name</th> <th class='center'>Star</th><th class='center'>Location</th> <th class='center' >City</th> <th class='center'>Distance from City</th> <th class='center'>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-            <td><input type='checkbox'></td>
-            <td>infoNix weblabs</td>
-            <td>Bussiness</td>
-            <td>123</td>
-            <td>chennai</td>
-            <td>123 (143)</td>
-            <td>18</td>
-            <td><button class='btn btn-default btn-xs'>Give Quote</button></td>
-            </tr>
-            <tr>
-            <td><input type='checkbox'></td>
-            <td>infoNix weblabs</td>
-            <td>Bussiness</td>
-            <td>123</td>
-            <td>chennai</td>
-            <td>123 (143)</td>
-            <td>18</td>
-            <td><button class='btn btn-default btn-xs'>Give Quote</button></td>
+            <tr v-for='i in listData' :key='i.hotelId'>
+            
+            <td class='w30'>{{i.hotelName}}</td>
+            <td class='w10 center'>{{i.star}}</td>
+            <td class='w15 center'>sample</td>
+            <td class='w10 center'>{{i.city}}</td>
+            <td class='w15 center'>{{i.distanceFromCity}}</td>
+            <td class='w10 center'><button :id='"btn-"+i.hotelId' class='btn btn-default btn-xs' @click='addHotel(i)'>Include</button></td>
             </tr>
           </tbody>
         </table>
     </section>
     <section id='hotel_included' class='fl w100 p5-10 dbNo'>
         <div class='fr w15 p5-10'>
-            <button class='btn btn-primary'><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
+            <button class='btn btn-primary' @click='publishRfp'><i class="fa fa-paper-plane" aria-hidden="true"></i> Publish RFP</button>
         </div>
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>Hotel Name</th> <th>Star</th> <th>Area</th> <th>Location</th> <th>Proposals Matched</th> <th>Near By</th> <th>Actions</th>
+             <th>Hotel Name</th> <th class='center'>Star</th><th class='center'>Location</th> <th class='center'>City</th> <th class='center'>Distance From City</th><th class='center'>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-            <td>infoNix weblabs</td>
-            <td>Bussiness</td>
-            <td>123</td>
-            <td>chennai</td>
-            <td>123 (143)</td>
-            <td>18</td>
-            <td><button class='btn btn-default btn-xs'>Give Quote</button></td>
+            <tr  v-if='listDataInc.length > 0' v-for='i in listDataInc' :key='i.hotelId'>
+                <td class='w25'>{{i.hotelName}}</td>
+                <td class='w10 center'>{{i.star}}</td>
+                <td class='w20 center'>{{i.locality}}</td>
+                <td class='w15 center'>{{i.city}}</td>
+                <td class='w20 center'>{{i.distanceFromCity}}</td>
+                <td class='w10 center'><button class='btn btn-primary btn-xs' @click='addHotel(i)'>Remove</button></td>
             </tr>
-            <tr>
-            <td>infoNix weblabs</td>
-            <td>Bussiness</td>
-            <td>123</td>
-            <td>chennai</td>
-            <td>123 (143)</td>
-            <td>18</td>
-            <td><button class='btn btn-default btn-xs'>Give Quote</button></td>
+            <tr key='No data'>
+               <td> No Hotel Include</td>
             </tr>
           </tbody>
         </table>
@@ -106,22 +88,76 @@
 
 <script>
 import axios from 'axios'
+import api from '@/api/api'
+import _ from 'lodash'
 export default {
-    name: 'send',
+    name: 'RfpSend',
     data(){
         return {
-            listData : []
+            listData : [],
+            listDataInc : []
         }
     },
     created(){
-
+        const self =this;
+        if(api.forProd){
+        this.listData = this.$store.state.hotel.list;
+        }else{
+            axios('https://api.myjson.com/bins/lghmf').then(function(data){
+                self.listData = data.data
+            });
+        }
     },
+
+    computed :{
+        hotelIds(){
+            return this.listDataInc.map(function(x){
+                return x.hotelId.toString()
+            });
+        }
+    },
+
     methods: {
         switchTab: (id,obj) => {
             $('ul#tab_head li').removeClass('tb--active');
             $('li#'+obj).addClass('tb--active');
-            $('section').hide();
-            $('section#'+id).show();
+            $('section').addClass('dbNo');
+            $('section#'+id).removeClass('dbNo');
+        },
+        addHotel: function(obj){
+            const self =this; 
+            if(self.listDataInc.length > 0){
+                
+               var arr = self.listDataInc.findIndex(function(x){
+                       return x.hotelId == obj.hotelId
+                   });;
+                   console.log(arr)
+               if(arr > -1){
+                   console.log(self.listDataInc.splice(arr,1));
+                   var t = $('#btn-'+obj.hotelId);
+                   t.removeClass('btn-primary');
+                   t.addClass('btn-default');
+                   t.html('Include');
+               }else{
+                   self.listDataInc.push(obj);
+                   $('#btn-'+obj.hotelId).removeClass('btn-default').addClass('btn-primary').html('Remove');
+               } 
+            }else{
+              self.listDataInc.push(obj);  
+              $('#btn-'+obj.hotelId).removeClass('btn-default').addClass('btn-primary').html('Remove');
+            }
+        },
+        publishRfp: function(){
+            const self = this;
+            if(self.hotelIds.length > 0){
+                if(confirm('RFP will be sent to selected Hotel')){
+                self.$store.commit('sendRfp',self.hotelIds);
+              }
+            }else{
+                alert('You need to select atleast one hotel to send')
+            }
+            
+            
         }
     }
 }
