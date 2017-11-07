@@ -15,5 +15,7 @@ export default {
     saveRfp: decide(prodPath +'/saveRfp','http://localhost/'),
     sendRfp: decide(prodPath +'/sendRfp','http://localhost/'),
     getPublished: decide(prodPath +'/getPublished',"https://api.myjson.com/bins/q2duf"),
-    getQuotes: decide(prodPath +'/getQuotes',"https://api.myjson.com/bins/15nxw7")
+    getQuotes: decide(prodPath +'/getQuotes',"https://api.myjson.com/bins/15nxw7"),
+    setSlab: decide(prodPath +'/setSlab','http://localhost/'),
+    getSlab: decide(prodPath +'/getSlab','http://localhost/')
 }

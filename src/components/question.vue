@@ -1,15 +1,22 @@
 <template>
  <div id='question' class='h-75'>
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
-        <span v-for='(i,index) in qData.quesCategory'>
-        <li class='p20-40 tb' @click='show(i.questionId)' :id='"tabc_"+i.questionId'>{{i.questionCategory}}</li>
-        </span>
+        <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index'>{{i.questionCategory}}</li>
+        
         <li class='p20-40 tb tb-v--active'>Payment</li>
     </ul>
    <!-- <pre>{{ cData }}</pre> -->
     <div id='content'>
-    {{cData}}
-        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 h-75 y-flow' :id='"body_"+i.questionId'>       
+   <pre> {{sample}}</pre>
+        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 h-75 y-flow' :id='"body_"+index_1'>       
+            <div id='Next_btn' class='fl w100 center'>
+              <ul>
+               <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
+                <button :id='index_1' class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next</button>
+               </li>
+               <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
+              </ul>
+            </div>
             <div v-for='(i,index_2) in y.ques'>
                     <div v-if='i.questionSubTypeId === "7"'>
                         <div class=' fl w60 p10-20'>
@@ -27,7 +34,14 @@
                         </div>
                         <div class='fl w40 p10-20'>
                             <div class='pl-25'>
-                                <input type='text' @input='txtAns(i.questionId)' :id='"ans_" + i.questionId' :data-ans='JSON.stringify({answerId:"",answer:""})' :data-que='JSON.stringify(i)' :name='i.questionText' >
+                                <input type='text' 
+                                       @input='txtAns(i.questionId)' 
+                                       :id='"ans_" + i.questionId' 
+                                       :data-ans='JSON.stringify({answerId:"",answer:""})' 
+                                       :data-que='JSON.stringify(i)' 
+                                       :name='i.questionText'
+                                        
+                                        > <!-- v-model='sample[index_1].ques[index_2].answer.answer' -->
                             </div>
                         </div>
                     </div>
@@ -67,12 +81,24 @@ export default {
     data() {
         return {
             cData:[],
-            sample : []
+            san:null
         }
     },
+
+    beforeMount(){
+        const self =this;
+       
+    },
+
     computed : {
         qData(){
             return this.quesData
+        },
+        sample(){
+            const self = this
+           var arr = [...self.quesData.quesCategory]
+           console.log(arr)
+           return arr 
         }
     },
     methods: {

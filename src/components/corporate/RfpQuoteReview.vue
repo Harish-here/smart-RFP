@@ -108,16 +108,19 @@
 </template>
 
 <script>
+import api from '@/api/api'
 export default {
     name: 'RfpQuoteReview',
     data(){
         return{
-
+            
         }
     },
-    created(){
 
+    created(){
+        console.log(api);
     },
+    
     methods: {
 
     }
