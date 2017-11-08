@@ -15,13 +15,13 @@
             <tr v-for='i in listData.hotels' :key='i.hotelId'>
             <td>{{i.hotel}}</td>
             <td>{{i.location}}</td>
-            <td class='green b6'>Approved</td>
+            <td class='green b6'>{{i.status}}</td>
             <td class='center'>{{i.roomPerMonth}}</td>
             <td class='center'>{{i.minPrice}}</td>
             <td class='center'>{{i.maxPrice}}</td>
             <td class='center'>
               <button class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
-              <button class='btn btn-info btn-xs'>View Details</button> 
+              <router-link :to='"/rfp/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId'><button class='btn btn-info btn-xs'>View Details</button></router-link> 
               <button class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
             </td>
             </tr>
@@ -56,13 +56,21 @@ export default {
     },
     created(){
         const self =this;
+       (api.forProd) ?
+       $.post(api.getQuotes,{'rfpId':self.$route.params.id}).done(function(data){
+         self.listData = JOSN.parse(data);
+       }) : 
       axios(api.getQuotes).then(function(data){
-        self.listData = data.data ;
-        console.log(data.data)
-      });
+        self.listData = data.data ;  
+      }) ;
     },
-    methods: {
 
+    methods: {
+      go: function(Id,hId){
+         var rId = Id+ '-' + hId;
+        // this.$router.push('/rfp/corprate/quotereview/')
+        this.$router.push({name:'RfpQuoteReview',params:{rId}})
+      }
     }
 }
 </script>

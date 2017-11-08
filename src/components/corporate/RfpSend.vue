@@ -2,16 +2,15 @@
 <div id='send'>
     <header class='fl w100 p10-20'>
       <div class='f22 b6 dib'>RFP - Send</div>
-      <ul class='fr p5-10'>
-        <li class='di p5-10 f16'><i class="fa fa-pencil" aria-hidden="true"></i></li>
-        <li class='di p5-10 f16'><i class="fa fa-trash" aria-hidden="true"></i></li>
-        <li class='di p5-10 f16'><i class="fa fa-ellipsis-v" aria-hidden="true"></i></li>
-      </ul>
+      
       <hr>
     </header>
     <ul id='tab_head' class='fl w100 p5-10 b6 f18 center'>
-      <li id='tab1' @click='switchTab("hotel_overall","tab1")' class='fl p10-20 tb tb--active'>Overall Hotel</li>
-      <li id='tab2' @click='switchTab("hotel_included","tab2")' class='fl p10-20 tb'>Included Hotel</li>
+      <li id='tab1' @click='switchTab("hotel_overall","tab1")' class='fl p10-20 tb tb--active'>Overall Hotel ({{ listData.length }})</li>
+      <li id='tab2' @click='switchTab("hotel_included","tab2")' class='fl p10-20 tb'>Included Hotel ({{ listDataInc.length }})</li>
+      <li class='fr w15 p5-10'>
+            <button class='btn btn-primary' @click='publishRfp'><i class="fa fa-paper-plane" aria-hidden="true"></i> Publish RFP</button>
+        </li>
     </ul>
     
     <section  id='hotel_overall' class='fl w100 p5-10'>
@@ -57,9 +56,6 @@
         </table>
     </section>
     <section id='hotel_included' class='fl w100 p5-10 dbNo'>
-        <div class='fr w15 p5-10'>
-            <button class='btn btn-primary' @click='publishRfp'><i class="fa fa-paper-plane" aria-hidden="true"></i> Publish RFP</button>
-        </div>
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
@@ -75,7 +71,7 @@
                 <td class='w20 center'>{{i.distanceFromCity}}</td>
                 <td class='w10 center'><button class='btn btn-primary btn-xs' @click='addHotel(i)'>Remove</button></td>
             </tr>
-            <tr key='No data'>
+            <tr key='No data' v-else>
                <td> No Hotel Include</td>
             </tr>
           </tbody>
@@ -101,6 +97,7 @@ export default {
     created(){
         const self =this;
         if(api.forProd){
+        
         this.listData = this.$store.state.hotel.list;
         }else{
             axios('https://api.myjson.com/bins/lghmf').then(function(data){
@@ -152,6 +149,7 @@ export default {
             if(self.hotelIds.length > 0){
                 if(confirm('RFP will be sent to selected Hotel')){
                 self.$store.commit('sendRfp',self.hotelIds);
+                self.$router.push('./');
               }
             }else{
                 alert('You need to select atleast one hotel to send')

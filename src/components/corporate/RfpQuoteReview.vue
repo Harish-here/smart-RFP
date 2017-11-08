@@ -8,7 +8,7 @@
         </ul>
       <hr>
     </header>
-    <section id='basic_detail fl w100 p10-20'>
+    <section id='basic_detail' class='fl w100 p10-20'>
         <h4 class='fl w100 p5-10'>Basic Details</h4>
         <ul class='fl w40 p5-10'>
             <li class='fl w100 p10-20'>
@@ -40,7 +40,7 @@
             </li>
         </ul>
     </section>
-    <section id='room_details p10-20'>
+    <section id='room_details' class='fl w100 p10-20'>
         <h4 class='fl w100 p5-10'>Room Details</h4>
         <ul class='fl w40 p5-10'>
             <li class='fl w100 p10-20'>
@@ -72,7 +72,7 @@
             </li>
         </ul>
     </section>
-    <section id='amenities p10-20'>
+    <section id='amenities' class='fl w100 p10-20'>
         <h4 class='fl w100 p5-10'>Amenities</h4>
         <ul class='fl w40 p5-10'>
             <li class='fl w100 p10-20'>
@@ -109,16 +109,25 @@
 
 <script>
 import api from '@/api/api'
+import axios from 'axios'
 export default {
     name: 'RfpQuoteReview',
     data(){
         return{
-            
+         listData : null   
         }
     },
 
     created(){
-        console.log(api);
+        const self = this; 
+        const t = self.$route.params;
+        (api.forProd) ?
+                        $.post(api.getQuotesReview,{'rfpId' : t.rid,'hotelId' : t.hid }).done(function(data){
+                            console.log(data)
+                        }) :
+                        axios(api.getQuotesReview).then(function(data){
+                            console.log(data.data);
+                        });
     },
     
     methods: {

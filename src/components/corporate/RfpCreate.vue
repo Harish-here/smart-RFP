@@ -298,7 +298,8 @@ export default {
   methods: {
     sumbit: function(){
       const self = this;
-      $.post(api.sendBasic).done(function(data){
+      $.post(api.sendBasic,self.bData).done(function(data){
+        console.log(self.bData)
         var obj = JSON.parse(data);
         self.$store.commit('setRfp',obj);
         self.$router.push('./questions');

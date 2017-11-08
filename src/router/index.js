@@ -18,7 +18,7 @@ export default new Router({
   mode : 'history',
   routes: [
     {
-      path: '/:foo(.*?)/corprate/',
+      path: '/:foo(.*?)/corprate/create',
       name: 'Create',
       component: RfpCreate,
     },
@@ -53,7 +53,7 @@ export default new Router({
       component: Engaged,
     },
     {
-      path: '/:foo(.*?)/corprate/received',
+      path: '/:foo(.*?)/corprate/',
       name: 'RfpList',
       component: RfpList,
     },
@@ -63,12 +63,12 @@ export default new Router({
       component: RfpPreview,
     },
     {
-      path: '/:foo(.*?)/corprate/quotelist',
+      path: '/:foo(.*?)/corprate/quotelist/:id',
       name: 'RfpQuoteList',
       component: RfpQuoteList,
     },
     {
-      path: '/:foo(.*?)/corprate/quotereview',
+      path: '/:foo(.*?)/corprate/quotereview/:rid/:hid',
       name: 'RfpQuoteReview',
       component: RfpQuoteReview,
     }

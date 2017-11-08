@@ -56,7 +56,19 @@ const store = new Vuex.Store({
       $.post(api.sendRfp,obj).done(function(data){
         console.log(data)
       });
-    } 
+    },
+    getHotel(state){
+      var hot = JSON.parse(JSON.stringify(state.rfp));
+      hot['status'] = "1";
+      hot['ques'] = [];
+      console.log(hot);
+      $.post(api.getHotel,hot).done(function(data){
+        (api.forProd) ? 
+        state.hotel.list = JSON.parse(data) :
+        console.log(data);
+      });
+    }
+
   }
 })
 

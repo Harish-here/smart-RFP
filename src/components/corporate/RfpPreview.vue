@@ -10,30 +10,45 @@
       <hr>
     </header>
     <section id='preview_space' class='fl w100 p5-10'>
-      <div v-show='true' id='question_set_' class='p5-10'>
-        <h4 class='fl w50 b6'>RFP Details <span class='cursor b6 btn btn-default btn-xs' @click='open("")'> - </span></h4>
-        <div class='fl w30 p5-10'>
-            <router-link to='./send'><button class='btn btn-info btn-sm'>Move to select Hotel</button></router-link>
+        <div v-show='true' id='question_set_' class='p5-10'>
+            <h4 class='fl w50 b6'>RFP Details</h4>
+            <div class='fl w30 p5-10'>
+                <button @click='go' class='btn btn-info btn-sm'>Move to select Hotel</button>
+            </div>
+            <div v-if='listData.hasOwnProperty("basic") && listData.basic.length > 0' id='basic_ques' key='basic detaisl'>
+                <ul  v-for='i in listData.basic'  id='acc_' class='fl w70'>
+                    <li v-for='j in i.ques'>
+                        <div class='fl w50 p5-10'>{{j.bqText}}</div>
+                        <div class='fl w50 b6 p5-10'>{{ (typeof j.answerId == 'object') ? j.answerId[0].label : j.answer }}</div>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <ul id='acc_' class='fl w70'>
-            <li>
-                <div class='fl w50'>Company </div>
-                <div class='fl w50 b6'>infoNix weblabs</div>
-            </li>
-        </ul>
-         
-      </div>
-      <div v-for='i in listData.quesCategory' :id='"question_set_"+i.questionCategoryId' class='p5-10'>
-        <h4 class='fl w70 b6 accordian' >{{i.questionCategory}} <span class='cursor b6 btn btn-default btn-xs' @click='open(i.questionCategoryId)'> + </span></h4>
-        <ul :id='"acc_"+i.questionCategoryId' class='fl w70 body dbNo'>
-            <li v-for='j in i.ques' class='fl w100 p5-10'>
-                <div class='fl w70 pl-25'>{{j.questionText}}</div>
-                <div class='fl w30'>infoNix weblabs</div>
-            </li>
-        </ul>
-      </div>
-        
-    </section>
+      </section>
+      
+      <!-- main RFP -->
+      <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
+            <h3 class='fl w100 b6 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b6 btn btn-default btn-xs'> + </span></h3>
+                <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 p5-10 dbNo' :id='"ques_"+i.questionCategoryParentId'>
+                    <div v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory'>    
+                        <h4 class='fl w100 b6 p5-10'> - {{ j.questionCategory }}</h4>
+                        <ul v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId' class='fl w100 body'>
+                            <li v-for='y in j.ques' class='fl w80 p5-10'>
+                                <div class='fl w70 pl-25'>{{y.questionText}}</div>
+                                <div class='fl w30 b6' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</div>
+                                <div class='fl w30 b6' v-else>{{(typeof y.answer == 'object') ? y.answer[0].answer : y.answer}}</div>
+                            </li>
+                        </ul>
+                        <ul class='fl w100 body p5-10' v-else>
+                            <li class='fl w100 pl-25 red b6'>No question were included in this subcategory</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='fl w50 pl-25 red b6' v-else>
+                    No Questions included in this Category
+                </div>
+                
+      </section>
 
 
 </div>
@@ -51,17 +66,29 @@ export default {
     },
     created(){
         const self =this;
-        axios(api.getQues).then(function(data){
-            self.listData = data.data
-        })
+        (api.forProd) ?
+                $.post(api.getPreview,{'rfpId': self.$store.state.rfp.rfpId}).done(function(data){
+                    self.listData = JOSN.parse(data);
+                }) :
+                axios(api.getPreview).then(function(data){
+                    self.listData = data.data
+                    console.log(self.listData);
+                }) ;
+
+
     },
     methods: {
         open : function(id){
-        $('section#preview_space ul').addClass('dbNo');
-        $('#acc_'+id).removeClass('dbNo');
-        $('#acc_'+id).addClass('dbi');
-        $('section#preview_space h4>span').html('+');
-        $('#question_set_'+id+' h4>span').html('-');
+        if($('section#par_'+id).attr('data-active') === 'no') {
+            $('#ques_'+id).removeClass('dbNo')
+                $('section#par_'+id).attr('data-active','yes')
+                $('#par_'+id+' h3>span').html('-')
+        }else{
+            $('#ques_'+id).addClass('dbNo')
+                $('section#par_'+id).attr('data-active','no')
+                $('#par_'+id+' h3>span').html('+');
+        }
+                
         },
         expand : function(){
             if($('#shrink').data('active') == 'no'){
@@ -77,6 +104,11 @@ export default {
                 $('#shrink').data('active','no');
                 $('#shrink').html('Expand All'); 
             }
+      },
+      go : function(){
+          const self = this;
+          self.$store.commit('getHotel');
+          self.$router.push('./send')
       }
     }
 }

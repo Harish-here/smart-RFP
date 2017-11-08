@@ -1,7 +1,7 @@
 <template>
 <div id='RfpList'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>RFP - Sent</div>
+      <div class='f22 b6 dib'>RFP - Published</div>
       <hr>
     </header>
     <section id='proposal_list' class='fl w100 p5-10'>
@@ -19,7 +19,7 @@
             <td>56</td>
             <td>{{i.noOfHotels}}</td>
             <td>{{i.noOfQuotes}}</td>
-            <td><button class='btn btn-default btn-xs'>View Details</button></td>
+            <td><router-link :to='"./quotelist/"+i.rfpId'><button class='btn btn-default btn-xs'>View Details</button></router-link></td>
             </tr>
             <tr><!-- dummy -->
               <td>infoNix weblabs</td>
@@ -51,8 +51,7 @@ export default {
     created(){
       const self =this;
       axios(api.getPublished).then(function(data){
-        self.listData = data.data ;
-        console.log(data.data)
+        self.listData = data.data;
       });
     },
     methods: {
