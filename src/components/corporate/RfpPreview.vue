@@ -68,7 +68,7 @@ export default {
         const self =this;
         (api.forProd) ?
                 $.post(api.getPreview,{'rfpId': self.$store.state.rfp.rfpId}).done(function(data){
-                    self.listData = JOSN.parse(data);
+                    self.listData = JSON.parse(data);
                 }) :
                 axios(api.getPreview).then(function(data){
                     self.listData = data.data
@@ -107,7 +107,6 @@ export default {
       },
       go : function(){
           const self = this;
-          self.$store.commit('getHotel');
           self.$router.push('./send')
       }
     }

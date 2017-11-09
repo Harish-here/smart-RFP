@@ -12,185 +12,20 @@
       </ul>
       <hr>
     </header>
-    <!--
-    <form v-show='false' id='basic_info' v-on:submit.prevent="sumbit">
-      <section class='fl w100 p5-10'>
-        <h4 class=''>Event info</h4>
-        <div class='fl w100 p10-20'>
+    
+    <form id='basic'
+           v-if = 'bData.length > 0'
+          @submit.prevent="sumbit" >
+          <div class='fl w100 p10-20'>
             <div class='fl w20 al-right'>
               <label class='p5-10 b6'>RFP Name</label>
             </div>
             <div class='fl w50 pl-25'>
-              <input type='text' name='name' class='p5-10' placeholder='Your RFP name'>
-            </div>
-        </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>Due Date</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <input type='text' name='dueDate' class='p5-10' placeholder='Due Date'>
-            </div>
-        </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>Start Date</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <input type='text' class='p5-10' placeholder='Start Date'>
-            </div>
-        </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>End Date</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <input type='text' class='p5-10' placeholder='End Date'>
-            </div>
-        </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>Location</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <select name='location'>
-                <option>Tamil Nadu</option>
-              </select>
-            </div>
-        </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>Template</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <button type='submit' class='btn btn-primary btn-sm'>Marketing</button>
-              <button type='button' class='btn btn-default btn-sm' >Lesiure Travel</button>
-              <button type='button' class='btn btn-default btn-sm' >Bussiness Travel</button>
-              <button type='button' class='btn btn-default btn-sm'>Booking Travel</button>
-            </div>
-        </div>
-      </section>
-
-      <section class='fl w100 p5-10'>
-        <h4>Event Requirements</h4>
-          <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>No of Persons Travelling in a month</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <select name='location'>
-                <option>Below 10</option>
-                <option>15+</option>
-                <option>25+</option>
-                <option>Above 30</option>
-              </select>
+              <input type='text' v-model='id'/>
             </div>
           </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>No of room Needed in a month</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <select name='location'>
-                <option>Below 10</option>
-                <option>15+</option>
-                <option>25+</option>
-                <option>Above 30</option>
-              </select>
-            </div>
-        </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>No of Rooms in needed in year</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <select name='roomNo'>
-                <option>Below 50</option>
-                <option>150+</option>
-                <option>250+</option>
-                <option>Above 300</option>
-              </select>
-            </div>
-        </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>Month in year</label>
-            </div>
-            <div class='fl w80 pl-25'>
-              <div class='p10-20'>
-                <button type='submit' class='btn btn-primary btn-sm'>Jan</button>
-                <button type='button' class='btn btn-default btn-sm' >Aug</button>
-                <button type='button' class='btn btn-primary btn-sm'>Sep</button>
-                <button type='button' class='btn btn-default btn-sm'>Oct</button>
-                <button type='button' class='btn btn-default btn-sm'>Nov</button>
-                <button type='button' class='btn btn-default btn-sm'>Dec</button>
-              </div>
-            </div>
-        </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>Approx day in week</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <button type='submit' class='btn btn-primary btn-xs'>Marketing</button>
-              <button type='button' class='btn btn-default btn-xs' >Lesiure Travel</button>
-              <button type='button' class='btn btn-default btn-xs' >Bussiness Travel</button>
-              <button type='button' class='btn btn-default btn-xs'>Booking Travel</button>
-            </div>
-        </div>
-        
-      </section>
-
-      <section class='fl w100 p5-10'>
-        <h4>Event Budget</h4>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>Type of Room</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <select name='location'>
-                <option>Normal suite</option>
-                <option>Presindetal suite</option>
-                <option>Extra suite</option>
-              </select>
-            </div>
-          </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>Overall Budget</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <input type='text' class='p5-10' placeholder='Overall Budget'>
-            </div>
-        </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>Budget Per Person</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <input type='text' class='p5-10' placeholder='Budget Per Person'>
-            </div>
-        </div>
-        <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
-              <label class='p5-10 b6'>Food & Bevarage</label>
-            </div>
-            <div class='fl w50 pl-25'>
-              <button type='submit' class='btn btn-primary btn-sm'>Inclusive Budget</button>
-              <button type='button' class='btn btn-default btn-sm' >Dinner</button>
-            </div>
-        </div>
-      
-      </section>
-      <ul class='fl w100 p5-10'>
-        <li class='fl w30 center'> <button type='button' class='btn btn-default btn-sm'>Save as Draft</button></li>
-        <li class='fl w20 center'><button type='submit' class='btn btn-primary btn-sm'>Next</button></li>
-      </ul>
-    </form>
-    -->
-    <form id='basic' 
-          @submit.prevent="sumbit" >
-        <section v-for='i in bData' 
+        <section
+                 v-for='i in bData' 
                  :key ='i.divison.vaule'
                  class='fl w100 p5-10'>
           <h4>{{ i.divison.label }}</h4>
@@ -200,7 +35,7 @@
             <div class='fl w20 al-right'>
               <label class='p5-10 b6'>{{ j.bqText }}</label>
             </div>
-            <div v-if=' j.bqId != 9 &&  j.bqId != 10 && j.bqId != 5' 
+            <div v-if=' j.bqId != 9 &&  j.bqId != 10 && j.bqId != 5 && j.bqId != 1 && j.bqId != 2 && j.bqId != 3' 
                  key='Single' 
                  class='fl w50 pl-25'>
               <input type='text' class='p5-10' 
@@ -212,6 +47,11 @@
                  v-else-if='j.bqId == 5' 
                  key='Dropdown'>
               <v-select multiple  v-model='holder'  :options='cityData'></v-select>
+            </div>
+            <div class='fl w50 pl-25'
+                 v-else-if='j.bqId == 1 || j.bqId == 2 || j.bqId == 3' 
+                 key='Dropdown'>
+              <input type='text'  :id='"_"+j.bqId'>
             </div>
             <div class='fl w80 pl-25'
                  v-else-if='j.bqId == 9'>
@@ -245,7 +85,7 @@
           </div>
         </section>
         <ul v-if='bData.length > 0' class='fl w100 p5-10' key='submit-area'>
-          <li class='fl w30 center'> <button type='button' class='btn btn-default btn-sm' @click='saveDraft'>Save as Draft</button></li>
+          <li class='fl w30 center'> <button type='button' class='btn btn-default btn-sm' @click='saveDraft' disabled>Save as Draft</button></li>
           <li class='fl w20 center'><button type='submit' class='btn btn-primary btn-sm'>Next</button></li>
         </ul>
     </form>
@@ -265,6 +105,7 @@ export default {
     return {
       bData:[],
       cityData:[],
+      id:null,
       holder : null
     };
   },
@@ -274,7 +115,6 @@ export default {
     self.$store.commit('flushRfp');
     axios.get(api.getBasic).then(function(data){
       self.bData = data.data.division;
-      console.log(data.data);
       $(function(){
         $('#_1').datepicker();
         $('#_2').datepicker();
@@ -290,7 +130,7 @@ export default {
   watch : {
     'holder' : function(old,ne,l){
       const self = this;
-      self.bData[0].ques[3].answer = old;
+      self.bData[0].ques[3].answerId = old;
     },
     
   },
@@ -298,12 +138,24 @@ export default {
   methods: {
     sumbit: function(){
       const self = this;
-      $.post(api.sendBasic,self.bData).done(function(data){
-        console.log(self.bData)
+      self.bData[0].ques[0].answer = $('#_1').val();
+      self.bData[0].ques[1].answer = $('#_2').val();
+      self.bData[0].ques[2].answer = $('#_3').val();
+      var toPost = true;
+      self.bData.forEach(function(x){
+        x.ques.forEach(function(y){
+          ((y.answer != " " || y.answerId != " ") && (y.answer != "" || y.answerId != "")) ?
+            toPost = true :
+            toPost = false;
+        });
+      });
+      (toPost) ?
+      $.post(api.sendBasic,{rfpName:self.id,rfpId:"",travelAgencyMasterId:"",division:self.bData}).done(function(data){
         var obj = JSON.parse(data);
         self.$store.commit('setRfp',obj);
         self.$router.push('./questions');
-      });
+      }):
+      alert('You should fill all the fields');
     },
     saveDraft: function(){
       $.post().done(function(){
@@ -341,6 +193,7 @@ export default {
           obj.attr('data-active','no');
         }
     }
+
   },
 };
 </script>

@@ -149,7 +149,6 @@ export default {
             if(self.hotelIds.length > 0){
                 if(confirm('RFP will be sent to selected Hotel')){
                 self.$store.commit('sendRfp',self.hotelIds);
-                self.$router.push('./');
               }
             }else{
                 alert('You need to select atleast one hotel to send')

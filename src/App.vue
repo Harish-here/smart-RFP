@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav v-show='!showHotel' class='fl w15 bg-dark h-full white al-left b6 f16'>
+    <nav v-show='!showHotel' class='fl w15 bg-drk h-full white al-left b6 f16'>
       <router-link to='./'><a href='#' class='p20-40'>RFP's</a></router-link>
       <router-link to='./create'><a href='#' class='p20-40'> Create RFP</a></router-link>
       <router-link to='./'><a href='#' class='p20-40'>Contracted</a></router-link>

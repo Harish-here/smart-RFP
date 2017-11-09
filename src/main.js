@@ -35,13 +35,20 @@ const store = new Vuex.Store({
       state.rfp.ques = objArr;
       state.rfp.status = status;
       $.post(api.saveRfp,state.rfp).done(function(data){
-        (status ==  "1") ? state.hotel.list = JSON.parse(data) : console.log(data);
+        if(status ==  "1"){
+          state.hotel.list = JSON.parse(data) 
+          router.push('./preview')
+        }else{
+          console.log(data);
+        }
       });
+      console.log(state.hotel.list);
     },
     setRfp(state,obj){
       var s = state.rfp;
       s.rfpId = obj.rfpId;
       s.rfpName = obj.rfpName;
+      console.log(state.rfp);
     },
     flushRfp(state){
       state.rfp.ques = null;
@@ -54,18 +61,7 @@ const store = new Vuex.Store({
         "hotels": hotel 
       }
       $.post(api.sendRfp,obj).done(function(data){
-        console.log(data)
-      });
-    },
-    getHotel(state){
-      var hot = JSON.parse(JSON.stringify(state.rfp));
-      hot['status'] = "1";
-      hot['ques'] = [];
-      console.log(hot);
-      $.post(api.getHotel,hot).done(function(data){
-        (api.forProd) ? 
-        state.hotel.list = JSON.parse(data) :
-        console.log(data);
+        router.push('./')
       });
     }
 

@@ -58,7 +58,7 @@ export default {
         const self =this;
        (api.forProd) ?
        $.post(api.getQuotes,{'rfpId':self.$route.params.id}).done(function(data){
-         self.listData = JOSN.parse(data);
+         self.listData = JSON.parse(data);
        }) : 
       axios(api.getQuotes).then(function(data){
         self.listData = data.data ;  

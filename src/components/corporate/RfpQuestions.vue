@@ -73,7 +73,7 @@ export default {
       $('li#tab_'+nxt).addClass('tb--active');
       if($('li#tab_'+nxt).is(':last-child')){
         //self.getQues(nxt);
-        self.nxt = 1; //will set the first tab
+        self.nxt = "1"; //will set the first tab
       }else{
         //self.getQues(nxt);
        var nnxt = $('li#tab_'+nxt).next().data('id');

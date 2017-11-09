@@ -78,7 +78,7 @@ export default {
         if(api.forProd){
              $.post(api.getQues,{questionCategoryParent : "1"}).done(function(data){
       //get q obj
-             self.qData = data;
+             self.qData = JSON.parse(data);
             });
         }else{
             $.get(api.getQues,{questionCategoryParent : "1"}).done(function(data){
@@ -108,7 +108,7 @@ export default {
            if(api.forProd){
              $.post(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
       //get q obj
-             self.qData = data;
+             self.qData = JSON.parse(data);
             });
         }else{
             $.get(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
@@ -130,7 +130,7 @@ export default {
             if(self.cData.length > 0) {
                 if(confirm('Are you sure you want finish the RFP')){
                  self.$store.commit('submitRfpCat',self.cData,"1")
-                 self.$router.push('./preview');
+                 //self.$router.push('./preview');
                 }
                  
              }

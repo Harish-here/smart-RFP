@@ -1,4 +1,4 @@
-let forProd = false;
+let forProd = true;
 
 function decide(prod,local){
     return (forProd) ? prod : local;
