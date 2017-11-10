@@ -68,15 +68,15 @@ export default {
     },
     moveNxt: function(){
       const self = this;
-      var nxt = self.nxt;
+      var nxxt = self.nxt;
       $('ul#tab_head li ').removeClass('tb--active');
-      $('li#tab_'+nxt).addClass('tb--active');
-      if($('li#tab_'+nxt).is(':last-child')){
+      $('li#tab_'+nxxt).addClass('tb--active');
+      if($('li#tab_'+nxxt).is(':last-child')){
         //self.getQues(nxt);
         self.nxt = "1"; //will set the first tab
       }else{
         //self.getQues(nxt);
-       var nnxt = $('li#tab_'+nxt).next().data('id');
+       var nnxt = $('li#tab_'+nxxt).next().data('id');
        self.nxt = nnxt;
       }
     },

@@ -12,27 +12,26 @@
       </ul>
       <hr>
     </header>
-    
+  
     <form id='basic'
            v-if = 'bData.length > 0'
           @submit.prevent="sumbit" >
           <div class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
+            <div class='fl w25 al-right'>
               <label class='p5-10 b6'>RFP Name</label>
             </div>
             <div class='fl w50 pl-25'>
               <input type='text' v-model='id'/>
             </div>
           </div>
-        <section
-                 v-for='i in bData' 
+        <section v-for='i in bData' 
                  :key ='i.divison.vaule'
                  class='fl w100 p5-10'>
           <h4>{{ i.divison.label }}</h4>
           <div  v-for='j in i.ques'
                 :key='i.bqId'
                 class='fl w100 p10-20'>
-            <div class='fl w20 al-right'>
+            <div class='fl w25 al-right'>
               <label class='p5-10 b6'>{{ j.bqText }}</label>
             </div>
             <div v-if=' j.bqId != 9 &&  j.bqId != 10 && j.bqId != 5 && j.bqId != 1 && j.bqId != 2 && j.bqId != 3' 
@@ -53,7 +52,7 @@
                  key='Dropdown'>
               <input type='text'  :id='"_"+j.bqId'>
             </div>
-            <div class='fl w80 pl-25'
+            <div class='fl w75 pl-25'
                  v-else-if='j.bqId == 9'>
               <div class='p10-20'>
                 <button type='button' id='Jan' data-active='no' @click='addMonth("Jan")' class='btn btn-default btn-xs'>Jan</button>
@@ -115,16 +114,29 @@ export default {
     self.$store.commit('flushRfp');
     axios.get(api.getBasic).then(function(data){
       self.bData = data.data.division;
-      $(function(){
-        $('#_1').datepicker();
-        $('#_2').datepicker();
-        $('#_3').datepicker();
-      });
+      // $(function(){
+      //   $('#_1').datepicker();
+      //   $('#_2').datepicker();
+      //   $('#_3').datepicker();
+      // });
+      self.bData.forEach(function(x){
+        x.ques.forEach(function(y){
+          y.answer = null;
+          y.answerId = null;
+        })
+      })
+      
     });
     axios.get(api.listCity).then(function(data){
       self.cityData = data.data
+
+      $('#_1').datepicker();
+      $('#_2').datepicker();
+      $('#_3').datepicker();
     });
-    
+      
+  
+      
   },
 
   watch : {
@@ -140,15 +152,16 @@ export default {
       const self = this;
       self.bData[0].ques[0].answer = $('#_1').val();
       self.bData[0].ques[1].answer = $('#_2').val();
-      self.bData[0].ques[2].answer = $('#_3').val();
-      var toPost = true;
-      self.bData.forEach(function(x){
-        x.ques.forEach(function(y){
-          ((y.answer != " " || y.answerId != " ") && (y.answer != "" || y.answerId != "")) ?
-            toPost = true :
-            toPost = false;
+      self.bData[0].ques[2].answer = $('#_3').val(); var find=true;
+      self.bData.map(function(x){
+        x.ques.map(function(y){
+          if((y.answer === null && y.answerId === null) && (y.answer === "" && y.answerId === "") && self.id.indexOf(" ") !== 0 )
+          find = false;
         });
-      });
+      })
+    
+      var toPost = (self.id !== null && self.id !== "" && self.id.indexOf(" ") !== 0 && find) ? true : false; 
+  
       (toPost) ?
       $.post(api.sendBasic,{rfpName:self.id,rfpId:"",travelAgencyMasterId:"",division:self.bData}).done(function(data){
         var obj = JSON.parse(data);
@@ -165,6 +178,10 @@ export default {
     addMonth: function(str){
       var obj = $('#'+str);
       const self = this;
+      if(self.bData[1].ques[3].answer === null) { 
+      self.bData[1].ques[3].answer = "" ;
+      }//to remove the null
+
       if(obj.attr('data-active') == 'no') {
           self.bData[1].ques[3].answer += ' ' + str
           obj.removeClass('btn-default').addClass('btn-primary');
@@ -181,6 +198,9 @@ export default {
     addDay: function(str){
       var obj = $('#'+str);
       const self = this;
+      if(self.bData[1].ques[4].answer == null) { 
+      self.bData[1].ques[4].answer = "" ;
+      }//to remove the null
       if(obj.attr('data-active') == 'no') {
           self.bData[1].ques[4].answer += ' ' + str
           obj.removeClass('btn-default').addClass('btn-primary');

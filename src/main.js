@@ -31,18 +31,20 @@ const store = new Vuex.Store({
     setNextScreen (state,screen){
       state.hotel.nextScreen = screen;
     },
-    submitRfpCat(state,objArr,status){
-      state.rfp.ques = objArr;
-      state.rfp.status = status;
+    submitRfpCat(state,objArr){
+      state.rfp.ques = objArr.arr;//getting the ques array of obj 
+      state.rfp.status = objArr.status;
+      console.log(state.rfp);
       $.post(api.saveRfp,state.rfp).done(function(data){
-        if(status ==  "1"){
+        if(objArr.status ==  "1"){
           state.hotel.list = JSON.parse(data) 
           router.push('./preview')
+          console.log(state.hotel.list);
         }else{
           console.log(data);
         }
       });
-      console.log(state.hotel.list);
+      
     },
     setRfp(state,obj){
       var s = state.rfp;

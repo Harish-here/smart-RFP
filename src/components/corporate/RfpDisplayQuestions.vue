@@ -1,6 +1,5 @@
 <template>
  <div id='questionCorp' class='h-75'>
- 
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
         <span v-for='(i,index) in qData.quesCategory'>
         <li class='p20-40 tb' @click='show(index)' :id='index'>{{i.questionCategory}}</li>
@@ -105,6 +104,7 @@ export default {
             }
         },
         'nxt' : function(){
+            const self = this;
            if(api.forProd){
              $.post(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
       //get q obj
@@ -113,7 +113,7 @@ export default {
         }else{
             $.get(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
       //get q obj\
-             self.qData = data;
+             self.qData = data;console.log(self.nxt)
             });
         }
         }
@@ -122,14 +122,17 @@ export default {
     methods: {
         submitAnswers: function(){
             const self = this;
-            (self.cData.length > 0) ? self.$store.commit('submitRfpCat',self.cData,"0") : alert('You should include atleast one question') ;
-            self.$emit('parentDone');
+            (self.cData.length > 0) ? 
+            (function(){self.$store.commit('submitRfpCat',{arr:self.cData,status:"0"}) 
+            self.$emit('parentDone')})()
+            : alert('You should include atleast one question') ;
+            
         },
         submitAnswersFinal: function(){
             const self = this;
             if(self.cData.length > 0) {
                 if(confirm('Are you sure you want finish the RFP')){
-                 self.$store.commit('submitRfpCat',self.cData,"1")
+                 self.$store.commit('submitRfpCat',{arr:self.cData,status:"1"})
                  //self.$router.push('./preview');
                 }
                  
@@ -169,9 +172,9 @@ export default {
             const self =this;
             self.cData.splice(index,1);
         },
-        include: function(obj){
+        include: function(objs){
            const self = this;
-           obj = self.remove(obj);
+           var obj = self.remove(JSON.parse(JSON.stringify(objs)));
            if(self.cData.length > 0){
                var arr = _.filter(self.cData,{'questionId' : obj.questionId});
                if(arr.length == 0) {

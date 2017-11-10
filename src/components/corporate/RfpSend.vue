@@ -6,8 +6,8 @@
       <hr>
     </header>
     <ul id='tab_head' class='fl w100 p5-10 b6 f18 center'>
-      <li id='tab1' @click='switchTab("hotel_overall","tab1")' class='fl p10-20 tb tb--active'>Overall Hotel ({{ listData.length }})</li>
-      <li id='tab2' @click='switchTab("hotel_included","tab2")' class='fl p10-20 tb'>Included Hotel ({{ listDataInc.length }})</li>
+      <li id='tab1' @click='switchTab("hotel_overall","tab1")' class='fl p10-20 tb tb--active'>Overall Hotels ({{ listData.length }})</li>
+      <li id='tab2' @click='switchTab("hotel_included","tab2")' class='fl p10-20 tb'>Included Hotels ({{ listDataInc.length }})</li>
       <li class='fr w15 p5-10'>
             <button class='btn btn-primary' @click='publishRfp'><i class="fa fa-paper-plane" aria-hidden="true"></i> Publish RFP</button>
         </li>
@@ -97,7 +97,6 @@ export default {
     created(){
         const self =this;
         if(api.forProd){
-        
         this.listData = this.$store.state.hotel.list;
         }else{
             axios('https://api.myjson.com/bins/lghmf').then(function(data){
