@@ -112,30 +112,32 @@ export default {
             });
         }else{
             $.get(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
-      //get q obj\
-             self.qData = data;console.log(self.nxt)
+      //get q obj
+      console.log(data)
+             self.qData = data;console.log(self.qData)
             });
         }
         }
     },
 
     methods: {
-        submitAnswers: function(){
+        submitAnswers: function(){//sub mitting the parent cat alone
             const self = this;
             (self.cData.length > 0) ? 
-            (function(){self.$store.commit('submitRfpCat',{arr:self.cData,status:"0"}) 
-            self.$emit('parentDone')})()
+            (function(){
+            self.$store.commit('submitRfpCat',{arr:self.cData,status:"0"}) 
+            self.$emit('parentDone')}
+            )()
             : alert('You should include atleast one question') ;
             
         },
-        submitAnswersFinal: function(){
+        submitAnswersFinal: function(){//finishing the rfp
             const self = this;
             if(self.cData.length > 0) {
                 if(confirm('Are you sure you want finish the RFP')){
                  self.$store.commit('submitRfpCat',{arr:self.cData,status:"1"})
-                 //self.$router.push('./preview');
-                }
                  
+                }   
              }
             else{
                 alert('You should include atleast one question') 

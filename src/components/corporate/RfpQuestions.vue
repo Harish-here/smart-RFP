@@ -50,8 +50,7 @@ export default {
   },
 
   methods: {
-    sumbit: () => {
-    },
+    
     subQues : function(){
       console.log('hi');
     },
