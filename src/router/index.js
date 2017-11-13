@@ -28,7 +28,7 @@ export default new Router({
       component: Proposal,
     },
     {
-      path: '/:foo(.*?)/hotel/review',
+      path: '/:foo(.*?)/hotel/review/:rid/:stat',
       name: 'review',
       component: Review,
     },

@@ -2,9 +2,8 @@
 /* normalization */
 *{ font-family: 'Open Sans', sans-serif;font-size:14px; }
 hr{ margin-bottom:0px !important; }
-nav a{ text-decoration: none; display: block;color :#fff;padding-left: 10px;}
-nav a:hover { text-decoration: none !important; color:#fff;background-color:rgba(53, 64, 82, 0.54);}
-nav a.active:hover{background-color: #2c3544;}
+nav a{ text-decoration: none; display: block;padding-left: 10px;color:#337a7;}
+nav a:hover{ color:#fff;background-color:#337ab7;}
 .v-select ,.dropdown-toggle{ border-radius:0px !important;}
 .v-select .open-indicator { bottom: -2px;}
 
@@ -60,7 +59,7 @@ hr{ margin-bottom:0px !important; }
 .tb-v--active:hover,.tb--active:hover{background-color: #fff;}
 
 /* ---- color  -----   */
-.bg-drk{ background-color: #354052;}
+.bg-drk{ background-color: #dddddd;}
 .hover{ background-color: #50617c; }
 .active{background-color: #2c3544; }
 .bg-ddd{ background-color: #f9f9f9; }
@@ -68,6 +67,7 @@ hr{ margin-bottom:0px !important; }
 .orange{ color: orange; }
 .red{ color:red; }
 .green{ color:green; }
+.bl{ color:black !important;}
 
 
 

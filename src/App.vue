@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <nav v-show='!showHotel' class='fl w15 bg-drk h-full white al-left b6 f16'>
+    <nav v-show='!showHotel' class='fl w15 bg-drk h-full al-left b6 f16 bl'>
       <router-link to='./'><a href='#' class='p20-40'>RFP's</a></router-link>
-      <router-link to='./create'><a href='#' class='p20-40'> Create RFP</a></router-link>
+      <router-link to='./corprate/create'><a href='#' class='p20-40'> Create RFP</a></router-link>
       <router-link to='./'><a href='#' class='p20-40'>Contracted</a></router-link>
       <router-link to='./'><a href='#' class='p20-40'>Drafts</a></router-link>
       <router-link to='./'><a href='#' class='p20-40'>Trash</a></router-link> 
     </nav>
-    <nav v-show='showHotel' class='fl w15 bg-dark h-full white al-left b6 f16'>
+    <nav v-show='showHotel' class='fl w15 h-full al-left b6 f16 bl'>
       <a href='#' class='p20-40'><router-link to='./'>Proposal</router-link></a>
-      <a href='#' class='p20-40'><router-link to='./engaged'>Engaged</router-link></a>
-      <a href='#' class='p20-40'><router-link to='./review'>Review</router-link></a>
-      <a href='#' class='p20-40'><router-link to='./questions'>Settings</router-link></a>
+      <a href='#' class='p20-40'><router-link to='./hotel/engaged'>Engaged</router-link></a>
+      <a href='#' class='p20-40'><router-link to='./hotel/questions'>Settings</router-link></a>
+      <a href='#' class='p20-40'><router-link to='./hotel/review'>Trash</router-link></a>
     </nav>
    
     <div id='main_container' class='h-full'>
