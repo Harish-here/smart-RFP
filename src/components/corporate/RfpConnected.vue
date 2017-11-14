@@ -1,19 +1,21 @@
 <template>
- <div id="Rfp_Trash">
- </div>
+  <div id="Rfp_Connected">
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'RfpTrash',
+    name: 'RfpConnected',
     data(){
         return{
-
+            listData:[]
         }
     },
+
     created(){
 
     },
+
     methods: {
 
     }

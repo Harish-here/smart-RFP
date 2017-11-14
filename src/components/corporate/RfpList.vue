@@ -19,7 +19,11 @@
             <td>56</td>
             <td>{{i.noOfHotels}}</td>
             <td>{{i.noOfQuotes}}</td>
-            <td><router-link :to='"./quotelist/"+i.rfpId'><button class='btn btn-default btn-xs'>View Details</button></router-link></td>
+            <td>
+            <router-link :to='"./corprate/quotelist/"+i.rfpId'><button class='btn btn-default btn-xs'>View Details</button>
+            </router-link>
+            <button @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
+            </td>
             </tr>
             <tr><!-- dummy -->
               <td>infoNix weblabs</td>
@@ -28,7 +32,9 @@
               <td>22</td>
               <td>10</td>
               <td>18</td>
-              <td><button class='btn btn-default btn-xs'>View Details</button></td>
+              <td><button class='btn btn-default btn-xs'>View Details</button>
+              <button  class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -51,11 +57,18 @@ export default {
     created(){
       const self =this;
       axios(api.getPublished).then(function(data){
+        console.log(data.data)
         self.listData = data.data;
       });
     },
     methods: {
+      trash: function(id){
+        if(confirm('Are you sure to Unpublish this RFP?')){
+          $.post(api.trashRFP,{rfpId:id}).done(function(data){
 
+          });
+        }
+      }
     }
 }
 

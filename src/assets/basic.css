@@ -3,7 +3,7 @@
 *{ font-family: 'Open Sans', sans-serif;font-size:14px; }
 hr{ margin-bottom:0px !important; }
 nav a{ text-decoration: none; display: block;padding-left: 10px;color:#337a7;}
-nav a:hover{ color:#fff;background-color:#337ab7;}
+nav a:hover{ color:#fff;background-color:#337ab7;text-decoration: none;}
 .v-select ,.dropdown-toggle{ border-radius:0px !important;}
 .v-select .open-indicator { bottom: -2px;}
 

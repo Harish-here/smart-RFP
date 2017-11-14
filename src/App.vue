@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <nav v-show='!showHotel' class='fl w15 bg-drk h-full al-left b6 f16 bl'>
-      <router-link to='./'><a href='#' class='p20-40'>RFP's</a></router-link>
-      <router-link to='./corprate/create'><a href='#' class='p20-40'> Create RFP</a></router-link>
+      <a href='#' class='p20-40' @click='go({name:"RfpList",params:{foo:"rfp"}})'>RFP's</a>
+      <a href='#' class='p20-40' @click='go({name:"RfpCreate",params:{foo:"rfp"}})'>Create RFP</a>
       <router-link to='./'><a href='#' class='p20-40'>Contracted</a></router-link>
       <router-link to='./'><a href='#' class='p20-40'>Drafts</a></router-link>
       <router-link to='./'><a href='#' class='p20-40'>Trash</a></router-link> 
@@ -32,8 +32,13 @@ export default {
   methods: {
     switchTab: function(){
       $('nav a').removeClass('hover');
+    },
+    go: function(obj){
+      this.$router.push(obj)
     }
+
   },
+
   watch: {
     '$router' (to,from){
       console.log(this.$router.path)

@@ -1,7 +1,8 @@
 <template>
  <div id="Rfp_Quote_List">
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>{{listData.rfpName}}</div> <div class='f18 b6 dib'> - Quotes Received</div>
+    <button @click='back({name:"RfpList"})' class='btn btn-default btn-sm'><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+      <div class='f22 b6 dib p5-10'>{{(listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> <div class='f18 b6 dib'> - Quotes Received</div>
       <hr>
     </header>
     <section id='quote_list' class='fl w100 p5-10'>
@@ -20,9 +21,9 @@
             <td class='center'>{{i.minPrice}}</td>
             <td class='center'>{{i.maxPrice}}</td>
             <td class='center'>
-              <button class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
-              <router-link :to='"/rfp/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId'><button class='btn btn-info btn-xs'>View Details</button></router-link> 
-              <button class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
+              <button v-show='i.shortlist !=="1"' @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
+              <button v-show='i.shortlist !=="0"' @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>shortlisted</button>
+              <button @click='go({name:"RfpQuoteReview",params:{rid:listData.rfpId,hid:i.hotelId}})' class='btn btn-info btn-xs'>View Details</button>
             </td>
             </tr>
             <tr><!-- dummy -->
@@ -33,9 +34,8 @@
               <td class='center'>10</td>
               <td class='center'>18</td>
               <td class='center'>
-                <button class='btn btn-default btn-xs'>Shorlist it</button> 
+                <button class='btn btn-default btn-xs' >Shorlist it</button> 
                 <button class='btn btn-info btn-xs'>View Details</button>
-                <button class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
               </td>
             </tr>
           </tbody>
@@ -57,20 +57,48 @@ export default {
     created(){
         const self =this;
        (api.forProd) ?
-       $.post(api.getQuotes,{'rfpId':self.$route.params.id}).done(function(data){
-         self.listData = JSON.parse(data);
-       }) : 
-      axios(api.getQuotes).then(function(data){
-        self.listData = data.data ;  
-      }) ;
+          $.post(api.getQuotes,{'rfpId':self.$route.params.id}).done(function(data){
+            self.listData = JSON.parse(data);
+          }) : 
+          axios(api.getQuotes).then(function(data){
+            self.listData = data.data ;  
+          }) ;
     },
 
     methods: {
-      go: function(Id,hId){
-         var rId = Id+ '-' + hId;
-        // this.$router.push('/rfp/corprate/quotereview/')
-        this.$router.push({name:'RfpQuoteReview',params:{rId}})
-      }
+      go: function(obj){
+
+        this.$router.push(obj)
+      },
+
+      refresh: function(){
+        (api.forProd) ?
+          $.post(api.getQuotes,{'rfpId':self.$route.params.id}).done(function(data){
+            self.listData = JSON.parse(data);
+            
+          }) : 
+          axios(api.getQuotes).then(function(data){
+            self.listData = data.data ; 
+            console.log('-------') 
+          }) ;
+      },
+      shortlist: function(obj){
+        const self = this;
+        $.post(api.shortlistQuote,{rfpId:self.$route.params.id,travelAgencyMasterId:'',hotels:[obj]}).done(function(data){
+          console.log(data);
+          self.refresh();
+        });
+      },
+      notShortlist: function(obj){
+        const self = this;
+        $.post(api.shortlistQuote,{rfpId:self.$route.params.id,hotels:obj}).done(function(data){
+          console.log(data);
+          self.refresh();
+        });
+      },
+      back: function(obj){
+            this.$router.push(obj);
+        }
     }
 }
 </script>

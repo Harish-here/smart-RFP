@@ -19,7 +19,7 @@ export default new Router({
   routes: [
     {
       path: '/:foo(.*?)/corprate/create',
-      name: 'Create',
+      name: 'RfpCreate',
       component: RfpCreate,
     },
     {
