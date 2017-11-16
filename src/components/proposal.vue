@@ -21,7 +21,7 @@
                 v-for='i in listData.comp'
                 key='list Data'>
                 <td class='w15'>{{i.company.label}}</td>
-                <td class='w15'>{{i.rfp.value}}</td>
+                <td class='w15'>{{i.rfp.label}}</td>
                 <td class='w10'>{{i.roomsYear}}</td>
                 <td class='w15'>{{i.location.map(x => x.label).join(',')}}</td>
                 <td class='w15'>{{i.travelPerMonth}}</td>
@@ -60,7 +60,7 @@ export default {
     },
     methods: {
       move: function(id){
-        this.$router.push({name:'review',params:{rid: id}});
+        this.$router.push({name:'review',params:{rid: id,foo:'rfp',stat:'not'}});
       }
     }
 }

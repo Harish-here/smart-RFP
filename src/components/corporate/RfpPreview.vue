@@ -1,11 +1,11 @@
 <template>
 <div id='RfpPreview'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>RFP - Preview</div>
-      <ul class='fr p5-10'>
-        <li class='di p5-10 f14'><button class='btn btn-default btn-xs'> <i class="fa fa-file-text-o" aria-hidden="true"></i> Next</button></li>
-        <li class='di p5-10 f14'><button class='btn btn-default btn-xs'> <i class="fa fa-download" aria-hidden="true"></i> Go Back to Edit</button></li>
-        <li class='di p5-10 f14'><button id='shrink' class='btn btn-default btn-xs' @click='expand' data-active='no'>Expand All</button></li>
+      <div class='f22 b6 dib'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP" }} - Preview</div>
+      <ul class='di fr p5-10'>
+        <li class='p5-10 f14' v-show='false'><button class='btn btn-default btn-xs'> <i class="fa fa-file-text-o" aria-hidden="true"></i> Next</button></li>
+        <li class='p5-10 f14' v-show='false'><button class='btn btn-default btn-xs'> <i class="fa fa-download" aria-hidden="true"></i> Go Back to Edit</button></li>
+        <li class='p5-10 f14'><button id='shrink' class='btn btn-default btn-xs' @click='expand' data-active='no'>Expand All</button></li>
         </ul>
       <hr>
     </header>
@@ -19,12 +19,12 @@
                 <ul  v-for='i in listData.basic'  id='acc_' class='fl w70'>
                     <li v-for='j in i.ques'>
                         <div class='fl w50 p5-10'>{{j.bqText}}</div>
-                        <div class='fl w50 b6 p5-10'>{{ (typeof j.answerId == 'object') ? j.answerId[0].label : j.answer }}</div>
+                        <div class='fl w50 b6 p5-10'>{{ ( j.answerId.length === 0) ? j.answer : j.answerId.map(x => x.label).join(',') }}</div>
                     </li>
                 </ul>
             </div>
         </div>
-      </section>
+    </section>
       
       <!-- main RFP -->
       <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
@@ -36,7 +36,7 @@
                             <li v-for='y in j.ques' class='fl w80 p5-10'>
                                 <div class='fl w70 pl-25'>{{y.questionText}}</div>
                                 <div class='fl w30 b6' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</div>
-                                <div class='fl w30 b6' v-else>{{(typeof y.answer == 'object') ? y.answer[0].answer : y.answer}}</div>
+                                <div class='fl w30 b6' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'NA': y.answer}}</div>
                             </li>
                         </ul>
                         <ul class='fl w100 body p5-10' v-else>
@@ -107,7 +107,7 @@ export default {
       },
       go : function(){
           const self = this;
-          self.$router.push('./send')
+          self.$router.push({name:'RfpSend',params:{foo:'rfp'}})
       }
     }
 }

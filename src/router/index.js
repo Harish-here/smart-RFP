@@ -12,6 +12,8 @@ import RfpSend from '@/components/corporate/RfpSend';
 import RfpPreview from '@/components/corporate/RfpPreview';
 import RfpQuoteList from '@/components/corporate/RfpQuoteList';
 import RfpQuoteReview from '@/components/corporate/RfpQuoteReview';
+import RfpConnected from '@/components/corporate/RfpConnected';
+import RfpDraft from '@/components/corporate/RfpDraft';
 Vue.use(Router);
 
 export default new Router({
@@ -48,6 +50,11 @@ export default new Router({
       component: RfpQuestions,
     },
     {
+      path: '/:foo(.*?)/corprate/connected',
+      name: 'RfpConnected',
+      component: RfpConnected,
+    },
+    {
       path: ':foo(.*?)/hotel/engaged',
       name: 'engaged',
       component: Engaged,
@@ -56,6 +63,11 @@ export default new Router({
       path: '/:foo(.*?)/corprate/',
       name: 'RfpList',
       component: RfpList,
+    },
+    {
+      path: '/:foo(.*?)/corprate/draft',
+      name: 'RfpDraft',
+      component: RfpDraft,
     },
     {
       path: '/:foo(.*?)/corprate/preview',

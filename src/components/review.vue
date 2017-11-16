@@ -1,7 +1,7 @@
 <template>
 <div id='preview'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>{{rfp.label}} <small class='f12 btn btn-default btn-xs' @click='go'>Back to list</small></div>
+      <div class='f22 b6 dib'>{{listData.rfp.label}} <small class='f12 btn btn-default btn-xs' @click='go'>Back to list</small></div>
       <ul class='fr'>
         
         <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'>
@@ -31,7 +31,7 @@
                 <ul  v-for='i in listData.basic'  id='acc_' class='fl w100'>
                     <li v-for='j in i.ques'>
                         <div class='fl w50 p5-10'>{{j.bqText}}</div>
-                        <div class='fl w50 b6 p5-10'>{{ (typeof j.answerId == 'object') ? j.answerId[0].label : j.answer }}</div>
+                        <div class='fl w50 b6 p5-10'>{{ ( j.answerId.length === 0) ? j.answer : j.answerId.map(x => x.label).join(', ')}}</div>
                     </li>
                 </ul>
             </div>
@@ -51,9 +51,9 @@
                         <h4 class='fl w100 b6 p5-10'> - {{ j.questionCategory }}</h4>
                         <ul v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId' class='fl w100 body'>
                             <li v-for='y in j.ques' class='fl w80 p5-10'>
-                                <div class='fl w70 pl-25'>{{y.questionText}}</div>
+                               <div class='fl w70 pl-25'>{{y.questionText}}</div>
                                 <div class='fl w30 b6' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</div>
-                                <div class='fl w30 b6' v-else>{{(typeof y.answer == 'object') ? y.answer[0].answer : y.answer}}</div>
+                                <div class='fl w30 b6' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'NA': y.answer}}</div>
                             </li>
                         </ul>
                         <ul class='fl w100 body p5-10' v-else>

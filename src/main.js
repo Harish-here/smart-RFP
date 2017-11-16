@@ -38,7 +38,7 @@ const store = new Vuex.Store({
       $.post(api.saveRfp,state.rfp).done(function(data){
         if(objArr.status ==  "1"){
           state.hotel.list = JSON.parse(data) 
-          router.push('./preview')
+          router.push({name:'RfpPreview',params:{foo:'rfp'}})
           console.log(state.hotel.list);
         }else{
           console.log(data);
@@ -63,7 +63,7 @@ const store = new Vuex.Store({
         "hotels": hotel 
       }
       $.post(api.sendRfp,obj).done(function(data){
-        router.push('./')
+        router.push({name:'RfpCreate',params:{foo:'rfp'}})
       });
     }
 

@@ -3,9 +3,9 @@
     <nav v-show='!showHotel' class='fl w15 bg-drk h-full al-left b6 f16 bl'>
       <a href='#' class='p20-40' @click='go({name:"RfpList",params:{foo:"rfp"}})'>RFP's</a>
       <a href='#' class='p20-40' @click='go({name:"RfpCreate",params:{foo:"rfp"}})'>Create RFP</a>
-      <router-link to='./'><a href='#' class='p20-40'>Contracted</a></router-link>
-      <router-link to='./'><a href='#' class='p20-40'>Drafts</a></router-link>
-      <router-link to='./'><a href='#' class='p20-40'>Trash</a></router-link> 
+      <a href='#' class='p20-40' @click='go({name:"RfpConnected",params:{foo:"rfp"}})'>Contracted</a>
+      <a href='#' class='p20-40' @click='go({name:"RfpDraft",params:{foo:"rfp"}})'>Drafts</a>
+      <a href='#' class='p20-40'>Trash</a> 
     </nav>
     <nav v-show='showHotel' class='fl w15 h-full al-left b6 f16 bl'>
       <a href='#' class='p20-40'><router-link to='./'>Proposal</router-link></a>

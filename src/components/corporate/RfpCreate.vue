@@ -12,7 +12,7 @@
       </ul>
       <hr>
     </header>
-  
+  {{bData}}
     <form id='basic'
            v-if = 'bData.length > 0'
           @submit.prevent="sumbit" >

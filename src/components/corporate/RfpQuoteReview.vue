@@ -151,7 +151,6 @@ export default {
             const t = self.$route.params;
             if(confirm('Are you sure to decline this Proposal?')){
                 $.post(api.declineQuote,{rfpId: t.rid,hotelId:t.hid}).done(function(data){
-                    console.log(data);
                 $('#decline').attr('disabled','disabled').html('Declined');
                 $('#accept').removeClass('dbi').addClass('dbNo');
             });
