@@ -22,7 +22,9 @@ const store = new Vuex.Store({
       status: "0",
       refRfpId: "0",
       ques: null
-    }
+    },
+    alt: false,
+    label:'some thing Happened'
   },
   mutations: {
     changeHotelMode (state,mode){
@@ -65,6 +67,15 @@ const store = new Vuex.Store({
       $.post(api.sendRfp,obj).done(function(data){
         router.push({name:'RfpCreate',params:{foo:'rfp'}})
       });
+    },
+    showAlert(state,str){
+      state.label = str;
+      state.alt = true;
+      setTimeout(function(){
+        state.alt = false;
+        state.label = "";
+      },3000);
+      
     }
 
   }

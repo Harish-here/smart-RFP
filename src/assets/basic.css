@@ -40,11 +40,12 @@ hr{ margin-bottom:0px !important; }
 .hide{ visibility: hidden; }
 
 
+
 /* ---- atomic  -----*/
 .pl-25{padding-left:25px; }
 .cursor{cursor: pointer;}
 .trans{ transition: 0.3s; }
-
+.opa{opacity: .4;}
 /* ---- padding  -----*/
 .p5-10{ padding:5px 10px; }
 .p20-40{ padding:20px 40px; }
@@ -59,15 +60,17 @@ hr{ margin-bottom:0px !important; }
 .tb-v--active:hover,.tb--active:hover{background-color: #fff;}
 
 /* ---- color  -----   */
-.bg-drk{ background-color: #dddddd;}
+.bg-drk{ background-color: #fff;}
 .hover{ background-color: #50617c; }
 .active{background-color: #2c3544; }
-.bg-ddd{ background-color: #f9f9f9; }
-.bg-dd{ background-color: #ddd; }
+.bg-ddd{ background-color:#fff; }
+.bg-dd{ background-color: #fff; }
+.bg-green{background-color:green;}
 .orange{ color: orange; }
 .red{ color:red; }
 .green{ color:green; }
 .bl{ color:black !important;}
+.white{color:#fff;}
 
 
 

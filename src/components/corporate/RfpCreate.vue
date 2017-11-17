@@ -12,7 +12,6 @@
       </ul>
       <hr>
     </header>
-  {{bData}}
     <form id='basic'
            v-if = 'bData.length > 0'
           @submit.prevent="sumbit" >
@@ -37,8 +36,7 @@
             <div v-if=' j.bqId != 9 &&  j.bqId != 10 && j.bqId != 5 && j.bqId != 1 && j.bqId != 2 && j.bqId != 3' 
                  key='Single' 
                  class='fl w50 pl-25'>
-              <input type='text' class='p5-10' 
-                     :placeholder='j.bqText' 
+              <input type='number' class='p5-10' 
                      v-model='j.answer' 
                      :id='"_"+j.bqId' />
             </div>
@@ -84,8 +82,8 @@
           </div>
         </section>
         <ul v-if='bData.length > 0' class='fl w100 p5-10' key='submit-area'>
-          <li class='fl w30 center'> <button type='button' class='btn btn-default btn-sm' @click='saveDraft' disabled>Save as Draft</button></li>
-          <li class='fl w20 center'><button type='submit' class='btn btn-primary btn-sm'>Next</button></li>
+          <li class='fl w30 center dbNo'> <button type='button' class='btn btn-default btn-sm' @click='saveDraft' disabled>Save as Draft</button></li>
+          <li class='fl w60 center'><button type='submit' class='btn btn-primary btn-sm'>Next</button></li>
         </ul>
     </form>
   </div>
@@ -221,6 +219,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-select,input,.v-select{ height: 30px;width:300px;}
+select,input,.v-select,.dropdown-toggle,.form-control{ height: 24px !important;width:300px;}
 
 </style>

@@ -14,10 +14,14 @@
       <a href='#' class='p20-40'><router-link to='./hotel/review'>Trash</router-link></a>
     </nav>
    
-    <div id='main_container' class='h-full'>
+    <div id='main_container' class=' h-full'>
         <router-view/>
     </div>
-    
+    <transition name='fade'>
+      <div v-show='toShow' class='fl w100 pab p5-10 center white bg-green b6' style='top:0'>
+         {{label}}
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -26,7 +30,8 @@ export default {
   name: 'app',
   data(){
     return {
-    showHotel : true
+    showHotel : true,
+    alt: true
     }
   },
   methods: {
@@ -37,6 +42,16 @@ export default {
       this.$router.push(obj)
     }
 
+  },
+
+  computed: {
+    label(){
+      return this.$store.state.label
+    },
+
+    toShow(){
+      return this.$store.state.alt
+    }
   },
 
   watch: {

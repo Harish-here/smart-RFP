@@ -12,10 +12,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for='i in listData.rfp'>
+            <tr v-for='i in listData.rfp' :key='i.rfpId'>
             <td>{{i.rfp}}</td>
             <td><span v-for='j in i.location'>{{j.label}}</span></td>
-            <td class='green b6'>Approved</td>
+            <td class='green b6'>{{i.connected}}</td>
             <td>56</td>
             <td>{{i.noOfHotels}}</td>
             <td>{{i.noOfQuotes}}</td>
@@ -40,7 +40,6 @@
         </table>
     </section>
 
-
 </div>
 </template>
 
@@ -63,9 +62,13 @@ export default {
     },
     methods: {
       trash: function(id){
-        if(confirm('Are you sure to Unpublish this RFP?')){
+        const self = this;
+        if(confirm('Are you sure to Trash this RFP?')){
           $.post(api.trashRFP,{rfpId:id}).done(function(data){
-
+            axios(api.getPublished).then(function(data){ 
+              self.listData = data.data;
+              self.$store.commit('showAlert',"RFP moved to Trash..!");
+            });
           });
         }
       }

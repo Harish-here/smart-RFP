@@ -1,7 +1,7 @@
 <template>
  <div id="Rfp_Quote_List">
     <header class='fl w100 p10-20'>
-    <button @click='back({name:"RfpList"})' class='btn btn-default btn-sm'><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+    <button @click='back({name:"RfpList",params:{foo:"rfp"}})' class='btn btn-default btn-sm'><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
       <div class='f22 b6 dib p5-10'>{{(listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> <div class='f18 b6 dib'> - Quotes Received</div>
       <hr>
     </header>
@@ -13,17 +13,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for='i in listData.hotels' :key='i.hotelId'>
-            <td>{{i.hotel}}</td>
+            <tr v-for='i in listData.hotels' 
+                :key='i.hotelId'
+                :class='{opa:(i.status === "declined") ? true:false}'>
+            <td>{{i.hotel}} <span class='badge badge-info' v-show='i.shortlist ==="1"'>Shortlisted</span></td>
             <td>{{i.location}}</td>
-            <td class='green b6'>{{i.status}}</td>
+            <td class='b6' :class='{red:(i.status === "declined") ? true : false,green: (i.status !== "declined") ? true : false}'>{{i.status}}</td>
             <td class='center'>{{i.roomPerMonth}}</td>
             <td class='center'>{{i.minPrice}}</td>
             <td class='center'>{{i.maxPrice}}</td>
-            <td class='center'>
-              <button v-show='i.shortlist !=="1"' @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
-              <button v-show='i.shortlist !=="0"' @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>shortlisted</button>
-              <button @click='go({name:"RfpQuoteReview",params:{rid:listData.rfpId,hid:i.hotelId}})' class='btn btn-info btn-xs'>View Details</button>
+            <td class='center' v-if='i.status !== "declined"'>
+              <button v-show='i.shortlist !== "1"' @click='notshortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
+              <button v-show='i.shortlist !== "0"' @click='shortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>shortlisted</button>
+              <button @click='go({name:"RfpQuoteReview",params:{rid:listData.rfpId,hid:i.hotelId,foo:"rfp"}})' class='btn btn-info btn-xs'>View Details</button>
+            </td>
+            <td class='center red b6' v-else>
+              No Actions
             </td>
             </tr>
             <tr><!-- dummy -->
@@ -33,9 +38,9 @@
               <td class='center'>22</td>
               <td class='center'>10</td>
               <td class='center'>18</td>
-              <td class='center'>
-                <button class='btn btn-default btn-xs' >Shorlist it</button> 
-                <button class='btn btn-info btn-xs'>View Details</button>
+              <td class='center opa'>
+                <button class='btn btn-default btn-xs' disabled>Shorlist it</button> 
+                <button class='btn btn-info btn-xs' disabled>View Details</button>
               </td>
             </tr>
           </tbody>
@@ -98,6 +103,9 @@ export default {
       },
       back: function(obj){
             this.$router.push(obj);
+        },
+        opa: function(){
+          return 'opa'
         }
     }
 }

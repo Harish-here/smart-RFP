@@ -27,7 +27,7 @@ export default {
     sendRfp: decide(prodPath +'/sendRfp','http://localhost/'),
     getPublished: decide(prodPath +'/getPublished',"https://api.myjson.com/bins/q2duf"),
     getQuotes: decide(prodPath +'/getQuotes',"https://api.myjson.com/bins/qmzfn"),
-    getQuotesReview : decide('',"https://api.myjson.com/bins/15nxw7"),//this is not done in backend
+    getQuotesReview : decide(prodPath +'/getQuotesReview',"https://api.myjson.com/bins/lm7pv"),//this is not done in backend
     setSlab: decide(prodPathH +'/setSlab','http://localhost/'),
     getSlab: decide(prodPathH +'/getSlab','https://api.myjson.com/bins/19tm0f'),
     getHotel: decide(prodPath +'/getHotel','http://localhost/'),
