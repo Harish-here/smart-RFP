@@ -28,7 +28,7 @@
                 <td class='w10'>{{i.travelPerYear}}</td>
                 <td class='b6 red w10'>{{i.status}}</td>
                 <td class='w10'>
-                  <button v-if='i.status !== "closed"' class='btn btn-default btn-xs' @click='move(i.rfp.value)' key='give quote'>Give Quote</button>
+                  <button v-if='i.status !== "declined"' class='btn btn-default btn-xs' @click='move(i.rfp.value)' key='give quote'>Give Quote</button>
                   <button class='btn btn-default btn-xs' key='cant give quote' disabled v-else>Give Quote</button>
                 </td>
             </tr>

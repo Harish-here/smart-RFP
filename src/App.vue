@@ -8,10 +8,10 @@
       <a href='#' class='p20-40'>Trash</a> 
     </nav>
     <nav v-show='showHotel' class='fl w15 h-full al-left b6 f16 bl'>
-      <a href='#' class='p20-40'><router-link to='./'>Proposal</router-link></a>
-      <a href='#' class='p20-40'><router-link to='./hotel/engaged'>Engaged</router-link></a>
-      <a href='#' class='p20-40'><router-link to='./hotel/questions'>Settings</router-link></a>
-      <a href='#' class='p20-40'><router-link to='./hotel/review'>Trash</router-link></a>
+      <a href='javascript: void(0);' class='p20-40' @click='go({name:"proposal",params:{foo:"rfp"}})'>Proposal</a>
+      <a href='javascript: void(0);' class='p20-40' @click='go({name:"engaged",params:{foo:"rfp"}})' >Engaged</a>
+      <a href='javascript: void(0);' class='p20-40' @click='go({name:"display",params:{foo:"rfp"}})'>Settings</a>
+      <a href='javascript: void(0);' class='p20-40'>Trash</a>
     </nav>
    
     <div id='main_container' class=' h-full'>

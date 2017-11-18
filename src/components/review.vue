@@ -1,9 +1,9 @@
 <template>
 <div id='preview'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>{{listData.rfp.label}} <small class='f12 btn btn-default btn-xs' @click='go'>Back to list</small></div>
+    <button @click='go' class='di btn btn-default btn-sm'><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+      <div class='f22 b6 dib p5-10'>{{listData.rfp.label}} </div>
       <ul class='fr'>
-        
         <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'>
          <i class="fa fa-file-text-o" aria-hidden="true"></i> Default Cover Letter</button></li>
         <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'> <i class="fa fa-download" aria-hidden="true"></i> Download PDF</button></li>
@@ -185,7 +185,7 @@ export default {
           }
       },
       go: function(){
-          this.$router.push({name:'proposal'});
+          this.$router.push({name:'proposal',params:{foo:'rfp'}});
       }
     }
 }

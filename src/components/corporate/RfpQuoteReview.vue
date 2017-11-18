@@ -1,16 +1,17 @@
 <template>
  <div id="Rfp_Quote_Review">
-    <header class='fl w100 p10-20'>
-      <button @click='back({name:"RfpQuoteList",params:{foo:"rfp",id:$route.params.rid}})' class='btn btn-default btn-sm'><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-      <div class='f22 b6 dib'>{{listData.hotelName}}</div> <span class='dib btn btn-info btn-xs'> View profile</span>
-      <ul class='fr p5-10' v-show='listData.hasOwnProperty("quoteStatus") && listData.quoteStatus === "pending"'>
-        <li class='fl p5-10'><button id='accept' class='btn btn-primary btn-sm' @click='agree'> <i class="fa fa-check" aria-hidden="true"></i> Agree</button></li>
-        <li class='fl p5-10'><button id='decline' class='btn btn-danger btn-sm' @click='disagree'> <i class="fa fa-remove" aria-hidden="true"></i> Disagree</button></li>
+    <header class='fl w100 p5-10'>
+      <button @click='back({name:"RfpQuoteList",params:{foo:"rfp",id:$route.params.rid}})' class='di btn btn-default btn-sm'><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+      <div class='di f22 b6 p10-20'>{{ (listData.hasOwnProperty('hotelName')) ? listData.hotelName : 'Hotel Name'}}</div> 
+      <span class='di btn btn-info btn-xs'> View profile</span>
+      <ul class='fr p5-10' v-if='listData.hasOwnProperty("quoteStatus") && listData.quoteStatus === "pending"'>
+        <li class='fl p5-10'><button id='accept' class='btn btn-primary btn-sm' @click='agree'> <i class="fa fa-check" aria-hidden="true"></i> Approve</button></li>
+        <li class='fl p5-10'><button id='decline' class='btn btn-danger btn-sm' @click='disagree'> <i class="fa fa-remove" aria-hidden="true"></i> Reject</button></li>
       </ul>
-      <ul class='fr p5-10' v-show='listData.quoteStatus === "accepted"'>
+      <ul class='fr p5-10' v-if='listData.quoteStatus === "accepted"'>
         <li class='fl p5-10'><button id='accept' class='btn btn-primary btn-sm' disabled> Accepted</button></li>
       </ul>
-      <ul class='fr p5-10' v-show='listData.quoteStatus === "declined"'>
+      <ul class='fr p5-10' v-if='listData.quoteStatus === "declined"'>
         <li class='fl p5-10'><button id='decline' class='btn btn-danger btn-sm' disabled> <i class="fa fa-remove" aria-hidden="true"></i> Declined</button></li>
       </ul>
       <hr>
@@ -76,7 +77,7 @@ export default {
     name: 'RfpQuoteReview',
     data(){
         return{
-         listData : null,
+         listData : {},
          content: null   
         }
     },
@@ -84,9 +85,10 @@ export default {
     created(){
         const self = this; 
         const t = self.$route.params;
+
         (api.forProd) ?
                         $.post(api.getQuotesReview,{'rfpId' : t.rid,'hotelId' : t.hid }).done(function(data){
-                            console.log(data)
+                            setProgress(3);
                             self.listData = JSON.parse(data)
                         }) :
                         axios(api.getQuotesReview).then(function(data){

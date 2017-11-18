@@ -1,39 +1,40 @@
 <template>
 <div id='RfpList'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>RFP - Published</div>
+      <div class='di f22 b6 p10-20'>RFP - Published</div>
       <hr>
     </header>
     <section id='proposal_list' class='fl w100 p5-10'>
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>RFP Name</th> <th>Place</th> <th>Status</th> <th>Rooms / Year</th> <th>No of Hotels</th> <th>No of Quotes</th> <th>Actions</th>
+             <th>RFP Name</th> <th>Cities</th> <th>Status</th> <th>Rooms / Year</th> <th class='center'>No of Hotels</th> <th class='center'>No of Quotes</th> <th class='center'>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for='i in listData.rfp' :key='i.rfpId'>
-            <td>{{i.rfp}}</td>
-            <td><span v-for='j in i.location'>{{j.label}}</span></td>
-            <td class='green b6'>{{i.connected}}</td>
-            <td>56</td>
-            <td>{{i.noOfHotels}}</td>
-            <td>{{i.noOfQuotes}}</td>
-            <td>
-            <router-link :to='"./corprate/quotelist/"+i.rfpId'><button class='btn btn-default btn-xs'>View Details</button>
-            </router-link>
-            <button @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
+            <td class='w20'>{{i.rfp}}</td>
+            <td class='w25'><span v-for='j in i.location'>{{j.label}}</span></td>
+            <td class='green b6 w10'>{{i.connected}}</td>
+            <td class='center w10'>56</td>
+            <td class='center w10'> <span class='badge badge-primary'>{{i.noOfHotels}} </span></td>
+            <td class='center w10'> <span class='badge badge-primary'>{{i.noOfQuotes}}</span> </td>
+            <td class='center w15'>
+            <button @click='go({name:"RfpQuoteList",params:{foo:"rfp",id:i.rfpId}})' class='btn btn-info btn-xs'>View Details</button>
+            
+            <button  v-if='i.connected !== "connected"' @click='trash(i.rfpId)' class='btn btn-danger btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
             </td>
             </tr>
             <tr><!-- dummy -->
-              <td>infoNix weblabs</td>
-              <td>Bussiness</td>
+              <td class='w20'>infoNix weblabs</td>
+              <td class='w25'>Bussiness</td>
               <td class='orange b6'>Pending</td>
-              <td>22</td>
-              <td>10</td>
-              <td>18</td>
-              <td><button class='btn btn-default btn-xs'>View Details</button>
-              <button  class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
+              <td class='center w10'>22</td>
+              <td class='center w10'><span class='badge badge-primary'>10</span></td>
+              <td class='center w10'><span class='badge badge-primary'>18</span></td>
+              <td class='center w15'>
+              <button class='btn btn-info btn-xs'>View Details</button>
+              <button  class='btn btn-danger btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
               </td>
             </tr>
           </tbody>
@@ -71,6 +72,9 @@ export default {
             });
           });
         }
+      },
+      go: function(obj){
+        this.$router.push(obj);
       }
     }
 }

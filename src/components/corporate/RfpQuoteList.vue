@@ -1,30 +1,30 @@
 <template>
  <div id="Rfp_Quote_List">
-    <header class='fl w100 p10-20'>
+    <header class='fl w100 p5-10'>
     <button @click='back({name:"RfpList",params:{foo:"rfp"}})' class='btn btn-default btn-sm'><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-      <div class='f22 b6 dib p5-10'>{{(listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> <div class='f18 b6 dib'> - Quotes Received</div>
+      <div class='f22 b6 di p10-20'>{{ (listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> <div class='f18 b6 dib'> - Quotes Received</div>
       <hr>
     </header>
     <section id='quote_list' class='fl w100 p5-10'>
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>Hotel Name</th> <th>Place</th> <th>Status</th> <th class='center'>Rooms / Year</th> <th class='center'>Min Price</th> <th class='center'>Max Price</th> <th class='center'>Actions</th>
+             <th>Hotel</th> <th>Place</th> <th>Status</th> <th class='center'>Rooms / Year</th> <th class='center'>Min Price</th> <th class='center'>Max Price</th> <th class='center'>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for='i in listData.hotels' 
                 :key='i.hotelId'
                 :class='{opa:(i.status === "declined") ? true:false}'>
-            <td>{{i.hotel}} <span class='badge badge-info' v-show='i.shortlist ==="1"'>Shortlisted</span></td>
-            <td>{{i.location}}</td>
-            <td class='b6' :class='{red:(i.status === "declined") ? true : false,green: (i.status !== "declined") ? true : false}'>{{i.status}}</td>
-            <td class='center'>{{i.roomPerMonth}}</td>
-            <td class='center'>{{i.minPrice}}</td>
-            <td class='center'>{{i.maxPrice}}</td>
-            <td class='center' v-if='i.status !== "declined"'>
-              <button v-show='i.shortlist !== "1"' @click='notshortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
-              <button v-show='i.shortlist !== "0"' @click='shortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>shortlisted</button>
+            <td class='w25'>{{i.hotel}} <span class='badge badge-info' v-show='i.shortlist ==="1"'>Shortlisted</span></td>
+            <td class='w20'>{{i.location}}</td>
+            <td class='b6 w10' :class='{red:(i.status === "declined") ? true : false,green: (i.status !== "declined") ? true : false}'>{{i.status}}</td>
+            <td class='center w10'>{{i.roomPerMonth}}</td>
+            <td class='center w10'>{{i.minPrice}}</td>
+            <td class='center w10'>{{i.maxPrice}}</td>
+            <td class='center w15' v-if='i.status !== "declined"'>
+              <button v-show='i.shortlist !== "1"' @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
+              <button v-show='i.shortlist !== "0"' @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>shortlisted</button>
               <button @click='go({name:"RfpQuoteReview",params:{rid:listData.rfpId,hid:i.hotelId,foo:"rfp"}})' class='btn btn-info btn-xs'>View Details</button>
             </td>
             <td class='center red b6' v-else>
@@ -84,29 +84,27 @@ export default {
           }) : 
           axios(api.getQuotes).then(function(data){
             self.listData = data.data ; 
-            console.log('-------') 
+            
           }) ;
       },
       shortlist: function(obj){
         const self = this;
         $.post(api.shortlistQuote,{rfpId:self.$route.params.id,travelAgencyMasterId:'',hotels:[obj]}).done(function(data){
-          console.log(data);
           self.refresh();
+          self.$store.commit('showAlert','shortlisted');
         });
       },
       notShortlist: function(obj){
         const self = this;
         $.post(api.shortlistQuote,{rfpId:self.$route.params.id,hotels:obj}).done(function(data){
-          console.log(data);
           self.refresh();
+          self.$store.commit('showAlert','Removed from shortlisted');
         });
       },
       back: function(obj){
             this.$router.push(obj);
         },
-        opa: function(){
-          return 'opa'
-        }
+        
     }
 }
 </script>

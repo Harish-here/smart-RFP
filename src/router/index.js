@@ -25,7 +25,7 @@ export default new Router({
       component: RfpCreate,
     },
     {
-      path: '/:foo(.*?)/hotel/',
+      path: './:foo(.*?)/hotel/',
       name: 'proposal',
       component: Proposal,
     },

@@ -12,6 +12,7 @@
       </ul>
       <hr>
     </header>
+  <!--  {{bData}} -->
     <form id='basic'
            v-if = 'bData.length > 0'
           @submit.prevent="sumbit" >
@@ -128,13 +129,11 @@ export default {
     axios.get(api.listCity).then(function(data){
       self.cityData = data.data
 
-      $('#_1').datepicker();
-      $('#_2').datepicker();
-      $('#_3').datepicker();
+      $('#_1').datepicker({minDate: new Date()});
+      $('#_2').datepicker({minDate: new Date()});
+      $('#_3').datepicker({minDate: new Date()});
     });
-      
-  
-      
+        
   },
 
   watch : {
@@ -153,7 +152,7 @@ export default {
       self.bData[0].ques[2].answer = $('#_3').val(); var find=true;
       self.bData.map(function(x){
         x.ques.map(function(y){
-          if((y.answer === null && y.answerId === null) && (y.answer === "" && y.answerId === "") && self.id.indexOf(" ") !== 0 )
+          if(((y.answer === null && y.answerId === null) || (y.answer === "" && y.answerId === "") )&& self.id !== null && self.id.indexOf(" ") !== 0 )
           find = false;
         });
       })
