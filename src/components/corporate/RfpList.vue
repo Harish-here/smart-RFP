@@ -8,21 +8,21 @@
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>RFP Name</th> <th>Cities</th> <th>Status</th> <th>Rooms / Year</th> <th class='center'>No of Hotels</th> <th class='center'>No of Quotes</th> <th class='center'>Actions</th>
+             <th>RFP Name</th> <th>Cities</th> <th>Status</th> <th>Rooms / Year</th> <th class='center'>No of Hotels</th> <th class='center'>No of Quotes</th> <th class=''>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for='i in listData.rfp' :key='i.rfpId'>
-            <td class='w20'>{{i.rfp}}</td>
-            <td class='w25'><span v-for='j in i.location'>{{j.label}}</span></td>
+            <td class='w15'>{{i.rfp}}</td>
+            <td class='w20'><span v-for='j in i.location'>{{j.label}}</span></td>
             <td class='green b6 w10'>{{i.connected}}</td>
             <td class='center w10'>56</td>
             <td class='center w10'> <span class='badge badge-primary'>{{i.noOfHotels}} </span></td>
             <td class='center w10'> <span class='badge badge-primary'>{{i.noOfQuotes}}</span> </td>
-            <td class='center w15'>
+            <td class='w20'>
             <button @click='go({name:"RfpQuoteList",params:{foo:"rfp",id:i.rfpId}})' class='btn btn-info btn-xs'>View Details</button>
             
-            <button  v-if='i.connected !== "connected"' @click='trash(i.rfpId)' class='btn btn-danger btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
+            <button  v-if='i.connected !== "connected"' @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
             </td>
             </tr>
             <tr><!-- dummy -->
@@ -32,9 +32,9 @@
               <td class='center w10'>22</td>
               <td class='center w10'><span class='badge badge-primary'>10</span></td>
               <td class='center w10'><span class='badge badge-primary'>18</span></td>
-              <td class='center w15'>
+              <td class='w20'>
               <button class='btn btn-info btn-xs'>View Details</button>
-              <button  class='btn btn-danger btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
+              <button  class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
               </td>
             </tr>
           </tbody>

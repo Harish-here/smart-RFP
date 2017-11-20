@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <nav v-show='!showHotel' class='fl w15 bg-drk h-full al-left b6 f16 bl'>
-      <a href='#' class='p20-40' @click='go({name:"RfpList",params:{foo:"rfp"}})'>RFP's</a>
-      <a href='#' class='p20-40' @click='go({name:"RfpCreate",params:{foo:"rfp"}})'>Create RFP</a>
-      <a href='#' class='p20-40' @click='go({name:"RfpConnected",params:{foo:"rfp"}})'>Contracted</a>
-      <a href='#' class='p20-40' @click='go({name:"RfpDraft",params:{foo:"rfp"}})'>Drafts</a>
-      <a href='#' class='p20-40'>Trash</a> 
+    <nav id='corporate' v-show='!showHotel' class='fl w10 bg-drk h-full al-left b6 f16 bl br-l'>
+      <a href='#' class='p20-40 center' @click='go({name:"RfpList",params:{foo:"rfp"}})'><i class="fa fa-envelope-open-o" aria-hidden="true"></i><br>
+ RFP's</a>
+      <a href='#' class='p20-40 center' @click='go({name:"RfpCreate",params:{foo:"rfp"}})'><i class="fa fa-telegram" aria-hidden="true"></i><br/>
+ Create </a>
+      <a href='#' class='p20-40 center' @click='go({name:"RfpConnected",params:{foo:"rfp"}})'><i class="fa fa-handshake-o" aria-hidden="true"></i>
+ Contracted</a>
+      <a href='#' class='p20-40 center' @click='go({name:"RfpDraft",params:{foo:"rfp"}})'><i class="fa fa-vcard-o" aria-hidden="true"></i>
+ Saved</a>
+      <a href='#' class='p20-40 center'><i class="fa fa-trash" aria-hidden="true"></i> Trash</a> 
     </nav>
-    <nav v-show='showHotel' class='fl w15 h-full al-left b6 f16 bl'>
+    <nav id='hotel' v-show='showHotel' class='fl w10 h-full al-left b6 f16 bl'>
       <a href='javascript: void(0);' class='p20-40' @click='go({name:"proposal",params:{foo:"rfp"}})'>Proposal</a>
       <a href='javascript: void(0);' class='p20-40' @click='go({name:"engaged",params:{foo:"rfp"}})' >Engaged</a>
       <a href='javascript: void(0);' class='p20-40' @click='go({name:"display",params:{foo:"rfp"}})'>Settings</a>
@@ -55,7 +59,7 @@ export default {
   },
 
   watch: {
-    '$router' (to,from){
+    'this.$router' (to,from){
       console.log(this.$router.path)
     }
   },
@@ -73,6 +77,4 @@ export default {
 </script>
 
 <style src='./assets/basic.css'>
-
-
 </style>
