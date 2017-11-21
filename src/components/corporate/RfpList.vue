@@ -1,5 +1,5 @@
 <template>
-<div id='RfpList'>
+<div id='RfpList' class='p10-20'>
     <header class='fl w100 p10-20'>
       <div class='di f22 b6 p10-20'>RFP - Published</div>
       <hr>
@@ -57,9 +57,11 @@ export default {
     created(){
       const self =this;
       axios(api.getPublished).then(function(data){
-        console.log(data.data)
         self.listData = data.data;
       });
+
+      $('nav#corporate div').removeClass('act');
+      $('nav#corporate div:nth-child(1)').addClass('act')
     },
     methods: {
       trash: function(id){

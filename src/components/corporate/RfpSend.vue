@@ -1,5 +1,5 @@
 <template>
-<div id='send'>
+<div id='send' class='p10-20'>
     <header class='fl w100 p10-20'>
       <div class='f22 b6 dib'>RFP - Send</div>
       
@@ -39,18 +39,24 @@
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>Hotel Name</th> <th class='center'>Star</th><th class='center'>Location</th> <th class='center' >City</th> <th class='center'>Distance from City</th> <th class='center'>Actions</th>
+             <th>Hotel Name</th> <th class='center'>Star</th><th class='center'>Locality</th> <th class='center'>Distance from City (KM)</th> <th class='center'>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-for='i in listData' :key='i.hotelId'>
-            
-            <td class='w30'>{{i.hotelName}}</td>
-            <td class='w10 center'>{{i.star}}</td>
-            <td class='w15 center'>sample</td>
-            <td class='w10 center'>{{i.city}}</td>
-            <td class='w15 center'>{{i.distanceFromCity}}</td>
-            <td class='w10 center'><button :id='"btn-"+i.hotelId' class='btn btn-default btn-xs' @click='addHotel(i)'>Include</button></td>
+          <tbody v-show='listData.length > 0'
+                 v-for='j in listData'>
+            <tr>
+                <td colspan='6' class='f16 b6 center bg-gray'>{{j.city}}</td>
+            </tr>
+            <tr  v-for='i in j.hotels' 
+                :key='i.hotelId'>
+                <td class='w30'>{{i.hotelName}} 
+                    <span v-if='i.status === "Favourite"' title='Favorite Hotel'><i class="fa fa-heart red" aria-hidden="true"></i></span>
+                    <span v-else-if='i.status === "Not Connected"' title='Connected Hotel'><i class="fa fa-link blue" aria-hidden="true"></i></span>
+                </td>
+                <td class='w10 center'>{{i.star}}</td>
+                <td class='w15 center'>{{i.locality}}</td>
+                <td class='w20 center'>{{i.distanceFromCity}}</td>
+                <td class='w10 center'><button :id='"btn-"+i.hotelId' class='btn btn-default btn-xs' @click='addHotel(i)'>Include</button></td>
             </tr>
           </tbody>
         </table>
@@ -99,7 +105,7 @@ export default {
         if(api.forProd){
         this.listData = this.$store.state.hotel.list;
         }else{
-            axios('https://api.myjson.com/bins/lghmf').then(function(data){
+            axios('https://api.myjson.com/bins/plh7b').then(function(data){
                 self.listData = data.data
             });
         }
@@ -147,8 +153,10 @@ export default {
             const self = this;
             if(self.hotelIds.length > 0){
                 if(confirm('RFP will be sent to selected Hotel')){
-                self.$store.commit('sendRfp',self.hotelIds);
-              }
+                        self.$store.commit('showProgress')
+                        self.$store.commit('sendRfp',self.hotelIds);
+                        self.$store.commit('showAlert','RFP successfully sent to Hotels..!')
+                }
             }else{
                 alert('You need to select atleast one hotel to send')
             }

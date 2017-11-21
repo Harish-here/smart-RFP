@@ -1,5 +1,6 @@
 <template>
-  <div id="Rfp_Create">
+  <div id="Rfp_Create" class='p10-20'>
+  
     <header class='fl w100 p10-20'>
       <div class='f22 b6 dib'>RFP - Basic Requirements</div>
       <ul  v-show='false' class='fr p5-10'>
@@ -34,7 +35,7 @@
             <div class='fl w25 al-right'>
               <label class='p5-10 b6'>{{ j.bqText }}</label>
             </div>
-            <div v-if=' j.bqId != 9 &&  j.bqId != 10 && j.bqId != 5 && j.bqId != 1 && j.bqId != 2 && j.bqId != 3' 
+            <div v-if='j.bqId != 9 &&  j.bqId != 10 && j.bqId != 5 && j.bqId != 1 && j.bqId != 2 && j.bqId != 3' 
                  key='Single' 
                  class='fl w50 pl-25'>
               <input type='number' class='p5-10' 
@@ -45,6 +46,13 @@
                  v-else-if='j.bqId == 5' 
                  key='Dropdown'>
               <v-select multiple  v-model='holder'  :options='cityData'></v-select>
+              <span v-if='holder !== null && holder.length > 0' class='fl w100 b6 p5-10'>Rooms Needed Annually</span>
+              <div id='town' v-if='holder !== null && holder.length > 0'
+                    v-for='t in holder' class='fl w100 pl-25'
+                    :key='i.value'>
+                <span class='fl w30 p5-10'>{{t.label}}</span>
+                <span class='fl w30 p5-10'><input type='text'></span>
+              </div>
             </div>
             <div class='fl w50 pl-25'
                  v-else-if='j.bqId == 1 || j.bqId == 2 || j.bqId == 3' 
@@ -140,6 +148,9 @@ export default {
     'holder' : function(old,ne,l){
       const self = this;
       self.bData[0].ques[3].answerId = old;
+      if(self.holder.length === 0){
+        self.holder = null
+      }
     },
     
   },
@@ -158,12 +169,12 @@ export default {
       })
     
       var toPost = (self.id !== null && self.id !== "" && self.id.indexOf(" ") !== 0 && find) ? true : false; 
-  
       (toPost) ?
       $.post(api.sendBasic,{rfpName:self.id,rfpId:"",travelAgencyMasterId:"",division:self.bData}).done(function(data){
+        self.$store.commit('showProgress');
         var obj = JSON.parse(data);
         self.$store.commit('setRfp',obj);
-        self.$router.push('./questions');
+        self.$router.push({name:'RfpQuestions',params:{foo:"rfp"}});
       }):
       alert('You should fill all the fields');
     },
@@ -219,5 +230,6 @@ export default {
 <style scoped>
 
 select,input,.v-select,.dropdown-toggle,.form-control{ height: 24px !important;width:300px;}
+#town input{ width:50px;}
 
 </style>

@@ -19,6 +19,7 @@ export default {
     UnshortlistQuote: decide(prodPath +'/UnshortlistQuote','http://localhost/'),
     declineQuote: decide(prodPath +'/declineQuote','http://localhost/'),
     trashRFP: decide(prodPath +'/trashRFP','http://localhost/'),
+    getTrash: decide('','https://api.myjson.com/bins/c3dz3'),
     sendBasic: decide(prodPath +'/sendBasic','http://localhost/'),
     listCity: decide('http://www.hobse.com/demo/index.php/customer/policy/listCities','https://api.myjson.com/bins/i46iz'),
     saveDraft: decide('','http://localhost/'),

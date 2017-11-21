@@ -75,11 +75,13 @@ export default {
     created(){
         const self = this;
         if(api.forProd){
+            self.$store.commit('showProgress')
              $.post(api.getQues,{questionCategoryParent : "1"}).done(function(data){
       //get q obj
              self.qData = JSON.parse(data);
             });
         }else{
+            self.$store.commit('showProgress')
             $.get(api.getQues,{questionCategoryParent : "1"}).done(function(data){
       //get q obj\
              self.qData = data;
@@ -105,12 +107,12 @@ export default {
         },
         'nxt' : function(){
             const self = this;
-           if(api.forProd){
+           if(api.forProd){ self.$store.commit('showProgress')
              $.post(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
       //get q obj
              self.qData = JSON.parse(data);
             });
-        }else{
+        }else{ self.$store.commit('showProgress')
             $.get(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
       //get q obj
       console.log(data)

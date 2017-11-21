@@ -1,15 +1,32 @@
 <template>
- <div id="Rfp_Quote_List">
+ <div id="Rfp_Quote_List" class='p10-20'>
     <header class='fl w100 p5-10'>
-    <button @click='back({name:"RfpList",params:{foo:"rfp"}})' class='btn btn-default btn-sm'><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-      <div class='f22 b6 di p10-20'>{{ (listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> <div class='f18 b6 dib'> - Quotes Received</div>
+      <button @click='back({name:"RfpList",param:{foo:"rfp"}})' class='btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
+      <div class='f22 b6 dib'> Quotes Received</div>
+      <br>
+      <div class='f18 b6 pl-40 di'>{{ (listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> 
+      
+      <ul class='fr p5-10'>
+        <li class='fr p5-10'>
+          <button @click='back({name:"RfpQuestionPreview",param:{foo:"rfp",id:$route.params.id }})' class='btn btn-info btn-xs'>Preview RFP</button>
+        </li>
+        <li class='fr p5-10'>
+          <span class='gray b6'>Budget</span> - <b>{{(rfpData.hasOwnProperty('basic')) ? '₹'+rfpData.basic[2].ques[0].answer : "₹ -----"  }}</b>
+        </li>
+        <li class='fr p5-10'>
+          <span class='gray b6'>Rooms</span> - <b>{{(rfpData.hasOwnProperty('basic')) ? rfpData.basic[1].ques[2].answer : " Number "  }}</b>
+        </li>
+        <li class='fr p5-10'>
+        <span class='gray b6'> Date</span> - <b>{{(rfpData.hasOwnProperty('basic')) ? rfpData.basic["0"].ques[1].answer : "From Date"  }} - {{(rfpData.hasOwnProperty('basic')) ? rfpData.basic["0"].ques[2].answer : "To Date"  }}</b>
+        </li>
+      </ul>
       <hr>
     </header>
     <section id='quote_list' class='fl w100 p5-10'>
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>Hotel</th> <th>Place</th> <th>Status</th> <th class='center'>Rooms / Year</th> <th class='center'>Min Price</th> <th class='center'>Max Price</th> <th class='center'>Actions</th>
+             <th>Hotel</th> <th>Place</th> <th>Status</th> <th class='center'>Rooms / Year</th> <th class='center'> Price (₹)</th> <th class='center'>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -17,15 +34,14 @@
                 :key='i.hotelId'
                 :class='{opa:(i.status === "declined") ? true:false}'>
             <td class='w25'>{{i.hotel}} <span class='badge badge-info' v-show='i.shortlist ==="1"'>Shortlisted</span></td>
-            <td class='w20'>{{i.location}}</td>
+            <td class='w15'>{{i.location}}</td>
             <td class='b6 w10' :class='{red:(i.status === "declined") ? true : false,green: (i.status !== "declined") ? true : false}'>{{i.status}}</td>
             <td class='center w10'>{{i.roomPerMonth}}</td>
-            <td class='center w10'>{{i.minPrice}}</td>
-            <td class='center w10'>{{i.maxPrice}}</td>
+            <td class='center w15'>{{i.minPrice}} - {{i.maxPrice}}</td>
             <td class='center w15' v-if='i.status !== "declined"'>
               <button v-show='i.shortlist !== "1"' @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
               <button v-show='i.shortlist !== "0"' @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>shortlisted</button>
-              <button @click='go({name:"RfpQuoteReview",params:{rid:listData.rfpId,hid:i.hotelId,foo:"rfp"}})' class='btn btn-info btn-xs'>View Details</button>
+              <button @click='go({name:"RfpQuoteReview",params:{rid:listData.rfpId,hid:i.hotelId,foo:"rfp",ty:"q"}})' class='btn btn-info btn-xs'>View Details</button>
             </td>
             <td class='center red b6' v-else>
               No Actions
@@ -37,7 +53,6 @@
               <td class='orange b6'>Pending</td>
               <td class='center'>22</td>
               <td class='center'>10</td>
-              <td class='center'>18</td>
               <td class='center opa'>
                 <button class='btn btn-default btn-xs' disabled>Shorlist it</button> 
                 <button class='btn btn-info btn-xs' disabled>View Details</button>
@@ -56,7 +71,8 @@ export default {
     name: 'RfpQuoteList',
     data(){
         return{
-            listData: []
+            listData: [],
+            rfpData : []
         }
     },
     created(){
@@ -68,11 +84,19 @@ export default {
           axios(api.getQuotes).then(function(data){
             self.listData = data.data ;  
           }) ;
+
+          (api.forProd) ?
+                $.post(api.getPreview,{'rfpId': self.$store.state.rfp.rfpId}).done(function(data){
+                    self.rfpData = JSON.parse(data);
+                }) :
+                axios(api.getPreview).then(function(data){
+                    self.rfpData = data.data;
+                    console.log(self.rfpData)
+                }) ;
     },
 
     methods: {
       go: function(obj){
-
         this.$router.push(obj)
       },
 

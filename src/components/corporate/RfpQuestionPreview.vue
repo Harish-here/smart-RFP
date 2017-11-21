@@ -1,10 +1,9 @@
 <template>
-<div id='RfpPreview' class='p10-20'>
+<div id='RfpQuestionPreview' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP" }} - Preview</div>
-      <ul class='di fr p5-10 dbNo'>
-        <li class='p5-10 f14' v-show='false'><button class='btn btn-default btn-xs'> <i class="fa fa-file-text-o" aria-hidden="true"></i> Next</button></li>
-        <li class='p5-10 f14' v-show='false'><button class='btn btn-default btn-xs'> <i class="fa fa-download" aria-hidden="true"></i> Go Back to Edit</button></li>
+      <button @click='back({name:"RfpQuoteList",params:{foo:"rfp",id: $route.params.rid}})' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
+      <div class='f22 b6 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP" }}</div>
+      <ul class='di fr p5-10'>
         <li class='p5-10 f14'><button id='shrink' class='btn btn-default btn-xs' @click='expand' data-active='no'>Expand All</button></li>
       </ul>
       <hr>
@@ -12,9 +11,6 @@
     <section id='preview_space' class='fl w100 p5-10'>
         <div v-show='true' id='question_set_' class='p5-10'>
             <h4 class='fl w50 b6'>RFP Details</h4>
-            <div class='fl w30 p5-10'>
-                <button @click='go' class='btn btn-info btn-sm'> Select Hotels <i class="fa fa-chevron-right" aria-hidden="true"></i></button>
-            </div>
             <div v-if='listData.hasOwnProperty("basic") && listData.basic.length > 0' id='basic_ques' key='basic detaisl'>
                 <ul  v-for='i in listData.basic'  id='acc_' class='fl w70'>
                     <li v-for='j in i.ques'>
@@ -58,7 +54,7 @@
 import axios from 'axios'
 import api from '@/api/api'
 export default {
-    name: 'RfpPreview',
+    name: 'RfpQuestionPreview',
     data(){
         return {
             listData : []
@@ -66,8 +62,9 @@ export default {
     },
     created(){
         const self =this;
+        const t = self.$route.params;
         (api.forProd) ?
-                $.post(api.getPreview,{'rfpId': self.$store.state.rfp.rfpId}).done(function(data){
+                $.post(api.getPreview,{'rfpId': t.id}).done(function(data){
                     self.listData = JSON.parse(data);
                 }) :
                 axios(api.getPreview).then(function(data){
@@ -81,11 +78,11 @@ export default {
         if($('section#par_'+id).attr('data-active') === 'no') {
             $('#ques_'+id).removeClass('dbNo')
                 $('section#par_'+id).attr('data-active','yes')
-                $('#par_'+id+' h4>span').html('-')
+                $('#par_'+id+' h3>span').html('-')
         }else{
             $('#ques_'+id).addClass('dbNo')
                 $('section#par_'+id).attr('data-active','no')
-                $('#par_'+id+' h4>span').html('+');
+                $('#par_'+id+' h3>span').html('+');
         }
                 
         },
@@ -104,10 +101,9 @@ export default {
                 $('#shrink').html('Expand All'); 
             }
       },
-      go : function(){
+      back : function(obj){
           const self = this;
-          self.$store.commit('showProgress')
-          self.$router.push({name:'RfpSend',params:{foo:'rfp'}})
+          self.$router.push(obj)
       }
     }
 }

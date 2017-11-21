@@ -14,6 +14,8 @@ import RfpQuoteList from '@/components/corporate/RfpQuoteList';
 import RfpQuoteReview from '@/components/corporate/RfpQuoteReview';
 import RfpConnected from '@/components/corporate/RfpConnected';
 import RfpDraft from '@/components/corporate/RfpDraft';
+import RfpTrash from '@/components/corporate/RfpTrash';
+import RfpQuestionPreview from '@/components/corporate/RfpQuestionPreview';
 Vue.use(Router);
 
 export default new Router({
@@ -25,7 +27,7 @@ export default new Router({
       component: RfpCreate,
     },
     {
-      path: './:foo(.*?)/hotel/',
+      path: '/:foo(.*?)/hotel/',
       name: 'proposal',
       component: Proposal,
     },
@@ -80,9 +82,19 @@ export default new Router({
       component: RfpQuoteList,
     },
     {
-      path: '/:foo(.*?)/corprate/quotereview/:rid/:hid',
+      path: '/:foo(.*?)/corprate/quotereview/:rid/:hid/:ty',
       name: 'RfpQuoteReview',
       component: RfpQuoteReview,
+    },
+    {
+      path: '/:foo(.*?)/corprate/questionview/:id',
+      name: 'RfpQuestionPreview',
+      component: RfpQuestionPreview,
+    },
+    {
+      path: '/:foo(.*?)/corprate/trash',
+      name: 'RfpTrash',
+      component: RfpTrash,
     }
   ],
 });

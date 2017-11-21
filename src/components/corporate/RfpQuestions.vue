@@ -80,6 +80,7 @@ export default {
       }
     },
     getQues : function(id){
+      self.$store.commit('showProgress')
      $.post(api.getQues,{questionCategoryParent : id}).done(function(data){
       //get q obj
       self.quesData = JSON.parse(data);

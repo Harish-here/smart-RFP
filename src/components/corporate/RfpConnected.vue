@@ -1,5 +1,5 @@
 <template>
-  <div id="Rfp_Connected">
+  <div id="Rfp_Connected" class='p10-20'>
     <header class='fl w100 p10-20'>
       <div class='f22 b6 dib'>Connected Hotels</div>
       <hr>
@@ -8,7 +8,7 @@
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>Hotel Name</th> <th>RFP Name</th><th>Locations</th> <th>Rooms / Month</th> <th>Rooms / year</th> <th>Travel / Month</th> <th>Travel / year</th> <th>Status</th>
+             <th>Hotel Name</th> <th>RFP Name</th><th>Locations</th> <th>Rooms / Year</th> <th>Status</th> <th>Actions</th>
             </tr>
           </thead>
           <tbody  v-if='listData.length !== 0'>
@@ -17,11 +17,9 @@
             <td>{{i.hotel.label}}</td>
             <td>{{i.rfp.label}}</td>
             <td>{{ i.location.map((x)=> x.label).join(',')}}</td>
-            <td>{{i.roomsMonth}}</td>
             <td>{{i.roomsYear}}</td>
-            <td>{{i.travelPerMonth}}</td>
-            <td>{{i.travelPerYear}}</td>
-            <td class='green b6'>Approved</td>    
+            <td class='green b6'>Approved</td>
+            <td><button @click='back({name:"RfpQuoteReview",params:{foo:"rfp",rid:i.rfp.value,hid:i.hotel.value,ty:"c"}})' class='btn btn-info btn-xs'>View Details</button></td>    
             </tr>
           </tbody>
         </table>
@@ -45,12 +43,15 @@ export default {
         const self = this;
         axios(api.getConnected).then(function(data){
             self.listData = data.data;
+            console.log(self.listData)
             
         })
     },
 
     methods: {
-
+         back: function(obj){
+            this.$router.push(obj);
+        },
     }
 }
 </script>

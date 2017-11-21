@@ -13,7 +13,7 @@
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>Company Name</th> <th>Rfp Name</th> <th>Rooms / year</th> <th>Location</th> <th>Travels / month</th> <th>Travels / year</th>  <th>status</th> <th>Actions</th>
+             <th>Company Name</th> <th>RFP Name</th> <th>Rooms / year</th> <th>Location</th> <th>Travels / month</th> <th>Travels / year</th>  <th>status</th> <th>Actions</th>
             </tr>
           </thead>
           <tbody>

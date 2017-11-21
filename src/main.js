@@ -21,7 +21,7 @@ const store = new Vuex.Store({
       travelAgencyMasterId: null,
       status: "0",
       refRfpId: "0",
-      ques: null
+      ques: []
     },
     alt: false,
     label:'some thing Happened'
@@ -36,12 +36,11 @@ const store = new Vuex.Store({
     submitRfpCat(state,objArr){
       state.rfp.ques = objArr.arr;//getting the ques array of obj 
       state.rfp.status = objArr.status;
-      console.log(state.rfp);
       $.post(api.saveRfp,state.rfp).done(function(data){
         if(objArr.status ==  "1"){
-          state.hotel.list = JSON.parse(data) 
-          router.push({name:'RfpPreview',params:{foo:'rfp'}})
-          console.log(state.hotel.list);
+         // state.hotel.list = JSON.parse(data) 
+          router.push({name:'RfpPreview',params:{foo:'rfp'}});
+          console.log(data);
         }else{
           console.log(data);
         }
@@ -52,7 +51,7 @@ const store = new Vuex.Store({
       var s = state.rfp;
       s.rfpId = obj.rfpId;
       s.rfpName = obj.rfpName;
-      console.log(state.rfp);
+      console.log(s);
     },
     flushRfp(state){
       state.rfp.ques = null;
@@ -65,7 +64,7 @@ const store = new Vuex.Store({
         "hotels": hotel 
       }
       $.post(api.sendRfp,obj).done(function(data){
-        router.push({name:'RfpCreate',params:{foo:'rfp'}})
+        router.push({name:'RfpList',param:{foo:'rfp'}})
       });
     },
     showAlert(state,str){
@@ -76,6 +75,11 @@ const store = new Vuex.Store({
         state.label = "";
       },3000);
       
+    },
+    showProgress: function(state){
+      if(api.forProd){
+        setProgress(2);
+      }
     }
 
   }
