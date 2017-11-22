@@ -1,5 +1,5 @@
 <template>
-<div id='proposal'>
+<div id='proposal' class='p10-20'>
     <header class='fl w100 p10-20'>
       <div class='f22 b6 dib'>Proposals</div>
       <ul class='fr p5-10 dbNo'>
@@ -13,22 +13,28 @@
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>Company Name</th> <th>RFP Name</th> <th>Rooms / year</th> <th>Location</th> <th>Travels / month</th> <th>Travels / year</th>  <th>status</th> <th>Actions</th>
+             <th class='w15'>Company Name</th>
+             <th class='w15'>RFP Name</th> 
+             <th class='w15'>Location</th> 
+             <th class='w10 center'>Rooms / Year</th> <!-- <th>Travels / month</th> <th>Travels / year</th> -->  
+             <th class='w15 center'>status</th> 
+             <th class='w15'>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-if=' listData.hasOwnProperty("comp") && listData.comp.length > 0'
                 v-for='i in listData.comp'
-                key='list Data'>
+                key='list Data'
+                :class='{opa: (i.status === "declined") ? true : false}'>
                 <td class='w15'>{{i.company.label}}</td>
                 <td class='w15'>{{i.rfp.label}}</td>
-                <td class='w10'>{{i.roomsYear}}</td>
                 <td class='w15'>{{i.location.map(x => x.label).join(',')}}</td>
-                <td class='w15'>{{i.travelPerMonth}}</td>
-                <td class='w10'>{{i.travelPerYear}}</td>
-                <td class='b6 red w10'>{{i.status}}</td>
+                <td class='w10 center'>{{i.roomsYear}}</td>
+              <!--  <td class='w15'>{{i.travelPerMonth}}</td>
+                <td class='w10'>{{i.travelPerYear}}</td> -->
+                <td class='b6 red w10 center'>{{i.status}}</td>
                 <td class='w10'>
-                  <button v-if='i.status !== "declined"' class='btn btn-default btn-xs' @click='move(i.rfp.value)' key='give quote'>Give Quote</button>
+                  <button v-if='i.status !== "declined"' class='btn btn-info btn-xs' @click='move(i.rfp.value)' key='give quote'>Give Quote</button>
                   <button class='btn btn-default btn-xs' key='cant give quote' disabled v-else>Give Quote</button>
                 </td>
             </tr>
@@ -52,9 +58,11 @@ export default {
     },
     created(){
       const self = this;
-      
+      self.$store.commit('showProgress');
         axios(api.getProposal).then(function(data){//getting the list
-          self.listData = data.data
+          self.listData = data.data;
+          $('nav#hotel div').removeClass('act');
+          $('nav#hotel div:nth-child(1)').addClass('act')
         });
       
     },

@@ -1,4 +1,4 @@
-let forProd = false;
+let forProd = true;
 
 function decide(prod,local){
     return (forProd) ? prod : local;
@@ -12,6 +12,7 @@ export default {
     rfpDecline : decide(prodPathH+'/decline','http://localhost/'),
     getProposal: decide(prodPathH+'/getProposal','https://api.myjson.com/bins/1cvxjf'),
     getHotelPre : decide(prodPathH+'/getHotelPre','https://api.myjson.com/bins/kkg5f'),
+    getHotelAns: decide(prodPathH+'/getHotelAns','https://api.myjson.com/bins/jr1l3'),//???
     getEngaged: decide(prodPathH+'/getEngaged','https://api.myjson.com/bins/7iipn'),
     getBasic : decide(prodPath +'/getBasic','https://api.myjson.com/bins/wiulf'),
     acceptRfp: decide(prodPath +'/acceptRfp','http://localhost/'),
@@ -33,5 +34,6 @@ export default {
     getSlab: decide(prodPathH +'/getSlab','https://api.myjson.com/bins/19tm0f'),
     getHotel: decide(prodPath +'/getHotel','http://localhost/'),
     getDraftList: decide(prodPath +'/getDraftList','https://api.myjson.com/bins/r5ptf'),
-    getConnected: decide(prodPath +'/getConnected','https://api.myjson.com/bins/nam3n')
+    getConnected: decide(prodPath +'/getConnected','https://api.myjson.com/bins/nam3n'),
+    getHotelTrash: decide(prodPathH +'/getHotelTrash','https://api.myjson.com/bins/ihe2f')//not done in backend
 }

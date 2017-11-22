@@ -1,20 +1,18 @@
 <template>
  <div id='question' class='h-75'>
-    <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
+    <ul  id='tab_v_head' class='fl w25 b6 f12 al-left'>
         <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index'>{{i.questionCategory}}</li>
-        
-        <li class='p20-40 tb tb-v--active'>Payment</li>
+       <!-- <li class='p20-40 tb tb-v--active'>Payment</li> -->
     </ul>
    <!-- <pre>{{ cData }}</pre> -->
     <div id='content'>
-   <pre> {{sample}}</pre>
         <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 h-75 y-flow' :id='"body_"+index_1'>       
             <div id='Next_btn' class='fl w100 center'>
               <ul>
-               <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
-                <button :id='index_1' class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next</button>
-               </li>
-               <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
+                <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
+                    <button :id='index_1' class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next</button>
+                </li>
+                <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
               </ul>
             </div>
             <div v-for='(i,index_2) in y.ques'>
@@ -85,8 +83,15 @@ export default {
         }
     },
 
-    beforeMount(){
+    created(){
         const self =this;
+        $(function(){
+            setTimeout(function(){
+                $('ul#tab_v_head li').removeClass('tb-v--active');
+                $('ul#tab_v_head li:first-child').addClass('tb-v--active');
+                $('#content section:first-child').css('display','block');
+            },1500)
+        });
        
     },
 
@@ -96,19 +101,18 @@ export default {
         },
         sample(){
             const self = this
-           var arr = [...self.quesData.quesCategory]
-           console.log(arr)
+           var arr = [...self.quesData.quesCategory];
            return arr 
         }
     },
     methods: {
         submitAnswers: function(){
             const self = this;
+            self.$store.commit('showProgress');
             $.post(api.sendQues,{ans: self.cData}).done(function(data){
-                console.log(data);
                 //self.$store.commit('changeHotelMode','edit');
                 self.$emit('finish',self.next);
-            })
+            });
 
         },
         addAns: function(id){

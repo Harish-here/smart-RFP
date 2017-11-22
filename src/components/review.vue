@@ -1,15 +1,15 @@
 <template>
-<div id='preview'>
+<div id='preview' class='p10-20'>
     <header class='fl w100 p10-20'>
-    <button @click='go' class='di btn btn-default btn-sm'><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-      <div class='f22 b6 dib p5-10'>{{listData.rfp.label}} </div>
+    <button @click='go' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+      <div class='f22 b6 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP Name"}} </div>
       <ul class='fr'>
         <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'>
          <i class="fa fa-file-text-o" aria-hidden="true"></i> Default Cover Letter</button></li>
         <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'> <i class="fa fa-download" aria-hidden="true"></i> Download PDF</button></li>
         <li class='p5-10 f14 fr' v-show='showAccept'><button id='decline' class='btn btn-danger btn-sm' @click='decline'>Decline</button></li>
         <li class='p5-10 f14 fr' v-show='showAccept'><button id='accept' class='btn btn-primary btn-sm' @click='showSlab = true'>Accept</button></li>
-        <li class='p5-10 f14 fr' v-show='!showAccept'><button class='btn btn-success btn-sm' disabled @click='showSlab = true'>Accepted</button></li>
+        <li class='p5-10 f14 fr' v-show='!showAccept'><button class='btn btn-success btn-sm' disabled>Accepted</button></li>
         <li v-show='showSlab' class=' p5-10 f14 fr'>
             <button class='btn btn-default btn-sm' @click='assign'>Assign Slab</button>
         </li>
@@ -26,7 +26,7 @@
     </header>
     <section id='preview_space' class='fl w100 p5-10'>
         <div v-show='true' id='question_set_' class='fl w60 p5-10'>
-            <h4 class='fl w50 b6'>{{rfp.label}}</h4>
+            <h4 class='fl w50 b6'>RFP Details</h4>
             <div v-if='listData.hasOwnProperty("basic") && listData.basic.length > 0' id='basic_ques' key='basic details'>
                 <ul  v-for='i in listData.basic'  id='acc_' class='fl w100'>
                     <li v-for='j in i.ques'>
@@ -36,7 +36,7 @@
                 </ul>
             </div>
         </div>
-        <div class='fl w40 p5-10'>
+        <div class='fl w40 p5-10 bg-high blue'>
             <h4>Company Details</h4>
             <ul>
                 <li v-for='(k,i) in company' class='p5-10'>{{ k}}</li>
@@ -45,23 +45,23 @@
     </section>
     <!-- main RFP -->
       <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
-            <h3 class='fl w100 b6 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b6 btn btn-default btn-xs'> + </span></h3>
+            <h4 class='fl w100 b6 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b6 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 p5-10 dbNo' :id='"ques_"+i.questionCategoryParentId'>
                     <div v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory'>    
-                        <h4 class='fl w100 b6 p5-10'> - {{ j.questionCategory }}</h4>
+                        <h5 class='fl w100 b5 p5-10'>{{ j.questionCategory }}</h5>
                         <ul v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId' class='fl w100 body'>
                             <li v-for='y in j.ques' class='fl w80 p5-10'>
                                <div class='fl w70 pl-25'>{{y.questionText}}</div>
-                                <div class='fl w30 b6' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</div>
-                                <div class='fl w30 b6' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'NA': y.answer}}</div>
+                                <div class='fl w30 b5' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</div>
+                                <div class='fl w30 b5' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'NA': y.answer}}</div>
                             </li>
                         </ul>
                         <ul class='fl w100 body p5-10' v-else>
-                            <li class='fl w100 pl-25 red b6'>No question were included in this subcategory</li>
+                            <li class='fl w100 pl-25 red b5'>No question were included in this subcategory</li>
                         </ul>
                     </div>
                 </div>
-                <div class='fl w50 pl-25 red b6' v-else>
+                <div class='fl w50 pl-25 red b5' v-else>
                     No Questions included in this Category
                 </div>
                 
@@ -86,6 +86,7 @@ export default {
     },
     created(){
         const self =this;
+        self.$store.commit('showProgress');
         (api.forProd) ?
         $.post(api.getHotelPre,{rfpId: self.$route.params.rid,hotelId: ''}).done(function(data){
             self.listData = JSON.parse(data); //getting the preview of that rfp
@@ -98,7 +99,7 @@ export default {
         axios(api.getSlab).then(function(data){//get slab
             self.slabData = data.data
         });
-       console.log(self.$route.params)
+      
     },
 
     computed : {
@@ -140,11 +141,11 @@ export default {
         if($('section#par_'+id).attr('data-active') === 'no') {
             $('#ques_'+id).removeClass('dbNo')
                 $('section#par_'+id).attr('data-active','yes')
-                $('#par_'+id+' h3>span').html('-')
+                $('#par_'+id+' h4>span').html('-')
         }else{
             $('#ques_'+id).addClass('dbNo')
                 $('section#par_'+id).attr('data-active','no')
-                $('#par_'+id+' h3>span').html('+');
+                $('#par_'+id+' h4>span').html('+');
         }
                 
         },
@@ -166,6 +167,7 @@ export default {
       assign : function(){
           const self =this;
           if(confirm('selected slab will be sent as quote to this RFP')){
+              self.$store.commit('showProgress');
             $.post(api.setSlab,{slabId:self.slabId,hotelId:'',rfpId:self.$route.params.rid}).done(function(data){
                 console.log(data);
                 self.showSlab = false;
@@ -177,6 +179,7 @@ export default {
       decline: function(){
           const self = this;
           if(confirm("Are you sure, you want to Decline this RFP ?")){
+              self.$store.commit('showProgress');
               $.post(api.rfpDecline,{rfpId: self.$route.params.rid}).done(function(data){
                   self.showSlab = false;
                   $('#decline').attr('disabled','disabled').html('Declined');
@@ -185,7 +188,13 @@ export default {
           }
       },
       go: function(){
-          this.$router.push({name:'proposal',params:{foo:'rfp'}});
+          const self = this;
+          if(self.$route.params.stat === 'not'){
+              this.$router.push({name:'proposal',params:{foo:'rfp'}});
+          }else{
+              this.$router.push({name:'engaged',params:{foo:'rfp'}})
+          }
+          
       }
     }
 }

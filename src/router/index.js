@@ -2,9 +2,11 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import RfpCreate from '@/components/corporate/RfpCreate';
 import Display from '@/components/display';
+import Trash from '@/components/trash';
 import Question from '@/components/question';
 import Proposal from '@/components/proposal';
 import Review from '@/components/review';
+import Preview from '@/components/preview';
 import RfpQuestions from '@/components/corporate/RfpQuestions';
 import Engaged from '@/components/engaged';
 import RfpList from '@/components/corporate/RfpList';
@@ -32,6 +34,11 @@ export default new Router({
       component: Proposal,
     },
     {
+      path: '/:foo(.*?)/hotel/trash',
+      name: 'trash',
+      component: Trash,
+    },
+    {
       path: '/:foo(.*?)/hotel/review/:rid/:stat',
       name: 'review',
       component: Review,
@@ -43,7 +50,7 @@ export default new Router({
     },
     {
       path: '/:foo(.*?)/hotel/questions',
-      name: 'Display',
+      name: 'display',
       component: Display
     },
     {
@@ -57,9 +64,14 @@ export default new Router({
       component: RfpConnected,
     },
     {
-      path: ':foo(.*?)/hotel/engaged',
+      path: '/:foo(.*?)/hotel/engaged',
       name: 'engaged',
       component: Engaged,
+    },
+    {
+      path: '/:foo(.*?)/hotel/preview',
+      name: 'preview',
+      component: Preview,
     },
     {
       path: '/:foo(.*?)/corprate/',

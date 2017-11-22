@@ -1,7 +1,7 @@
 <template>
-<div id='engaged' class='p10-20'>
+<div id='trash' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>Engaged Companies</div>
+      <div class='f22 b6 dib'>Trashed RFP</div>
       <ul class='fr p5-10 dbNo'>
         <li class='di p5-10 f16'><i class="fa fa-pencil" aria-hidden="true"></i></li>
         <li class='di p5-10 f16'><i class="fa fa-trash" aria-hidden="true"></i></li>
@@ -13,24 +13,18 @@
         <table class='table w100'>
           <thead class='bg-ddd'>
             <tr>
-             <th class='w15'>Company Name</th> 
-             <th class='w15'>RFP Name</th> 
-             <th class='w15'>Location</th> 
-             <th class='w10 center'>Rooms / Year</th> 
-             <th class='w15 center'>Price Slab</th> 
-             <th class='w15'>Actions</th>
+             <th class='w20'>Company Name</th> <th class='w25'>RFP Name</th> <th class='w15'>Location</th> <th class='w15'>Status</th>
             </tr>
           </thead>
           <tbody>
             <tr v-if='listData.hasOwnProperty("comp") && listData.comp.length > 0 '
                 v-for='i in listData.comp'>
-                <td class='w15'>{{i.company.label}}</td>
-                <td class='w15'>{{i.rfp.label}}</td>
-                <td class='w15'>{{i.location.map(x => x.label).join(', ')}}</td>
-                <td class='w10 center'>{{i.roomsYear}}</td>
-                <td class='w15 b6 center'>{{ (i.hasOwnProperty('slab')) ? i.slab.label : 'No Slab'}}</td>
-                <td class='w15'>
-                    <button class='btn btn-info btn-xs' @click='disconnect(i.rfp.value,"con")'>View Details</button>
+                <td class='w20'>{{ i.company.label }}</td>
+                <td class='w25'>{{ i.rfp.label }}</td>
+                <td class='w15 b6'>{{ (i.hasOwnProperty('location') && i.location.length > 0) ? i.location.map(x => x.label).join(', ') : "No location" }}</td>
+                <td class='w15 red b6'>
+                   <!-- <button class='btn btn-info btn-xs' @click='disconnect(i.rfp.value,"accepted")'>View Details</button> -->
+                   Trashed
                 </td>
             </tr>
             
@@ -46,7 +40,7 @@
 import axios from 'axios'
 import api from '@/api/api'
 export default {
-    name: 'engaged',
+    name: 'trash',
     data(){
         return {
             listData : []
@@ -56,7 +50,7 @@ export default {
     created(){
         const self = this;
         self.$store.commit('showProgress');
-        axios(api.getEngaged).then(function(data){
+        axios(api.getHotelTrash).then(function(data){
             self.listData = data.data
         })
     },

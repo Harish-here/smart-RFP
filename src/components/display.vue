@@ -1,8 +1,8 @@
 <template>
- <div id='display'>
+ <div id='display' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>RFP Questions</div>
-      <ul class='fr p5-10'>
+      <div class='f22 b6 dib'>RFP - Questions</div>
+      <ul class='fr p5-10 dbNo'>
         <li class='di p5-10'>
           <button class='btn btn-primary btn-xs b6'><i class="fa fa-plus" aria-hidden="true"></i> Save</button>
         </li>
@@ -38,7 +38,6 @@ export default {
   components: {Question},
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
       quesData : [],
       curr : null,
       next: null
@@ -79,11 +78,12 @@ export default {
     self.curr = 1;
     self.next = 7;
     self.$store.commit('setNextScreen',7);
+    self.$store.commit('showProgress');
     if(api.forProd){
       $.post(api.getQues,{questionCategoryParent : self.curr}).done(function(data){
       //get q obj
       self.quesData = JSON.parse(data);
-      console.log(self.quesData);
+      
     });
     }else{
       $.get(api.getQues).done(function(data){
