@@ -14,7 +14,7 @@
           <tbody>
             <tr v-for='i in listData.rfp'>
                 <td class='w20'>{{i.rfp}}</td>
-                <td class='w40'>{{ (i.hasOwnProperty('location')) ? i.location.map((x)=> x.label).join(',') : 'No location Selected'}}</td>
+                <td class='w40'>{{ (i.hasOwnProperty('location') && i.location.length > 0 ) ? i.location.map((x)=> x.label).join(',') : 'No location Selected'}}</td>
                 <td class='orange b6 w20'>Pending</td>
                 <td class='w20 center'><button @click='go({rfpId:i.rfpId,rfpName:i.rfp})' class='btn btn-info btn-xs'>Forward to hotels</button></td>
             </tr>

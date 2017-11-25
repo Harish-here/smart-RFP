@@ -9,7 +9,7 @@
         <li class='fl p5-10'><button id='decline' class='btn btn-danger btn-sm' @click='disagree'> <i class="fa fa-remove" aria-hidden="true"></i> Reject</button></li>
       </ul>
       <ul class='fr p5-10' v-if='basicData.quoteStatus === "accepted"'>
-        <li class='fl p5-10'><button id='accept' class='btn btn-primary btn-sm' disabled> Accepted</button></li>
+        <li class='fl p5-10'><button id='accept' class='btn btn-primary btn-sm opa' disabled> Accepted</button></li>
       </ul>
       <ul class='fr p5-10' v-if='basicData.quoteStatus === "declined"'>
         <li class='fl p5-10'><button id='decline' class='btn btn-danger btn-sm' disabled> <i class="fa fa-remove" aria-hidden="true"></i> Declined</button></li>
@@ -184,9 +184,9 @@ export default {
             const t = self.$route.params;
             var type = t.ty;
             if(type === 'q'){
-            this.$router.push({name: 'RfpQuoteList',params:{foo:'rfp',id: self.$route.params.rid}});
+            this.$router.push({path:"/"+self.$store.state.path+"/corprate/quotelist/"+self.$route.params.rid});
             }else{
-                this.$router.push({name: 'RfpConnected',params:{foo:'rfp'}})
+                this.$router.push({path:"/"+self.$store.state.path+"/corprate/connected"});
             }
         },
         open : function(id){

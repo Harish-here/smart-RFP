@@ -1,14 +1,14 @@
 <template>
  <div id="Rfp_Quote_List" class='p10-20'>
     <header class='fl w100 p5-10'>
-      <button @click='back({name:"RfpList",param:{foo:"rfp"}})' class='btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
+      <button @click='back({path:"/"+$store.state.path+"/corprate/"})' class='btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
       <div class='f22 b6 dib'> Quotes Received</div>
       <br>
       <div class='f18 b6 pl-40 di'>{{ (listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> 
       
       <ul class='fr p5-10'>
         <li class='fr p5-10'>
-          <button @click='back({name:"RfpQuestionPreview",param:{foo:"rfp",id:$route.params.id }})' class='btn btn-info btn-xs'>Preview RFP</button>
+          <button @click='back({path:"/"+$store.state.path+"/corprate/questionview/"+$route.params.id})' class='btn btn-info btn-xs'>Preview RFP</button>
         </li>
         <li class='fr p5-10'>
           <span class='gray b6'>Budget</span> - <b>{{(rfpData.hasOwnProperty('basic')) ? '₹'+rfpData.basic[2].ques[0].answer : "₹ -----"  }}</b>
@@ -41,7 +41,7 @@
             <td class='center w15' v-if='i.status !== "declined"'>
               <button v-show='i.shortlist !== "1"' @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
               <button v-show='i.shortlist !== "0"' @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>shortlisted</button>
-              <button @click='go({name:"RfpQuoteReview",params:{rid:listData.rfpId,hid:i.hotelId,foo:"rfp",ty:"q"}})' class='btn btn-info btn-xs'>View Details</button>
+              <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-info btn-xs'>View Details</button>
             </td>
             <td class='center red b6' v-else>
               No Actions

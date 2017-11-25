@@ -24,7 +24,8 @@ const store = new Vuex.Store({
       ques: []
     },
     alt: false,
-    label:'some thing Happened'
+    label:'some thing Happened',
+    path:''
   },
   mutations: {
     changeHotelMode (state,mode){
@@ -38,11 +39,11 @@ const store = new Vuex.Store({
       state.rfp.status = objArr.status;
       $.post(api.saveRfp,state.rfp).done(function(data){
         if(objArr.status ==  "1"){
-         // state.hotel.list = JSON.parse(data) 
-          router.push({name:'RfpPreview',params:{foo:'rfp'}});
-          console.log(data);
+          state.hotel.list = JSON.parse(data) 
+          router.push({path:"/"+state.path+"/corprate/preview"});
+
         }else{
-          console.log(data);
+         // console.log(data);
         }
       });
       
@@ -64,7 +65,7 @@ const store = new Vuex.Store({
         "hotels": hotel 
       }
       $.post(api.sendRfp,obj).done(function(data){
-        router.push({name:'RfpList',param:{foo:'rfp'}})
+        router.push({path:"/"+state.path+"/corprate"})
       });
     },
     showAlert(state,str){
@@ -80,6 +81,9 @@ const store = new Vuex.Store({
       if(api.forProd){
         setProgress(2);
       }
+    },
+    setPath(state,pat){
+      state.path = pat;
     }
 
   }

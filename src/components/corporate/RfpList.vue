@@ -14,13 +14,13 @@
           <tbody>
             <tr v-for='i in listData.rfp' :key='i.rfpId'>
             <td class='w15'>{{i.rfp}}</td>
-            <td class='w20'><span v-for='j in i.location'>{{j.label}}</span></td>
+            <td class='w20'>{{i.location.map(x => x.label).join(', ')}}</td>
             <td class='green b6 w10'>{{i.connected}}</td>
-            <td class='center w10'>56</td>
+            <td class='center w10'>{{i.roomsYear}}</td>
             <td class='center w10'> <span class='badge badge-primary'>{{i.noOfHotels}} </span></td>
             <td class='center w10'> <span class='badge badge-primary'>{{i.noOfQuotes}}</span> </td>
             <td class='w20'>
-            <button @click='go({name:"RfpQuoteList",params:{foo:"rfp",id:i.rfpId}})' class='btn btn-info btn-xs'>View Details</button>
+            <button @click='go({path:"/"+$store.state.path+"/corprate/quotelist/"+i.rfpId})' class='btn btn-info btn-xs'>View Details</button>
             
             <button  v-if='i.connected !== "connected"' @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
             </td>
@@ -51,7 +51,8 @@ export default {
     name: 'RfpList',
     data(){
         return {
-            listData : []
+            listData : [],
+            path:null
         }
     },
     created(){
@@ -61,7 +62,8 @@ export default {
       });
 
       $('nav#corporate div').removeClass('act');
-      $('nav#corporate div:nth-child(1)').addClass('act')
+      $('nav#corporate div:nth-child(1)').addClass('act');
+     self.path = self.$route.params.foo;
     },
     methods: {
       trash: function(id){

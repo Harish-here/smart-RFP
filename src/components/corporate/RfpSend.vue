@@ -42,7 +42,7 @@
              <th>Hotel Name</th> <th class='center'>Star</th><th class='center'>Locality</th> <th class='center'>Distance from City (KM)</th> <th class='center'>Actions</th>
             </tr>
           </thead>
-          <tbody v-show='listData.length > 0'
+          <tbody v-if='listData.length !== undefined && listData.length > 0'
                  v-for='j in listData'>
             <tr>
                 <td colspan='6' class='f16 b6 center bg-gray'>{{j.city}}</td>
@@ -77,9 +77,7 @@
                 <td class='w20 center'>{{i.distanceFromCity}}</td>
                 <td class='w10 center'><button class='btn btn-primary btn-xs' @click='addHotel(i)'>Remove</button></td>
             </tr>
-            <tr key='No data' v-else>
-               <td> No Hotel Include</td>
-            </tr>
+            
           </tbody>
         </table>
     </section>
@@ -103,9 +101,9 @@ export default {
     created(){
         const self =this;
         if(api.forProd){
-        this.listData = this.$store.state.hotel.list;
+        self.listData = this.$store.state.hotel.list;
         }else{
-            axios('https://api.myjson.com/bins/plh7b').then(function(data){
+            axios('https://api.myjson.com/bins/11c8c7').then(function(data){
                 self.listData = data.data
             });
         }

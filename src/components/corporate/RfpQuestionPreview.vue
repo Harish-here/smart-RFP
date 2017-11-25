@@ -1,7 +1,7 @@
 <template>
 <div id='RfpQuestionPreview' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <button @click='back({name:"RfpQuoteList",params:{foo:"rfp",id: $route.params.rid}})' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
+      <button @click='back({path:"/"+$store.state.path+"/corprate/quotelist/"+ $route.params.id})' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
       <div class='f22 b6 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP" }}</div>
       <ul class='di fr p5-10'>
         <li class='p5-10 f14'><button id='shrink' class='btn btn-default btn-xs' @click='expand' data-active='no'>Expand All</button></li>

@@ -7,18 +7,17 @@
         <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'>
          <i class="fa fa-file-text-o" aria-hidden="true"></i> Default Cover Letter</button></li>
         <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'> <i class="fa fa-download" aria-hidden="true"></i> Download PDF</button></li>
-        <li class='p5-10 f14 fr' v-show='showAccept'><button id='decline' class='btn btn-danger btn-sm' @click='decline'>Decline</button></li>
-        <li class='p5-10 f14 fr' v-show='showAccept'><button id='accept' class='btn btn-primary btn-sm' @click='showSlab = true'>Accept</button></li>
-        <li class='p5-10 f14 fr' v-show='!showAccept'><button class='btn btn-success btn-sm' disabled>Accepted</button></li>
-        <li v-show='showSlab' class=' p5-10 f14 fr'>
-            <button class='btn btn-default btn-sm' @click='assign'>Assign Slab</button>
-        </li>
+        <li class='p5-10 f14 fr' v-if='showAccept'><button id='decline' class='btn btn-default btn-sm' @click='decline'>Decline</button></li>
+        <li class='p5-10 f14 fr' v-if='showAccept'><button id='accept' class='btn btn-info btn-sm' @click='showSlab = true'>Accept</button></li>
+        <li class='p5-10 f14 fr' v-if='!showAccept'><button class='btn btn-success btn-sm opa' disabled>Accepted</button></li>
         <li v-show='showSlab' class='p10-20 f14 fr'>
             <select v-model='slabId'>
                 <option value='1' selected disabled>Price slab</option>
                 <option v-if='slabData.length > 0' v-for='i in slabData' :value='i.value'>{{ i.label}}</option>
-                
             </select>
+        </li>
+        <li v-show='showSlab' class=' p5-10 f14 fr'>
+            <button class='btn btn-primary btn-sm' @click='assign'>Assign Slab</button>
         </li>
         <li class='di p5-10 f14 fr dbNo'><button id='shrink' class='btn btn-default btn-xs' @click='expand' data-active='no'>Expand All</button></li>
       </ul>
@@ -128,10 +127,15 @@ export default {
         },
         showAccept(){
             const self = this;
-            if(self.$route.params.stat == "accepted"){
+            if(self.listData.hasOwnProperty('status') && self.listData.status === 'accepted'){
                 return false
             }else{
-                return true;
+                if(self.$route.params.stat !== 'con'){
+                    return true;
+                }else{
+                    return false;
+                }
+                
             }
         }
     },
@@ -190,9 +194,9 @@ export default {
       go: function(){
           const self = this;
           if(self.$route.params.stat === 'not'){
-              this.$router.push({name:'proposal',params:{foo:'rfp'}});
+              this.$router.push({path:"/"+self.$store.state.path+"/hotel"});
           }else{
-              this.$router.push({name:'engaged',params:{foo:'rfp'}})
+              this.$router.push({path:"/"+self.$store.state.path+"/hotel/engaged"})
           }
           
       }

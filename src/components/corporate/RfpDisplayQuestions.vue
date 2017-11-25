@@ -1,10 +1,7 @@
 <template>
  <div id='questionCorp' class='h-75'>
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
-        <span v-for='(i,index) in qData.quesCategory'>
-        <li class='p20-40 tb' @click='show(index)' :id='index'>{{i.questionCategory}}</li>
-        </span>
-        <li class='p20-40 tb tb-v--active'>Payment</li>
+        <li class='p20-40 tb' v-for='(i,index) in qData.quesCategory' @click='show(index)' :id='index'>{{i.questionCategory}}</li>
     </ul>
     <div id='content'>
         <ul class='fr w40 b6 f14'>
@@ -77,17 +74,26 @@ export default {
         if(api.forProd){
             self.$store.commit('showProgress')
              $.post(api.getQues,{questionCategoryParent : "1"}).done(function(data){
-      //get q obj
+            //get q obj
              self.qData = JSON.parse(data);
+             
+
             });
         }else{
             self.$store.commit('showProgress')
             $.get(api.getQues,{questionCategoryParent : "1"}).done(function(data){
-      //get q obj\
+            //get q obj\
              self.qData = data;
+              
             });
         }
-       
+       $(function(){
+                setTimeout(function(){
+                    $('ul#tab_v_head li').removeClass('tb-v--active');
+                    $('ul#tab_v_head li:first-child').addClass('tb-v--active');
+                    $('#content > section:first-child').css('display','block');
+                },1500);
+            })
     },
     
     computed : {
@@ -206,11 +212,6 @@ export default {
 
     },
     
-    mounted: function(){  
-            this.$nextTick(function () {
-                $('section:first-child').show();
-            })
-    }
 }
 </script>
 <style scoped>

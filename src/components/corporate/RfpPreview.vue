@@ -107,7 +107,7 @@ export default {
       go : function(){
           const self = this;
           self.$store.commit('showProgress')
-          self.$router.push({name:'RfpSend',params:{foo:'rfp'}})
+          self.$router.push({path:"/"+self.$store.state.path+"/corprate/send"})
       }
     }
 }

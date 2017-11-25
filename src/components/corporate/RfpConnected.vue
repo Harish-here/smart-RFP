@@ -19,7 +19,7 @@
             <td>{{ i.location.map((x)=> x.label).join(',')}}</td>
             <td>{{i.roomsYear}}</td>
             <td class='green b6'>Approved</td>
-            <td><button @click='back({name:"RfpQuoteReview",params:{foo:"rfp",rid:i.rfp.value,hid:i.hotel.value,ty:"c"}})' class='btn btn-info btn-xs'>View Details</button></td>    
+            <td><button @click='back({path:"/"+$store.state.path+"/corprate/quotereview/"+i.rfp.value+"/"+i.hotel.value+"/c"})' class='btn btn-info btn-xs'>View Details</button></td>    
             </tr>
           </tbody>
         </table>

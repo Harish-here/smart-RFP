@@ -74,7 +74,7 @@ export default new Router({
       component: Preview,
     },
     {
-      path: '/:foo(.*?)/corprate/',
+      path: '/:foo(.*?)/corprate',
       name: 'RfpList',
       component: RfpList,
     },

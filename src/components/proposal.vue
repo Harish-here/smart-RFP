@@ -28,7 +28,7 @@
                 :class='{opa: (i.status === "declined") ? true : false}'>
                 <td class='w15'>{{i.company.label}}</td>
                 <td class='w15'>{{i.rfp.label}}</td>
-                <td class='w15'>{{i.location.map(x => x.label).join(',')}}</td>
+                <td class='w15'>{{i.location.map(x => x.label).join(', ')}}</td>
                 <td class='w10 center'>{{i.roomsYear}}</td>
               <!--  <td class='w15'>{{i.travelPerMonth}}</td>
                 <td class='w10'>{{i.travelPerYear}}</td> -->
@@ -68,7 +68,8 @@ export default {
     },
     methods: {
       move: function(id){
-        this.$router.push({name:'review',params:{rid: id,foo:'rfp',stat:'not'}});
+        const self = this;
+        this.$router.push({path:"/"+self.$store.state.path+"/hotel/review/"+id+"/not"});
       }
     }
 }

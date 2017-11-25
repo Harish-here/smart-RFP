@@ -1,4 +1,4 @@
-let forProd = true;
+let forProd = false;
 
 function decide(prod,local){
     return (forProd) ? prod : local;
@@ -20,7 +20,7 @@ export default {
     UnshortlistQuote: decide(prodPath +'/UnshortlistQuote','http://localhost/'),
     declineQuote: decide(prodPath +'/declineQuote','http://localhost/'),
     trashRFP: decide(prodPath +'/trashRFP','http://localhost/'),
-    getTrash: decide('','https://api.myjson.com/bins/c3dz3'),
+    getTrash: decide(prodPath+'/getTrash','https://api.myjson.com/bins/c3dz3'),
     sendBasic: decide(prodPath +'/sendBasic','http://localhost/'),
     listCity: decide('http://www.hobse.com/demo/index.php/customer/policy/listCities','https://api.myjson.com/bins/i46iz'),
     saveDraft: decide('','http://localhost/'),
@@ -33,7 +33,8 @@ export default {
     setSlab: decide(prodPathH +'/setSlab','http://localhost/'),
     getSlab: decide(prodPathH +'/getSlab','https://api.myjson.com/bins/19tm0f'),
     getHotel: decide(prodPath +'/getHotel','http://localhost/'),
-    getDraftList: decide(prodPath +'/getDraftList','https://api.myjson.com/bins/r5ptf'),
+    getDraftList: decide(prodPath +'/getDraftList','https://api.myjson.com/bins/ny6xz'),
     getConnected: decide(prodPath +'/getConnected','https://api.myjson.com/bins/nam3n'),
-    getHotelTrash: decide(prodPathH +'/getHotelTrash','https://api.myjson.com/bins/ihe2f')//not done in backend
+    getHotelTrash: decide(prodPathH +'/getHotelTrash','https://api.myjson.com/bins/ihe2f'),//not done in backend
+    moveTrashToDraft: decide(prodPath+'/moveTrashToDraft','http://localhost/')
 }

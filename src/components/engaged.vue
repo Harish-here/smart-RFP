@@ -63,7 +63,8 @@ export default {
 
     methods: {
         disconnect: function(id,s){
-            this.$router.push({name:'review',params:{rid:id,stat:s}})
+            const self = this
+            this.$router.push({path:"/"+self.$store.state.path+"/hotel/review/"+id+"/con"})
         }
     }
 }

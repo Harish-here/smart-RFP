@@ -1,6 +1,6 @@
 <template>
   <div id="Rfp_Create" class='p10-20'>
-  
+  {{sum}}
     <header class='fl w100 p10-20'>
       <div class='f22 b6 dib'>RFP - Basic Requirements</div>
       <ul  v-show='false' class='fr p5-10'>
@@ -38,20 +38,20 @@
             <div v-if='j.bqId != 9 &&  j.bqId != 10 && j.bqId != 5 && j.bqId != 1 && j.bqId != 2 && j.bqId != 3' 
                  key='Single' 
                  class='fl w50 pl-25'>
-              <input type='number' class='p5-10' 
+              <input type='number' class='p5-10' min='0'
                      v-model='j.answer' 
                      :id='"_"+j.bqId' />
             </div>
             <div class='fl w50 pl-25'
                  v-else-if='j.bqId == 5' 
                  key='Dropdown'>
-              <v-select multiple  v-model='holder'  :options='cityData'></v-select>
+              <v-select v-model='holder'  :options='cityData' multiple></v-select>
               <span v-if='holder !== null && holder.length > 0' class='fl w100 b6 p5-10'>Rooms Needed Annually</span>
               <div id='town' v-if='holder !== null && holder.length > 0'
                     v-for='t in holder' class='fl w100 pl-25'
-                    :key='i.value'>
+                    :key='t.value'>
                 <span class='fl w30 p5-10'>{{t.label}}</span>
-                <span class='fl w30 p5-10'><input type='text'></span>
+                <span class='fl w30 p5-10'><input type='number' v-model='t.rooms' min='0'></span>
               </div>
             </div>
             <div class='fl w50 pl-25'
@@ -116,11 +116,23 @@ export default {
     };
   },
 
+  computed: {
+    sum(){
+      const self = this;
+      if(self.holder !== null){
+        return  Number(self.holder.map(x => x.rooms).reduce(function(tot,el){
+          return Number(tot) + Number(el);
+        }));
+      }
+    }
+  },
+
   created(){
     const self = this;
     self.$store.commit('flushRfp');
     axios.get(api.getBasic).then(function(data){
       self.bData = data.data.division;
+      
       // $(function(){
       //   $('#_1').datepicker();
       //   $('#_2').datepicker();
@@ -130,13 +142,16 @@ export default {
         x.ques.forEach(function(y){
           y.answer = null;
           y.answerId = null;
-        })
-      })
-      
+        });
+      });
+    
     });
     axios.get(api.listCity).then(function(data){
-      self.cityData = data.data
-
+      var temp = data.data
+         temp.map(function(x){
+          x['rooms'] = 0;
+        });
+      self.cityData = [...temp]
       $('#_1').datepicker({minDate: new Date()});
       $('#_2').datepicker({minDate: new Date()});
       $('#_3').datepicker({minDate: new Date()});
@@ -151,7 +166,13 @@ export default {
       if(self.holder.length === 0){
         self.holder = null
       }
+     
     },
+
+    'sum' : function(old,ne){ const self = this;
+      //self.bData[1].ques[]
+      self.bData[1].ques[2].answer = self.sum;
+    }
     
   },
 
@@ -174,7 +195,7 @@ export default {
         self.$store.commit('showProgress');
         var obj = JSON.parse(data);
         self.$store.commit('setRfp',obj);
-        self.$router.push({name:'RfpQuestions',params:{foo:"rfp"}});
+        self.$router.push({path:"/"+ self.$store.state.path +"/corprate/questions"});
       }):
       alert('You should fill all the fields');
     },
