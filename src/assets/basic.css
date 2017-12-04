@@ -1,9 +1,9 @@
 /* ------- RFP style -------- */
 /* normalization */
-*{ font-family: 'Open Sans', sans-serif;font-size:14px; }
+*{ font-family: 'Open Sans', sans-serif;font-size:12px; }
 hr{ margin-bottom:0px !important; }
 nav a{ text-decoration: none; display: block;padding-left: 10px;color:#337a7;}
-nav div:hover{ color:#fff;background-color:#4285f4;text-decoration: none;}
+nav div:hover{ color:#fff;background-color:#009688;text-decoration: none;}
 nav a:visited{text-decoration: none;}
 .v-select ,.dropdown-toggle{ border-radius:0px !important;}
 .v-select .open-indicator { bottom: -2px;}
@@ -66,7 +66,7 @@ hr{ margin-bottom:0px !important; }
 /* ---- color  -----   */
 .bg-drk{ background-color: #fff;}
 .hover{ background-color: #50617c; }
-.act{background-color: #4285f4; color:#fff;}
+.act{background-color: #009688; color:#fff;}
 .bg-ddd{ background-color:#fff; }
 .bg-dd{ background-color: #fff; }
 .bg-green{background-color:green !important;}
@@ -79,6 +79,7 @@ hr{ margin-bottom:0px !important; }
 .bg-gray{background-color: #f3f3f3;}
 .blue{color: #4285f4 !important;}
 .bg-high{background-color: #f9f9f9;}
+.teal{color:#009688 !important;}
 
 
 

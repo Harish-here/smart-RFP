@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav id='corporate' v-if='!showHotel' class='fl w10 bg-drk h-full al-left b6 f16 blue br-l cursor'>
+    <nav id='corporate' v-if='!showHotel' class='fl w10 bg-drk h-full al-left b6 f16 teal br-l cursor'>
       <div class='p20-40 center act' @click='go({path:"/"+$store.state.path+"/corprate/"},1)'><i class="fa fa-envelope-open-o" aria-hidden="true"></i><br>RFP's</div>
       <div  class='p20-40 center' @click='go({path:"/"+$store.state.path+"/corprate/create"},2)'><i class="fa fa-telegram" aria-hidden="true"></i><br/>Create </div>
       <div class='p20-40 center' @click='go({path:"/"+$store.state.path+"/corprate/connected"},3)'><i class="fa fa-handshake-o" aria-hidden="true"></i><br/>Contracted</div>

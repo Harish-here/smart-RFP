@@ -30,7 +30,7 @@
                 <ul  v-for='i in listData.basic'  id='acc_' class='fl w100'>
                     <li v-for='j in i.ques'>
                         <div class='fl w50 p5-10'>{{j.bqText}}</div>
-                        <div class='fl w50 b6 p5-10'>{{ ( j.answerId.length === 0) ? j.answer : j.answerId.map(x => x.label).join(', ')}}</div>
+                        <div class='fl w50 b5 p5-10'>{{ ( j.answerId.length === 0) ? j.answer : j.answerId.map(x => x.label).join(', ')}}</div>
                     </li>
                 </ul>
             </div>
@@ -44,7 +44,7 @@
     </section>
     <!-- main RFP -->
       <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
-            <h4 class='fl w100 b6 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b6 btn btn-default btn-xs'> + </span></h4>
+            <h4 class='fl w100 b5 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b5 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 p5-10 dbNo' :id='"ques_"+i.questionCategoryParentId'>
                     <div v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory'>    
                         <h5 class='fl w100 b5 p5-10'>{{ j.questionCategory }}</h5>
