@@ -63,6 +63,7 @@ export default {
     created(){
         const self =this;
         const t = self.$route.params;
+        self.$store.commit('showProgress');
         (api.forProd) ?
                 $.post(api.getPreview,{'rfpId': t.id}).done(function(data){
                     self.listData = JSON.parse(data);

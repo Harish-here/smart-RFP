@@ -1,7 +1,7 @@
 <template>
 <div id='trash' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>Trashed RFP</div>
+      <div class='f18 b6 dib'>Trashed RFP</div>
       <ul class='fr p5-10 dbNo'>
         <li class='di p5-10 f16'><i class="fa fa-pencil" aria-hidden="true"></i></li>
         <li class='di p5-10 f16'><i class="fa fa-trash" aria-hidden="true"></i></li>
@@ -13,11 +13,19 @@
         <table class='table w100'>
           <thead class='bg-ddd'>
             <tr>
-             <th class='w20'>Company Name</th> <th class='w25'>RFP Name</th> <th class='w15'>Location</th> <th class='w15'>Status</th>
+             <th class='w20'>Company Name</th> 
+             <th class='w25'>RFP Name</th> 
+             <th class='w15'>Location</th> 
+             <th class='w15'>Status</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-if='listData.hasOwnProperty("comp") && listData.comp.length > 0 '
+          <tbody v-if='listData === null'>
+            <tr>
+                <td colspan='4' class='center gray'>Loading the Trashed proposals</td>
+            </tr>
+          </tbody>
+          <tbody v-if='listData !== null && listData.hasOwnProperty("comp")'>
+            <tr v-if='listData.comp.length > 0 '
                 v-for='i in listData.comp'>
                 <td class='w20'>{{ i.company.label }}</td>
                 <td class='w25'>{{ i.rfp.label }}</td>
@@ -26,6 +34,9 @@
                    <!-- <button class='btn btn-info btn-xs' @click='disconnect(i.rfp.value,"accepted")'>View Details</button> -->
                    Trashed
                 </td>
+            </tr>
+            <tr v-if='listData.comp.length === 0 '>
+                <td colspan='4' class='center gray'>No Trashed Proposals</td>
             </tr>
             
           </tbody>
@@ -43,7 +54,7 @@ export default {
     name: 'trash',
     data(){
         return {
-            listData : []
+            listData : null
         }
     },
 

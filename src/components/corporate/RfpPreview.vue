@@ -9,7 +9,7 @@
       </ul>
       <hr>
     </header>
-    <section id='preview_space' class='fl w100 p5-10'>
+    <section id='preview_space' class='fl w100 h-full p5-10 y-flow'>
         <div v-show='true' id='question_set_' class='p5-10'>
             <h4 class='fl w50 b5'>RFP Details</h4>
             <div class='fl w30 p5-10'>
@@ -66,6 +66,7 @@ export default {
     },
     created(){
         const self =this;
+        self.$store.commit('showProgress');
         (api.forProd) ?
                 $.post(api.getPreview,{'rfpId': self.$store.state.rfp.rfpId}).done(function(data){
                     self.listData = JSON.parse(data);

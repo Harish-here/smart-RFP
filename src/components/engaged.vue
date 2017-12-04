@@ -1,7 +1,7 @@
 <template>
 <div id='engaged' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>Engaged Companies</div>
+      <div class='f18 b6 dib'>Engaged Companies</div>
       <ul class='fr p5-10 dbNo'>
         <li class='di p5-10 f16'><i class="fa fa-pencil" aria-hidden="true"></i></li>
         <li class='di p5-10 f16'><i class="fa fa-trash" aria-hidden="true"></i></li>
@@ -21,8 +21,13 @@
              <th class='w15'>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-if='listData.hasOwnProperty("comp") && listData.comp.length > 0 '
+          <tbody v-if='listData === null'>
+            <tr>
+                <td colspan='6' class='gray center'>Loading Engaged companies...</td>
+            </tr>
+          </tbody>
+          <tbody v-if='listData !== null && listData.hasOwnProperty("comp")'>
+            <tr v-if='listData.comp.length > 0 '
                 v-for='i in listData.comp'>
                 <td class='w15'>{{i.company.label}}</td>
                 <td class='w15'>{{i.rfp.label}}</td>
@@ -33,7 +38,9 @@
                     <button class='btn btn-info btn-xs' @click='disconnect(i.rfp.value,"con")'>View Details</button>
                 </td>
             </tr>
-            
+            <tr v-if='listData.comp.length === 0 '>
+                <td colspan='6' class='center gray'> No Engaged Companies</td>
+            </tr>
           </tbody>
         </table>
     </section>
@@ -49,7 +56,7 @@ export default {
     name: 'engaged',
     data(){
         return {
-            listData : []
+            listData : null
         }
     },
 

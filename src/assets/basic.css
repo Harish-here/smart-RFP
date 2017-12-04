@@ -31,7 +31,7 @@ hr{ margin-bottom:0px !important; }
 .z-500{ z-index: 5000; }
 .y-flow{overflow-y : auto;}
 .h-100{height: 100%;}
-.h-full{height: 86vh; overflow-y: auto;}
+.h-full{height: 86vh;}
 .di{ display : inline !important;}
 .dib{ display : inline-block !important;}
 .db{ display: block !important; }
@@ -75,7 +75,7 @@ hr{ margin-bottom:0px !important; }
 .green{ color:green !important; }
 .bl{ color:black !important;}
 .white{color:#fff;}
-.gray{color: lightgray;}
+.gray{color: lightgray !important;}
 .bg-gray{background-color: #f3f3f3;}
 .blue{color: #4285f4 !important;}
 .bg-high{background-color: #f9f9f9;}

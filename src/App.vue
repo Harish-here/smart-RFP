@@ -7,7 +7,7 @@
       <div class='p20-40 center' @click='go({path:"/"+$store.state.path+"/corprate/draft"},4)'><i class="fa fa-vcard-o" aria-hidden="true"></i><br/>Saved</div>
       <div href='#' class='p20-40 center' @click='go({path:"/"+$store.state.path+"/corprate/trash"},5)'><i class="fa fa-trash" aria-hidden="true"></i><br/> Trash</div> 
     </nav>
-    <nav id='hotel' v-if='showHotel' class='fl w10 bg-drk h-full al-left b6 f16 blue br-l cursor'>
+    <nav id='hotel' v-if='showHotel' class='fl w10 bg-drk h-full al-left b6 f16 teal br-l cursor'>
       <div  class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel"},1)'><i class="fa fa-inbox" aria-hidden="true"></i><br/> Proposal</div>
       <div  class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel/engaged"},2)'><i class="fa fa-linux" aria-hidden="true"></i><br/> Engaged</div>
       <div  class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel/questions"},3)'><i class="fa fa-cogs" aria-hidden="true"></i><br/> Settings</div>
@@ -15,7 +15,7 @@
       <div  class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel/trash"},5)'><i class="fa fa-trash" aria-hidden="true"></i> Trash</div>
     </nav>
    
-    <div id='main_container' class=' h-full'>
+    <div id='main_container' class='h-full y-flow'>
         <router-view/>
     </div>
     <transition name='fade'>

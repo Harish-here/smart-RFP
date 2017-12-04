@@ -1,14 +1,17 @@
 <template>
  <div id="Rfp_Draft" class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>RFP Drafts</div>
+      <div class='f18 b6 dib'>RFP Saved</div>
       <hr>
     </header>
     <section id='List_space' class='fl w100 p5-10'>
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>RFP Name</th><th>Locations</th><th>Status</th><th class='center'>Actions</th>
+             <th class='w20'>RFP Name</th>
+             <th class='w40'>Locations</th>
+             <th class='w20'>Status</th>
+             <th class='w20 center'>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -19,6 +22,17 @@
                 <td class='w20 center'><button @click='go({rfpId:i.rfpId,rfpName:i.rfp})' class='btn btn-info btn-xs'>Forward to hotels</button></td>
             </tr>
           </tbody>
+          <tbody v-if='!listData.hasOwnProperty("rfp")'>
+            <tr>
+              <td colspan='4' class='center gray'>Loading Saved RFPs...</td>
+            </tr>
+          </tbody>
+          <tbody v-if='listData.hasOwnProperty("rfp") && listData.rfp.length !== undefined && listData.rfp.length === 0'>
+            <tr>
+              <td colspan='4' class='center gray'>No Saved RFP</td>
+            </tr>
+          </tbody>
+
         </table>
     </section>
  </div>
@@ -36,6 +50,7 @@ export default {
     },
     created(){
         const self = this;
+        self.$store.commit('showProgress');
         axios(api.getDraftList).then(function(data){
             self.listData = data.data;
         });

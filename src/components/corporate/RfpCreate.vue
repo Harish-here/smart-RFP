@@ -1,8 +1,7 @@
 <template>
   <div id="Rfp_Create" class='p10-20'>
-  {{sum}}
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>RFP - Basic Requirements</div>
+      <div class='f18 b6 dib'>RFP - Basic Requirements</div>
       <ul  v-show='false' class='fr p5-10'>
         <li class='di p5-10'>
           <button class='btn btn-default btn-xs b6'><i class="fa fa-plus" aria-hidden="true"></i> Add Questions</button>
@@ -18,7 +17,7 @@
            v-if = 'bData.length > 0'
           @submit.prevent="sumbit" >
           <div class='fl w100 p10-20'>
-            <div class='fl w25 al-right'>
+            <div class='fl w30 al-right'>
               <label class='p5-10 b6'>RFP Name</label>
             </div>
             <div class='fl w50 pl-25'>
@@ -28,11 +27,11 @@
         <section v-for='i in bData' 
                  :key ='i.divison.vaule'
                  class='fl w100 p5-10'>
-          <h4>{{ i.divison.label }}</h4>
+          <h4 class='pl-40'>{{ i.divison.label }}</h4>
           <div  v-for='j in i.ques'
                 :key='i.bqId'
                 class='fl w100 p10-20'>
-            <div class='fl w25 al-right'>
+            <div class='fl w30 al-right'>
               <label class='p5-10 b6'>{{ j.bqText }}</label>
             </div>
             <div v-if='j.bqId != 9 &&  j.bqId != 10 && j.bqId != 5 && j.bqId != 1 && j.bqId != 2 && j.bqId != 3' 
@@ -59,9 +58,9 @@
                  key='Dropdown'>
               <input type='text'  :id='"_"+j.bqId'>
             </div>
-            <div class='fl w75 pl-25'
+            <div class='fl w50 pl-25'
                  v-else-if='j.bqId == 9'>
-              <div class='p10-20'>
+              <div class='fl w100 p5-10'>
                 <button type='button' id='Jan' data-active='no' @click='addMonth("Jan")' class='btn btn-default btn-xs'>Jan</button>
                 <button type='button' id='Feb'  data-active='no' @click='addMonth("Feb")' class='btn btn-default btn-xs' >Feb</button>
                 <button type='button' id='Mar' data-active='no' @click='addMonth("Mar")' class='btn btn-default btn-xs' >Mar</button>
@@ -69,7 +68,7 @@
                 <button type='button' id='May' data-active='no' @click='addMonth("May")' class='btn btn-default btn-xs'>May</button>
                 <button type='button' id='Jun' data-active='no' @click='addMonth("Jun")' class='btn btn-default btn-xs' >Jun</button>
               </div>
-              <div class='p10-20'>
+              <div class='fl w100 p5-10'>
                 <button type='button' id='Jul' data-active='no' @click='addMonth("Jul")' class='btn btn-default btn-xs' >JuL</button>
                 <button type='button' id='Aug' data-active='no' @click='addMonth("Aug")' class='btn btn-default btn-xs' >Aug</button>
                 <button type='button' id='Sep' data-active='no' @click='addMonth("Sep")' class='btn btn-default btn-xs'>Sep</button>
@@ -248,9 +247,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 
-select,input,.v-select,.dropdown-toggle,.form-control{ height: 24px !important;width:300px;}
+#Rfp_Create select,#Rfp_Create input,.v-select,#Rfp_Create .dropdown-toggle,#Rfp_Create .form-control{ height: 24px !important;width:300px;}
 #town input{ width:50px;}
+.form-control{
+    height:24px !important;
+}
 
 </style>

@@ -2,7 +2,7 @@
 <div id='preview' class='p10-20'>
     <header class='fl w100 p10-20'>
     <button @click='go' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
-      <div class='f22 b6 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP Name"}} </div>
+      <div class='f18 b6 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP Name"}} </div>
       <ul class='fr'>
         <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'>
          <i class="fa fa-file-text-o" aria-hidden="true"></i> Default Cover Letter</button></li>
@@ -25,7 +25,7 @@
     </header>
     <section id='preview_space' class='fl w100 p5-10'>
         <div v-show='true' id='question_set_' class='fl w60 p5-10'>
-            <h4 class='fl w50 b6'>RFP Details</h4>
+            <h4 class='fl w50 b5'>RFP Details</h4>
             <div v-if='listData.hasOwnProperty("basic") && listData.basic.length > 0' id='basic_ques' key='basic details'>
                 <ul  v-for='i in listData.basic'  id='acc_' class='fl w100'>
                     <li v-for='j in i.ques'>
@@ -38,7 +38,7 @@
         <div class='fl w40 p5-10 bg-high blue'>
             <h4>Company Details</h4>
             <ul>
-                <li v-for='(k,i) in company' class='p5-10'>{{ k}}</li>
+                <li v-for='(k,i) in company' class='p5-10'>{{ k }}</li>
             </ul>
         </div>
     </section>

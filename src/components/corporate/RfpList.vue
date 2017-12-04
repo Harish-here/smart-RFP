@@ -1,17 +1,23 @@
 <template>
 <div id='RfpList' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='di f22 b6 p10-20'>RFP - Published</div>
+      <div class='di f18 b6 p10-20'>RFP - Published</div>
       <hr>
     </header>
     <section id='proposal_list' class='fl w100 p5-10'>
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>RFP Name</th> <th>Cities</th> <th>Status</th> <th>Rooms / Year</th> <th class='center'>No of Hotels</th> <th class='center'>No of Quotes</th> <th class=''>Actions</th>
+             <th class='w15'>RFP Name</th> 
+             <th class='w20'>Cities</th> 
+             <th class='w10'>Status</th> 
+             <th class='w10'>Rooms / Year</th> 
+             <th class='center w10'>No of Hotels</th> 
+             <th class='center'>No of Quotes</th> 
+             <th class='w20'>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if='listData.hasOwnProperty("rfp")'>
             <tr v-for='i in listData.rfp' :key='i.rfpId'>
             <td class='w15'>{{i.rfp}}</td>
             <td class='w20'>{{i.location.map(x => x.label).join(', ')}}</td>
@@ -25,17 +31,15 @@
             <button  v-if='i.connected !== "connected"' @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
             </td>
             </tr>
-            <tr><!-- dummy -->
-              <td class='w20'>infoNix weblabs</td>
-              <td class='w25'>Bussiness</td>
-              <td class='orange b6'>Pending</td>
-              <td class='center w10'>22</td>
-              <td class='center w10'><span class='badge badge-primary'>10</span></td>
-              <td class='center w10'><span class='badge badge-primary'>18</span></td>
-              <td class='w20'>
-              <button class='btn btn-info btn-xs'>View Details</button>
-              <button  class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
-              </td>
+          </tbody>
+          <tbody v-if='!listData.hasOwnProperty("rfp")'>
+            <tr>
+              <td colspan='7' class='center gray'>Loading Published RFPs...</td>
+            </tr>
+          </tbody>
+          <tbody v-if='listData.hasOwnProperty("rfp") && listData.rfp.length !== undefined && listData.rfp.length === 0'>
+            <tr>
+              <td colspan='7' class='center gray'>No Published RFP's</td>
             </tr>
           </tbody>
         </table>
@@ -57,6 +61,7 @@ export default {
     },
     created(){
       const self =this;
+      self.$store.commit('showProgress');
       axios(api.getPublished).then(function(data){
         self.listData = data.data;
       });

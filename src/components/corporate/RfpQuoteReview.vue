@@ -2,9 +2,9 @@
  <div id="Rfp_Quote_Review" class='p10-20'>
     <header class='fl w100 p5-10'>
       <button @click='back' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
-      <div class='di f22 b6 p10-20'>{{ (basicData.hasOwnProperty('hotelName')) ? basicData.hotelName : 'Hotel Name'}}</div> 
+      <div class='di f18 b6 p10-20'>{{ (basicData.hasOwnProperty('hotelName')) ? basicData.hotelName : 'Hotel Name'}}</div> 
       <span class='di btn btn-info btn-xs'> View profile</span>
-      <ul class='fr p5-10' v-if='basicData.hasOwnProperty("quoteStatus") && basicData.quoteStatus === "pending"'>
+      <ul class='fr' v-if='basicData.hasOwnProperty("quoteStatus") && basicData.quoteStatus === "pending"'>
         <li class='fl p5-10'><button id='accept' class='btn btn-primary btn-sm' @click='agree'> <i class="fa fa-check" aria-hidden="true"></i> Approve</button></li>
         <li class='fl p5-10'><button id='decline' class='btn btn-danger btn-sm' @click='disagree'> <i class="fa fa-remove" aria-hidden="true"></i> Reject</button></li>
       </ul>
@@ -16,8 +16,8 @@
       </ul>
       <hr>
     </header>
+    <div class='fl w100 f16 b5 p10-20'>Hotel's Details</div>
     <section id='basic_detail' class='fl w100 p5-10'>
-        <h4 class='fl w100 p5-10 b5 '>Hotel's Details</h4>
         <ul class='fl w50 p5-10'>
             <li class='fl w100 p10-20'>
                 <div class='fl w30  b5'>Hotel</div>
@@ -28,12 +28,12 @@
                 <div class='fl w30 '>{{basicData.city}}</div>
             </li>
             <li class='fl w100 p10-20'>
-                <div class='fl w30  b5'>Address</div>
-                <div class='fl w30  f12'>{{basicData.address}}</div>
-            </li>
-            <li class='fl w100 p10-20'>
                 <div class='fl w30  b5'>Phone</div>
                 <div class='fl w30'>{{basicData.primaryPhone}}</div>
+            </li>
+            <li class='fl w100 p10-20'>
+                <div class='fl w30  b5'>Address</div>
+                <div class='fl w30  f12'>{{basicData.address}}</div>
             </li>
             
         </ul>
@@ -47,7 +47,7 @@
                 <div class='fl w30 '>{{basicData.checkOut}}</div>
             </li>
             <li class='fl w100 p10-20'>
-                <div class='fl w30 b5'>Web</div>
+                <div class='fl w30 b5'>Star</div>
                 <div class='fl w30 '>{{basicData.web}}</div>
             </li>
             <li class='fl w100 p10-20'>
@@ -56,8 +56,8 @@
             </li>
         </ul>
     </section>
-    <div class='fl w100 f16 b5 p10'>Hotel's Price </div>
-    <section id='room_details' class='fl w100 p10-20' v-html='content'>
+    <div class='fl w100 f16 b5 p10-20'>Hotel's Price </div>
+    <section id='room_details' class='fl w100 p10-20' v-html='content' style='font-family:sans-serif !important;font-size:12px !important;'>
         
     </section>
     <section id='amenities' class='fl w100 p10-20 dbNo'>
@@ -69,7 +69,7 @@
         </ul>s
     </section>
     <!-- RFP thing -->
-    <div class='fl w100 f16 b5 p10'>Hotel's Response </div>
+    <div class='fl w100 f16 b5 p10-20'>Hotel's Response </div>
      <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
             <h4 class='fl w100 b5 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b5 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 dbNo' :id='"ques_"+i.questionCategoryParentId'>
@@ -111,7 +111,7 @@ export default {
     created(){
         const self = this; 
         const t = self.$route.params;
-
+        self.$store.commit('showProgress');
         (api.forProd) ?
                         $.post(api.getQuotesReview,{'rfpId' : t.rid,'hotelId' : t.hid }).done(function(data){
                             setProgress(3);

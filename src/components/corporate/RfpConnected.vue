@@ -1,25 +1,40 @@
 <template>
   <div id="Rfp_Connected" class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>Connected Hotels</div>
+      <div class='f18 b6 dib'>Connected Hotels</div>
       <hr>
     </header>
     <section id='List_space' class='fl w100 p5-10'>
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
-             <th>Hotel Name</th> <th>RFP Name</th><th>Locations</th> <th>Rooms / Year</th> <th>Status</th> <th>Actions</th>
+             <th class='w20'>Hotel Name</th> 
+             <th class='w20'>RFP Name</th>
+             <th class='w20'>Locations</th> 
+             <th class='w15 center'>Rooms / Year</th> 
+             <th class='w15 center'>Status</th> 
+             <th class='w15 center'>Actions</th>
             </tr>
           </thead>
-          <tbody  v-if='listData.length !== 0'>
+          <tbody v-if='listData === null'>
+            <tr>
+              <td colspan='6' class='center gray'>Loading Connected Hotels...</td>
+            </tr>
+          </tbody>
+          <tbody  v-if='listData !== null && listData.hasOwnProperty("length") && listData.length > 0'>
             <tr
              v-for='i in listData'>
             <td>{{i.hotel.label}}</td>
             <td>{{i.rfp.label}}</td>
             <td>{{ i.location.map((x)=> x.label).join(',')}}</td>
-            <td>{{i.roomsYear}}</td>
-            <td class='green b6'>Approved</td>
-            <td><button @click='back({path:"/"+$store.state.path+"/corprate/quotereview/"+i.rfp.value+"/"+i.hotel.value+"/c"})' class='btn btn-info btn-xs'>View Details</button></td>    
+            <td class='center'>{{i.roomsYear}}</td>
+            <td class='green b6 center'>Connected</td>
+            <td class='center'><button @click='back({path:"/"+$store.state.path+"/corprate/quotereview/"+i.rfp.value+"/"+i.hotel.value+"/c"})' class='btn btn-info btn-xs'>View Details</button></td>    
+            </tr>
+          </tbody>
+          <tbody v-if='listData !== null && listData.length === 0'>
+            <tr>
+              <td colspan='6' class='center gray'>No Connected Hotel</td>
             </tr>
           </tbody>
         </table>
@@ -35,12 +50,13 @@ export default {
     name: 'RfpConnected',
     data(){
         return{
-            listData:[]
+            listData:null
         }
     },
 
     created(){
         const self = this;
+        self.$store.commit('showProgress');
         axios(api.getConnected).then(function(data){
             self.listData = data.data;
             console.log(self.listData)

@@ -1,7 +1,7 @@
 <template>
  <div id='display' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f22 b6 dib'>RFP - Questions</div>
+      <div class='f18 b6 dib'>RFP - Questions</div>
       <ul class='fr p5-10 dbNo'>
         <li class='di p5-10'>
           <button class='btn btn-primary btn-xs b6'><i class="fa fa-plus" aria-hidden="true"></i> Save</button>
