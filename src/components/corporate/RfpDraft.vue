@@ -1,7 +1,7 @@
 <template>
  <div id="Rfp_Draft" class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f18 b6 dib'>RFP Saved</div>
+      <div class='f18 b6 dib'>RFP - Saved</div>
       <hr>
     </header>
     <section id='List_space' class='fl w100 p5-10'>
@@ -14,7 +14,7 @@
              <th class='w20 center'>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if='listData.hasOwnProperty("rfp") && listData.rfp.length > 0'>
             <tr v-for='i in listData.rfp'>
                 <td class='w20'>{{i.rfp}}</td>
                 <td class='w40'>{{ (i.hasOwnProperty('location') && i.location.length > 0 ) ? i.location.map((x)=> x.label).join(',') : 'No location Selected'}}</td>
@@ -24,10 +24,10 @@
           </tbody>
           <tbody v-if='!listData.hasOwnProperty("rfp")'>
             <tr>
-              <td colspan='4' class='center gray'>Loading Saved RFPs...</td>
+              <td colspan='4' class='center gray'>Getting the RFPs, you saved...</td>
             </tr>
           </tbody>
-          <tbody v-if='listData.hasOwnProperty("rfp") && listData.rfp.length !== undefined && listData.rfp.length === 0'>
+          <tbody v-if='listData.hasOwnProperty("rfp") && listData.rfp.length === 0'>
             <tr>
               <td colspan='4' class='center gray'>No Saved RFP</td>
             </tr>

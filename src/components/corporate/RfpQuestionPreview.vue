@@ -26,21 +26,29 @@
       <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
             <h4 class='fl w100 b5 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b5 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 p5-10 dbNo' :id='"ques_"+i.questionCategoryParentId'>
-                    <div v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory'>    
-                        <h5 class='fl w100 b5 p5-10'>{{ j.questionCategory }}</h5>
-                        <ul v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId' class='fl w100 body'>
-                            <li v-for='y in j.ques' class='fl w80 p5-10'>
-                                <div class='fl w70 pl-25'>{{y.questionText}}</div>
-                                <div class='fl w30 b5' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</div>
-                                <div class='fl w30 b5' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'NA': y.answer}}</div>
-                            </li>
-                        </ul>
-                        <ul class='fl w100 body p5-10' v-else>
-                            <li class='fl w100 pl-25 red b5'>No question were included in this subcategory</li>
-                        </ul>
-                    </div>
+                    <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory'>
+                        <thead>
+                            <tr>    
+                                <th colspan='2'>{{ j.questionCategory }}</th>
+                            </tr>
+                        </thead>
+                        <tbody v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId'>
+                            
+                                <tr v-for='y in j.ques'>
+                                    <td class=' pl-25'>{{y.questionText}}</td>
+                                    <td class='b5' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</td>
+                                    <td class='b5' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Included': y.answer}}</td>
+                                </tr>
+                             
+                        </tbody>
+                        <tbody  v-else>
+                            <tr>
+                                    <td colspan='2' class='pl-25 red b5'>No question were included in this subcategory</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class='fl w50 pl-25 red b5' v-else>
+                <div class='pl-25 red b5' v-else>
                     No Questions included in this Category
                 </div>
                 

@@ -1,7 +1,7 @@
 <template>
   <div id="Rfp_Connected" class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f18 b6 dib'>Connected Hotels</div>
+      <div class='f18 b6 dib'>RFP - contracted</div>
       <hr>
     </header>
     <section id='List_space' class='fl w100 p5-10'>
@@ -18,10 +18,10 @@
           </thead>
           <tbody v-if='listData === null'>
             <tr>
-              <td colspan='6' class='center gray'>Loading Connected Hotels...</td>
+              <td colspan='6' class='center gray'>Getting your Connected Hotels...</td>
             </tr>
           </tbody>
-          <tbody  v-if='listData !== null && listData.hasOwnProperty("length") && listData.length > 0'>
+          <tbody  v-if='listData !== null && listData.length > 0'>
             <tr
              v-for='i in listData'>
             <td>{{i.hotel.label}}</td>

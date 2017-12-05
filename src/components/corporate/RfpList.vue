@@ -1,7 +1,7 @@
 <template>
 <div id='RfpList' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='di f18 b6 p10-20'>RFP - Published</div>
+      <div class='di f18 b6'>RFP - Published</div>
       <hr>
     </header>
     <section id='proposal_list' class='fl w100 p5-10'>
@@ -19,25 +19,25 @@
           </thead>
           <tbody v-if='listData.hasOwnProperty("rfp")'>
             <tr v-for='i in listData.rfp' :key='i.rfpId'>
-            <td class='w15'>{{i.rfp}}</td>
-            <td class='w20'>{{i.location.map(x => x.label).join(', ')}}</td>
-            <td class='green b6 w10'>{{i.connected}}</td>
-            <td class='center w10'>{{i.roomsYear}}</td>
-            <td class='center w10'> <span class='badge badge-primary'>{{i.noOfHotels}} </span></td>
-            <td class='center w10'> <span class='badge badge-primary'>{{i.noOfQuotes}}</span> </td>
-            <td class='w20'>
-            <button @click='go({path:"/"+$store.state.path+"/corprate/quotelist/"+i.rfpId})' class='btn btn-info btn-xs'>View Details</button>
-            
-            <button  v-if='i.connected !== "connected"' @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
-            </td>
+              <td class='w20'>{{i.rfp}}</td>
+              <td class='w20'>{{i.location.map(x => x.label).join(', ')}}</td>
+              <td class='green b6 w10'>{{i.connected}}</td>
+              <td class='center w10'>{{i.roomsYear}}</td>
+              <td class='center w10'> <span class='badge badge-primary'>{{i.noOfHotels}} </span></td>
+              <td class='center w10'> <span class='badge badge-primary'>{{i.noOfQuotes}}</span> </td>
+              <td class='w20'>
+                <button @click='go({path:"/"+$store.state.path+"/corprate/quotelist/"+i.rfpId})' class='btn btn-info btn-xs'>View Details</button>
+                
+                <button  v-if='i.connected !== "connected"' @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
+              </td>
             </tr>
           </tbody>
           <tbody v-if='!listData.hasOwnProperty("rfp")'>
             <tr>
-              <td colspan='7' class='center gray'>Loading Published RFPs...</td>
+              <td colspan='7' class='center gray'>Getting your Published RFPs...</td>
             </tr>
           </tbody>
-          <tbody v-if='listData.hasOwnProperty("rfp") && listData.rfp.length !== undefined && listData.rfp.length === 0'>
+          <tbody v-if='listData.hasOwnProperty("rfp") && listData.rfp.length === 0'>
             <tr>
               <td colspan='7' class='center gray'>No Published RFP's</td>
             </tr>

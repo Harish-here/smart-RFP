@@ -53,7 +53,7 @@
             </td>
             </tr>
           </tbody>
-          <tbody v-if='listData.hasOwnProperty("hotels") && listData.hotels.length !== undefined && listData.hotels.length === 0'>
+          <tbody v-if='listData.hasOwnProperty("hotels") && listData.hotels.length === 0'>
             <tr>
               <td colspan='6' class='center gray'>No Quotes Received for {{ (listData.hasOwnProperty('rfpName')) ? listData.rfpName : "this RFP" }}</td>
             </tr>
@@ -97,7 +97,7 @@ export default {
           }) : 
           axios(api.getQuotes).then(function(data){
             self.listData = data.data ;  
-            console.log(data.data)
+           
           }) ;
 
           
@@ -109,9 +109,11 @@ export default {
       },
 
       refresh: function(){
+        const self = this; 
+        self.$store.commit('showProgress'); 
         (api.forProd) ?
           $.post(api.getQuotes,{'rfpId':self.$route.params.id}).done(function(data){
-            self.listData = JSON.parse(data);
+          self.listData = JSON.parse(data);
             
           }) : 
           axios(api.getQuotes).then(function(data){
@@ -128,7 +130,7 @@ export default {
       },
       notShortlist: function(obj){
         const self = this;
-        $.post(api.UnshortlistQuote,{rfpId:self.$route.params.id,hotelId:obj,travelAgencyMasterId:''}).done(function(data){
+        $.post(api.UnshortlistQuote,{rfpId:self.$route.params.id,hotels:[obj],travelAgencyMasterId:''}).done(function(data){
           self.refresh();
           self.$store.commit('showAlert','Removed from shortlisted');
         });
