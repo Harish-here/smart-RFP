@@ -2,7 +2,7 @@
 <div id='preview' class='p10-20'>
     <header class='fl w100 p10-20'>
     <button @click='go' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
-      <div class='f18 b6 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP Name"}} </div>
+      <div class='roboto b3 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP Name"}} </div>
       <ul class='fr'>
         <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'>
          <i class="fa fa-file-text-o" aria-hidden="true"></i> Default Cover Letter</button></li>

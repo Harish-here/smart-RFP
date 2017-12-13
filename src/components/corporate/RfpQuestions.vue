@@ -1,12 +1,12 @@
 <template>
  <div id='displayCorp'>
     <header class='fl w100 p10-20'>
-      <div class='f18 b6 dib'>RFP - Questions</div>
+      <div class='roboto b3 dib'>RFP - Questions</div>
       <ul class='fr p5-10'>
         <li class='di p5-10'>
           <button class='btn btn-primary btn-xs b6' @click='showQues'><i class="fa fa-plus" aria-hidden="true" ></i> Finish</button>
         </li>
-        <li class='di p5-10 b6'><button class='btn btn-default btn-xs b6'>Save as Draft</button></li>
+        <li class='di p5-10 b6'><button @click='saveDraft' class='btn btn-default btn-xs b6'>Save as Draft</button></li>
         <li class='di p5-10 b6'><button class='btn btn-default btn-xs b6' @click='showQues' v-show='false'>Add Questions</button></li>
       </ul>
       <hr class='w100'>
@@ -21,7 +21,7 @@
       <li id='tab_44' data-id='44' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Corporate Q/A</li>
     </ul>
     <div id='tab_body' class='fl w100 p5-10 h-75'>
-        <RfpDisplayQuestions @parentDone='moveNxt' :quesData='qData' :sub='show.questionBar' @doneSubmit='closeQues'  @close='closeQues' :nxt='nxt' />
+        <RfpDisplayQuestions @parentDone='moveNxt' :draft='toDraft' :quesData='qData' :sub='show.questionBar' @doneSubmit='closeQues'  @close='closeQues' :nxt='nxt' />
     </div>
     
  </div>
@@ -40,7 +40,8 @@ export default {
       show: {
         questionBar : false
       },
-      qData:''
+      qData:'',
+      toDraft: false
     }
   },
 
@@ -51,8 +52,11 @@ export default {
 
   methods: {
     
-    subQues : function(){
-      console.log('hi');
+    saveDraft : function(){
+      const self = this;
+      if(confirm('Are you sure to save it as draft?')){
+        self.toDraft = true;
+      }
     },
     showQues: function(){
         const self = this;

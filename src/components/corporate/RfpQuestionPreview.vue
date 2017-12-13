@@ -2,7 +2,7 @@
 <div id='RfpQuestionPreview' class='p10-20'>
     <header class='fl w100 p10-20'>
       <button @click='back({path:"/"+$store.state.path+"/corprate/quotelist/"+ $route.params.id})' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
-      <div class='f22 b6 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP" }}</div>
+      <div class='roboto b3 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP" }}</div>
       <ul class='di fr p5-10'>
         <li class='p5-10 f14'><button id='shrink' class='btn btn-default btn-xs' @click='expand' data-active='no'>Expand All</button></li>
       </ul>
@@ -12,8 +12,8 @@
         <div v-show='true' id='question_set_' class='p5-10'>
             <h4 class='fl w50 b5'>RFP Details</h4>
             <div v-if='listData.hasOwnProperty("basic") && listData.basic.length > 0' id='basic_ques' key='basic detaisl'>
-                <ul  v-for='i in listData.basic'  id='acc_' class='fl w70'>
-                    <li v-for='j in i.ques'>
+                <ul  v-for='(i,index) in listData.basic'  id='acc_' class='fl w70' :key='index'>
+                    <li v-for='j in i.ques' :key='j.bqId'>
                         <div class='fl w50 p5-10'>{{j.bqText}}</div>
                         <div class='fl w50 b5 p5-10'>{{ ( j.answerId.length === 0) ? j.answer : j.answerId.map(x => x.label).join(',') }}</div>
                     </li>
@@ -23,10 +23,10 @@
     </section>
       
       <!-- main RFP -->
-      <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
+      <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId' :key='i.questionCategoryParentId'>
             <h4 class='fl w100 b5 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b5 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 p5-10 dbNo' :id='"ques_"+i.questionCategoryParentId'>
-                    <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory'>
+                    <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory' :key='j.questionCategoryId'>
                         <thead>
                             <tr>    
                                 <th colspan='2'>{{ j.questionCategory }}</th>
@@ -34,7 +34,7 @@
                         </thead>
                         <tbody v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId'>
                             
-                                <tr v-for='y in j.ques'>
+                                <tr v-for='y in j.ques' :key='y.questionId'>
                                     <td class=' pl-25'>{{y.questionText}}</td>
                                     <td class='b5' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</td>
                                     <td class='b5' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Included': y.answer}}</td>

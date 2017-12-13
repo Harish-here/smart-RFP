@@ -1,7 +1,7 @@
 <template>
 <div id='send' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f18 b6 dib'>RFP - Send</div>
+      <div class='roboto b3 dib'>RFP - Send</div>
       <hr>
     </header>
     <ul id='tab_head' class='fl w100 p5-10 b6 f18 center'>

@@ -1,7 +1,7 @@
 <template>
   <div id="Rfp_Create" class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f18 b6 dib'>RFP - Basic Requirements</div>
+      <div class='roboto b3 dib'>RFP - Basic Requirements</div>
       <ul  v-show='false' class='fr p5-10'>
         <li class='di p5-10'>
           <button class='btn btn-default btn-xs b6'><i class="fa fa-plus" aria-hidden="true"></i> Add Questions</button>

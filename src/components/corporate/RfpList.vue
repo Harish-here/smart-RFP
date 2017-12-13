@@ -1,7 +1,7 @@
 <template>
 <div id='RfpList' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='di f18 b6'>RFP - Published</div>
+      <div class='di roboto b3'>RFP - Published</div>
       <hr>
     </header>
     <section id='proposal_list' class='fl w100 p5-10'>

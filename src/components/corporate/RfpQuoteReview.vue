@@ -2,7 +2,7 @@
  <div id="Rfp_Quote_Review" class='p10-20'>
     <header class='fl w100 p5-10'>
       <button @click='back' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
-      <div class='di f18 b6 p10-20'>{{ (basicData.hasOwnProperty('hotelName')) ? basicData.hotelName : 'Hotel Name'}}</div> 
+      <div class='di roboto b3 p10-20'>{{ (basicData.hasOwnProperty('hotelName')) ? basicData.hotelName : 'Hotel Name'}}</div> 
       <span class='di btn btn-info btn-xs'> View profile</span>
       <ul class='fr' v-if='basicData.hasOwnProperty("quoteStatus") && basicData.quoteStatus === "pending"'>
         <li class='fl p5-10'><button id='accept' class='btn btn-primary btn-sm' @click='agree'> <i class="fa fa-check" aria-hidden="true"></i> Approve</button></li>

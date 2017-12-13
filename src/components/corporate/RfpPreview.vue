@@ -1,7 +1,7 @@
 <template>
 <div id='RfpPreview' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f18 b6 dib'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP" }} - Preview</div>
+      <div class='roboto b3 dib'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP" }} - Preview</div>
       <ul class='di fr p5-10 dbNo'>
         <li class='p5-10 f14' v-show='false'><button class='btn btn-default btn-xs'> <i class="fa fa-file-text-o" aria-hidden="true"></i> Next</button></li>
         <li class='p5-10 f14' v-show='false'><button class='btn btn-default btn-xs'> <i class="fa fa-download" aria-hidden="true"></i> Go Back to Edit</button></li>
@@ -30,7 +30,7 @@
       <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
             <h4 class='fl w100 b5 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b6 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 p5-10 dbNo' :id='"ques_"+i.questionCategoryParentId'>
-                    <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory'>
+                    <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory' :key='j.questionCategoryId'>
                         <thead>
                             <tr>    
                                 <th colspan='2'>{{ j.questionCategory }}</th>

@@ -36,14 +36,20 @@ const store = new Vuex.Store({
     },
     submitRfpCat(state,objArr){
       state.rfp.ques = objArr.arr;//getting the ques array of obj 
-      state.rfp.status = objArr.status;
+      let draft = (objArr.status.includes('|')) ? true : false;
+      state.rfp.status = (objArr.status.includes('|')) ?
+                           objArr.status.split('|')[0] 
+                           : objArr.status;
+      
       $.post(api.saveRfp,state.rfp).done(function(data){
-        if(objArr.status ==  "1"){
+        if(objArr.status ==  "1" && !draft){
           state.hotel.list = JSON.parse(data) 
           router.push({path:"/"+state.path+"/corprate/preview"});
 
         }else{
-         // console.log(data);
+          if(draft){
+            router.push({path:"/"+state.path+"/corprate/draft"});
+          }
         }
       });
       

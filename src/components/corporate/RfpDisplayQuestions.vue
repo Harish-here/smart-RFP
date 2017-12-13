@@ -1,7 +1,7 @@
 <template>
  <div id='questionCorp' class='h-75'>
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
-        <li class='p20-40 tb' v-for='(i,index) in qData.quesCategory' @click='show(index)' :id='index'>{{i.questionCategory}}</li>
+        <li class='p20-40 tb' v-for='(i,index) in qData.quesCategory' @click='show(index)' :id='index' :key='index'>{{i.questionCategory}}</li>
     </ul>
     <div id='content'>
         <ul class='fr w40 b6 f14'>
@@ -12,7 +12,7 @@
           <li class='fr w25 center'>Mandatory</li>
           <li class='fr w25 center'>Include</li>
         </ul>
-        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 y-flow' :id='"body_"+index_1'>
+        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' :key='index_1' class='fr w75 f16 y-flow' :id='"body_"+index_1'>
             <div id='Next_btn' class='fl w100 center'>
               <ul>
                <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
@@ -61,7 +61,7 @@ import _ from 'lodash'
 import api from '@/api/api'
 export default {
     name: 'RfpDisplayQuestions',
-    props: ['quesData','sub','nxt'],
+    props: ['quesData','sub','nxt','draft'],
     data() {
         return {
             cData:[],
@@ -76,24 +76,30 @@ export default {
              $.post(api.getQues,{questionCategoryParent : "1"}).done(function(data){
             //get q obj
              self.qData = JSON.parse(data);
-             
-
+             $(function(){
+                
+                    $('ul#tab_v_head li').removeClass('tb-v--active');
+                    $('ul#tab_v_head li:first-child').addClass('tb-v--active');
+                    $('#content > section:first-child').css('display','block');
+                
+            });
+        
             });
         }else{
             self.$store.commit('showProgress')
             $.get(api.getQues,{questionCategoryParent : "1"}).done(function(data){
             //get q obj\
              self.qData = data;
-              
-            });
-        }
-       $(function(){
-                setTimeout(function(){
+             $(function(){
+                
                     $('ul#tab_v_head li').removeClass('tb-v--active');
                     $('ul#tab_v_head li:first-child').addClass('tb-v--active');
                     $('#content > section:first-child').css('display','block');
-                },1500);
             })
+              
+            });
+        }
+       
     },
     
     computed : {
@@ -121,10 +127,17 @@ export default {
         }else{ self.$store.commit('showProgress')
             $.get(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
       //get q obj
-      console.log(data)
-             self.qData = data;console.log(self.qData)
+    //   console.log(data)
+             self.qData = data;
             });
         }
+        },
+        'draft': function(){
+            const self = this;
+            if(self.draft){
+                self.submitAsDraft();
+            }
+            
         }
     },
 
@@ -150,6 +163,16 @@ export default {
             else{
                 alert('You should include atleast one question') 
                 }
+        },
+        submitAsDraft: function(){
+            const self = this;
+            (self.cData.length > 0) ? 
+            (function(){
+            self.$store.commit('submitRfpCat',{arr:self.cData,status:"0|"}); 
+           // self.$emit('parentDone')
+            }
+            )()
+            : alert('You should include atleast one question') ;
         },
         addAns: function(id){
             console.log($('#ans_'+id).data('ans'));

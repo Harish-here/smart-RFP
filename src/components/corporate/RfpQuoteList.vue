@@ -2,7 +2,7 @@
  <div id="Rfp_Quote_List" class='p10-20'>
     <header class='fl w100 p5-10'>
       <button @click='back({path:"/"+$store.state.path+"/corprate/"})' class='btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
-      <div class='f18 b6 dib'> Quotes Received</div>
+      <div class='roboto b3 dib'> Quotes Received</div>
       <br>
       <div class='f18 b6 pl-40 di'>{{ (listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> 
       

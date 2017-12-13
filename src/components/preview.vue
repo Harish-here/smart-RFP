@@ -1,7 +1,7 @@
 <template>
 <div id='preview' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f18 b6 dib p5-10'>RFP Answers</div>
+      <div class='roboto b3 dib p5-10'>RFP Answers</div>
       <ul class='fr'>
         <li class='di p5-10 f14 fr '><button id='shrink' class='btn btn-default btn-xs' @click='expand' data-active='no'>Expand All</button></li>
       </ul>
