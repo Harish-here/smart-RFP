@@ -155,7 +155,8 @@ export default {
       $('#_2').datepicker({minDate: new Date()});
       $('#_3').datepicker({minDate: new Date()});
     });
-        
+      $('nav#corporate div').removeClass('act');
+      $('nav#corporate div:nth-child(2)').addClass('act');
   },
 
   watch : {

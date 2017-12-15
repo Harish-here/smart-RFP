@@ -95,13 +95,21 @@ export default {
        
     },
 
+    watch: {
+        'quesData' : function(){
+             $('ul#tab_v_head li').removeClass('tb-v--active');
+                $('ul#tab_v_head li:first-child').addClass('tb-v--active');
+                $('#content section:first-child').css('display','block');
+        }
+    },
+
     computed : {
         qData(){
             return this.quesData
         },
         sample(){
             const self = this
-           var arr = [...self.quesData.quesCategory];
+           var arr = self.quesData.quesCategory;
            return arr 
         }
     },

@@ -54,6 +54,7 @@ export default {
         axios(api.getTrash).then(function(data){
             self.listData = data.data;
         });
+      
     },
     methods: {
         sendTo: function(obj){

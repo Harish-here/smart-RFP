@@ -4,7 +4,7 @@
       <button @click='back({path:"/"+$store.state.path+"/corprate/"})' class='btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
       <div class='roboto b3 dib'> Quotes Received</div>
       <br>
-      <div class='f18 b6 pl-40 di'>{{ (listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> 
+      <div class='roboto b3 pl-40 di'>{{ (listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> 
       
       <ul class='fr w60 p5-10'>
         <li class='fr w20'>
@@ -31,7 +31,7 @@
              <th class='w10'>Status</th> 
              <th class='center w10'>Rooms / Year</th> 
              <th class='center w15'> Price (₹)</th> 
-             <th class='center w20'>Actions</th>
+             <th class='w20'>Actions</th>
             </tr>
           </thead>
           <tbody v-if='listData.hasOwnProperty("hotels") && listData.hotels.length > 0'>
@@ -41,14 +41,14 @@
             <td class='w25'>{{i.hotel}} <span class='badge badge-info f10' v-show='i.shortlist ==="1"'>Shortlisted</span></td>
             <td class='w15'>{{i.location}}</td>
             <td class='b5 w10' :class='{red:(i.status === "declined") ? true : false,green: (i.status !== "declined") ? true : false}'>{{i.status}}</td>
-            <td class='center w10'>{{i.roomYear}}</td>
+            <td class='center w10'>{{i.roomsYear}}</td>
             <td class='center w15'>{{i.minPrice}} - {{i.maxPrice}}</td>
             <td class=' w20' v-if='i.status !== "declined"'>
+              <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-info btn-xs'>View Details</button>
               <button v-show='i.shortlist !== "1"' @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
               <button v-show='i.shortlist !== "0"' @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>Unshortlist</button>
-              <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-info btn-xs'>View Details</button>
             </td>
-            <td class='center red b5 w20' v-else>
+            <td class='red b5 w20' v-else>
               <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-info btn-xs'>View Details</button>
             </td>
             </tr>

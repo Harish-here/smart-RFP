@@ -40,8 +40,8 @@
                             
                                 <tr v-for='y in j.ques'>
                                     <td class=' pl-25'>{{y.questionText}}</td>
-                                    <td class='b5' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</td>
-                                    <td class='b5' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Included': y.answer}}</td>
+                                    <td class='b5 w70' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "Included" }}</td>
+                                    <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Included': y.answer}}</td>
                                 </tr>
                              
                         </tbody>

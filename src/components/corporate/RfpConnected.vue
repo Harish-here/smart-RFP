@@ -59,7 +59,6 @@ export default {
         self.$store.commit('showProgress');
         axios(api.getConnected).then(function(data){
             self.listData = data.data;
-            console.log(self.listData)
             
         })
     },

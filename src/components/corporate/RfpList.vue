@@ -1,7 +1,7 @@
 <template>
 <div id='RfpList' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='di roboto b3'>RFP - Published</div>
+      <div class='di roboto b3'>RFP - Published</div> 
       <hr>
     </header>
     <section id='proposal_list' class='fl w100 p5-10'>
@@ -56,12 +56,14 @@ export default {
     data(){
         return {
             listData : [],
-            path:null
+            path:null,
+            time:new Date()
         }
     },
     created(){
       const self =this;
       self.$store.commit('showProgress');
+      self.time = Math.round(self.time.getTime()/1000);
       axios(api.getPublished).then(function(data){
         self.listData = data.data;
       });

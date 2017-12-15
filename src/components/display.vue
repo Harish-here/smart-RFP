@@ -58,7 +58,7 @@ export default {
        var nnxt = $('li#tab_'+nxt).next().data('id');
        self.$store.commit('setNextScreen',nnxt);
       }
-    
+     
     },
     moveToNext : function(id){
       const self = this;

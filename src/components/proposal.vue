@@ -68,11 +68,11 @@ export default {
       const self = this;
       self.$store.commit('showProgress');
         axios(api.getProposal).then(function(data){//getting the list
-          self.listData = data.data;
+          self.listData = data.data;  
           $('nav#hotel div').removeClass('act');
-          $('nav#hotel div:nth-child(1)').addClass('act');
-          
+        $('nav#hotel div:nth-child(1)').addClass('act');
         });
+        
       
     },
     methods: {

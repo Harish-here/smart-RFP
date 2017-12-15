@@ -50,7 +50,7 @@
                     :key='i.hotelId'>
                     <td class='w30'>{{i.hotelName}} 
                         <span v-if='i.status === "Favourite"' title='Favorite Hotel'><i class="fa fa-heart red" aria-hidden="true"></i></span>
-                        <span v-else-if='i.status === "Not Connected"' title='Connected Hotel'><i class="fa fa-link blue" aria-hidden="true"></i></span>
+                        <span v-else-if='i.status !== "Not Connected"' title='Connected Hotel'><i class="fa fa-link blue" aria-hidden="true"></i></span>
                     </td>
                     <td class='w10 center'>{{i.star}}</td>
                     <td class='w15 center'>{{i.locality}}</td>

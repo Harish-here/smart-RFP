@@ -63,7 +63,8 @@ export default {
         self.$store.commit('showProgress');
         axios(api.getHotelTrash).then(function(data){
             self.listData = data.data
-        })
+        });
+        
     },
 
     methods: {

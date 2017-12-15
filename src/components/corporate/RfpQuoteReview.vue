@@ -83,8 +83,8 @@
                             
                                 <tr v-for='y in j.ques'>
                                     <td class=' pl-25'>{{y.questionText}}</td>
-                                    <td class='b5' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</td>
-                                    <td class='b5' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Included': y.answer}}</td>
+                                    <td class='b5 w70' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "Not Answered" }}</td>
+                                    <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Not Answered': y.answer}}</td>
                                 </tr>
                              
                         </tbody>
@@ -134,7 +134,7 @@ export default {
                         });
 
         (api.forProd) ?
-                $.post(api.getHotelPre,{'rfpId': t.rid}).done(function(data){
+                $.post(api.getHotelPreCustomer,{'rfpId': t.rid,'hotelId' : t.hid}).done(function(data){
                     self.listData = JSON.parse(data);
                 }) :
                 axios(api.getPreview).then(function(data){

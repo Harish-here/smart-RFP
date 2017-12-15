@@ -1,5 +1,5 @@
 <template>
-<div id='RfpQuestionPreview' class='p10-20'>
+<div id='RfpQuestionPreview' >
     <header class='fl w100 p10-20'>
       <button @click='back({path:"/"+$store.state.path+"/corprate/quotelist/"+ $route.params.id})' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
       <div class='roboto b3 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP" }}</div>
@@ -36,8 +36,8 @@
                             
                                 <tr v-for='y in j.ques' :key='y.questionId'>
                                     <td class=' pl-25'>{{y.questionText}}</td>
-                                    <td class='b5' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "NA" }}</td>
-                                    <td class='b5' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Included': y.answer}}</td>
+                                    <td class='b5 w70' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "Included" }}</td>
+                                    <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Included': y.answer}}</td>
                                 </tr>
                              
                         </tbody>
