@@ -8,7 +8,7 @@
       <hr>
     </header>
     <!-- main RFP -->
-      <section data-active='no' v-if='listData.length > 0 ' v-for='i in listData'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
+      <section data-active='no' v-if='listData.length != undefined && listData.length > 0 ' v-for='i in listData'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId' :key='i.questionCategoryParentId'>
             <h4 class='fl w100 b5 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b5 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 p5-10 dbNo' :id='"ques_"+i.questionCategoryParentId'>
                     <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory' :key='j.questionCategoryId'>
@@ -20,9 +20,9 @@
                         <tbody v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId'>
                             
                                 <tr v-for='y in j.ques' :key='y.questionId'>
-                                    <td class=' pl-25'>{{y.questionText}}</td>
-                                    <td class='b5 w70' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "Included" }}</td>
-                                    <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Included': y.answer}}</td>
+                                    <td class='w70 pl-25'>{{y.questionText}}</td>
+                                    <td class='b5 w30' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', '): "Not Answered" }}</td>
+                                    <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? "Not Answered": y.answer}}</td>
                                 </tr>
                              
                         </tbody>

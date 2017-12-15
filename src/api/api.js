@@ -7,13 +7,15 @@ const prodPath = 'http://www.hobse.com/demo/index.php/customer/rfp';
 const prodPathH = 'http://www.hobse.com/demo/index.php/admin/rfp';
 export default {
     getQues : decide(prodPath+'/getQues','https://api.myjson.com/bins/l9br3'),
+    getQuesH : decide(prodPathH+'/getQues','https://api.myjson.com/bins/1e8fzn'),
     sendQues : decide(prodPath+'/sendQues','http://localhost/'),
+    sendQuesH : decide(prodPathH+'/sendQues','http://localhost/'),
     forProd : forProd,
     rfpDecline : decide(prodPathH+'/decline','http://localhost/'),
     getProposal: decide(prodPathH+'/getProposal','https://api.myjson.com/bins/1cvxjf'),
     getHotelPre : decide(prodPathH+'/getHotelPre','https://api.myjson.com/bins/kkg5f'),
     getHotelPreCustomer : decide(prodPath+'/getHotelPre','https://api.myjson.com/bins/kkg5f'),
-    getHotelAns: decide(prodPathH+'/getHotelAns','https://api.myjson.com/bins/jr1l3'),//???
+    getHotelAns: decide(prodPathH+'/getHotelAns','https://api.myjson.com/bins/1easv7'),//???
     getEngaged: decide(prodPathH+'/getEngaged','https://api.myjson.com/bins/7iipn'),
     getBasic : decide(prodPath +'/getBasic','https://api.myjson.com/bins/wiulf'),
     acceptRfp: decide(prodPath +'/acceptRfp','http://localhost/'),

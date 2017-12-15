@@ -1,12 +1,12 @@
 <template>
  <div id='question' class='h-75'>
     <ul  id='tab_v_head' class='fl w25 b6 f12 al-left'>
-        <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index'>{{i.questionCategory}}</li>
+        <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index' :key='index'>{{i.questionCategory}}</li>
        <!-- <li class='p20-40 tb tb-v--active'>Payment</li> -->
     </ul>
    <!-- <pre>{{ cData }}</pre> -->
     <div id='content'>
-        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 h-75 y-flow' :id='"body_"+index_1'>       
+        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 h-75 y-flow' :id='"body_"+index_1' :key='index_1'>       
             <div id='Next_btn' class='fl w100 center'>
               <ul>
                 <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
@@ -15,14 +15,14 @@
                 <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
               </ul>
             </div>
-            <div v-for='(i,index_2) in y.ques'>
+            <div v-for='(i,index_2) in y.ques' :key='i.questionId'>
                     <div v-if='i.questionSubTypeId === "7"'>
                         <div class=' fl w60 p10-20'>
                         {{i.questionText}} ?
                         </div>
                         <div class='fl w40 p10-20'>
-                            <div class='di  pl-25' v-for='(j,z) in i.concatAns'>
-                                <input @click='addAns(i.questionId)' :data-ans='JSON.stringify(j)' :data-que='JSON.stringify(i)'  type='radio' :name='"q_"+i.questionId' :id='"ans_" + i.questionId' :value='j'> {{j.answerText}}
+                            <div class='di  pl-25' v-for='(j,z) in i.concatAns' :key='j.answerId'>
+                                <input v-model='i.answer' :value='[j]'  type='radio' :name='i.questionText' :id='"ans_" + i.questionId'> {{j.answerText}}
                             </div>
                         </div>
                     </div>
@@ -33,13 +33,13 @@
                         <div class='fl w40 p10-20'>
                             <div class='pl-25'>
                                 <input type='text' 
-                                       @input='txtAns(i.questionId)' 
+                                       v-model='i.answer[0].answer'
                                        :id='"ans_" + i.questionId' 
                                        :data-ans='JSON.stringify({answerId:"",answer:""})' 
                                        :data-que='JSON.stringify(i)' 
                                        :name='i.questionText'
                                         
-                                        > <!-- v-model='sample[index_1].ques[index_2].answer.answer' -->
+                                        > <!-- v-model='sample[index_1].ques[index_2].answer.answer' @input='txtAns(i.questionId)' -->
                             </div>
                         </div>
                     </div>
@@ -48,8 +48,8 @@
                         {{i.questionText}} 
                         </div>
                         <div class='fl w40 p10-20'>
-                            <div class='di  pl-25' v-for='j in i.concatAns'>
-                                <input :id='"ans_"+j.answerId'  type='radio' @click='addAns(j.answerId)' :data-ans='JSON.stringify(j)' :data-que='JSON.stringify(i)' :name='"q_"+i.questionId' :value='j'> {{j.answerText}}
+                            <div class='di  pl-25' v-for='j in i.concatAns' :key='j.answerId'>
+                                <input v-model='i.answer' type='radio'  :name='i.questionText' :value='[j]'> {{j.answerText}}
                             </div>
                         </div>
                     </div>
@@ -58,8 +58,8 @@
                         {{i.questionText}} 
                         </div>
                         <ul class='fl w100 p20-40'>
-                            <li v-for='j in i.concatAns' class='fl w33 p10-20'>
-                                <input type='checkbox' @click='addAns(j.answerId)' :id='"ans_" + j.answerId' :value='j' :data-ans='JSON.stringify(j)' :data-que='JSON.stringify(i)' > {{j.answerText}}
+                            <li v-for='j in i.concatAns' class='fl w33 p10-20' :key='j.answerId'>
+                                <input type='checkbox' v-model='i.answer' :value='j' > {{j.answerText}}
                             </li>
                         </ul>
                     </div>
@@ -85,21 +85,22 @@ export default {
 
     created(){
         const self =this;
+       // self.qData = Object.assign({},self.quesData);
         $(function(){
-            setTimeout(function(){
                 $('ul#tab_v_head li').removeClass('tb-v--active');
                 $('ul#tab_v_head li:first-child').addClass('tb-v--active');
-                $('#content section:first-child').css('display','block');
-            },1500)
+               $('section#body_0').css('display','block')
+           
         });
        
+        console.log(self.qData)
     },
 
     watch: {
         'quesData' : function(){
              $('ul#tab_v_head li').removeClass('tb-v--active');
-                $('ul#tab_v_head li:first-child').addClass('tb-v--active');
-                $('#content section:first-child').css('display','block');
+            $('ul#tab_v_head li:first-child').addClass('tb-v--active');
+            $('section#body_0').css('display','block');
         }
     },
 
@@ -109,7 +110,7 @@ export default {
         },
         sample(){
             const self = this
-           var arr = self.quesData.quesCategory;
+           var arr = [self.quesData.quesCategory];
            return arr 
         }
     },
@@ -117,7 +118,26 @@ export default {
         submitAnswers: function(){
             const self = this;
             self.$store.commit('showProgress');
-            $.post(api.sendQues,{ans: self.cData}).done(function(data){
+           
+            var temp = [].concat.apply([],self.qData.quesCategory.map(function(t){
+                return t.ques.filter(function(y){
+                    if(y.questionSubTypeId == "1" || y.questionSubTypeId == "2" || y.questionSubTypeId == "3" || y.questionSubTypeId == "4" || y.questionSubTypeId == "6"){
+                        if(y.answer[0].answer != null){
+                            return true
+                        }else{
+                            return false
+                        }
+                    }else{
+                        if(y.answer.length > 0){
+                            return true
+                        }else{
+                            return false
+                        }
+                    }
+                })
+            }));
+            //console.log(temp);
+            $.post(api.sendQuesH,{ans: temp}).done(function(data){
                 //self.$store.commit('changeHotelMode','edit');
                 self.$emit('finish',self.next);
             });

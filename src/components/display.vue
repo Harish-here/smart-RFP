@@ -14,9 +14,9 @@
     </header>
     <ul id='tab_head' class='fl w100 p5-10 b6 f12 center'>
       <li id='tab_1' data-id='1' class='fl p10-20 tb tb--active' @click='moveToNext(1)'>Property Baisc</li>
-      <li id='tab_7' data-id='7' class='fl p10-20 tb' @click='moveToNext(7)' disabled>Client Specific</li>
+      <li id='tab_7' data-id='7' class='fl p10-20 tb' @click='moveToNext(7)'>Client Specific</li>
       <li id='tab_24' data-id='24' class='fl p10-20 tb' @click='moveToNext(24)'>Safety & Security</li>
-      <li id='tab_28' data-id='28' class='fl p10-20 tb' @click='moveToNext(28)'>Blackout / Fair Dates</li>
+      <li id='tab_28' data-id='28' class='fl p10-20 tb' @click='moveToNext(28)'>Hotel Amenities & services</li>
       <li id='tab_31' data-id='31' class='fl p10-20 tb' @click='moveToNext(31)'>Extended Stay</li>
       <li id='tab_36' data-id='36' class='fl p10-20 tb' @click='moveToNext(36)'>Group / Meetings</li>
       <li id='tab_44' data-id='44' class='fl p10-20 tb' @click='moveToNext(44)'>Corporate Q/A</li>
@@ -80,15 +80,52 @@ export default {
     self.$store.commit('setNextScreen',7);
     self.$store.commit('showProgress');
     if(api.forProd){
-      $.post(api.getQues,{questionCategoryParent : self.curr}).done(function(data){
+      $.post(api.getQuesH,{questionCategoryParent : self.curr}).done(function(data){
       //get q obj
-      self.quesData = JSON.parse(data);
+      var temp = JSON.parse(data);
+      temp.quesCategory.map(function(x){
+       x.ques.map(function(y){
+          if(y.questionSubTypeId == "1" || y.questionSubTypeId == "2" || y.questionSubTypeId == "3" || y.questionSubTypeId == "4" || y.questionSubTypeId == "6" ){
+              if(y.answer.length == 0){
+                y['answer'] = [{
+                        answerId: "",
+                        answer: ""
+                      }];
+              }
+          }
+        
+        });
+      });
+      
+      self.quesData = temp;
       
     });
     }else{
-      $.get(api.getQues).done(function(data){
+      $.get(api.getQuesH).done(function(data){
       //get q obj
-      self.quesData = data;
+      var temp = data;
+      temp.quesCategory.map(function(x){
+       x.ques.map(function(y){
+          if(y.questionSubTypeId == "1" || y.questionSubTypeId == "2" || y.questionSubTypeId == "3" || y.questionSubTypeId == "4" || y.questionSubTypeId == "6" ){
+              if(y.answer.length == 0){
+                y['answer'] = [{
+                        answerId: "",
+                        answer: ""
+                      }];
+              }
+          }
+        
+        });
+      });
+      
+      console.log(temp);
+      self.quesData = temp;
+      $(function(){
+                $('ul#tab_v_head li').removeClass('tb-v--active');
+                $('ul#tab_v_head li:first-child').addClass('tb-v--active');
+               $('section#body_0').css('display','block')
+           
+        });
     });
     }
     

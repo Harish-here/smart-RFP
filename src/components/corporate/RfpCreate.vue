@@ -29,7 +29,7 @@
                  class='fl w100 p5-10'>
           <h4 class='pl-40'>{{ i.divison.label }}</h4>
           <div  v-for='j in i.ques'
-                :key='i.bqId'
+                :key='j.bqId'
                 class='fl w100 p10-20'>
             <div class='fl w30 al-right'>
               <label class='p5-10 b6'>{{ j.bqText }}</label>
