@@ -9,8 +9,12 @@
           </button>
           </li>
           <li style='visibility:hidden;'  class='fr w10 f10'>skip</li>
-          <li class='fr w25 center'>Mandatory</li>
-          <li class='fr w25 center'>Include</li>
+          <li class='fr w25 center'>Mandatory <br>
+              <span > <input @click='addAns(allM)' type="checkbox"></span>
+          </li>
+          <li class='fr w25 center'>Include <br>
+              <span  > <input @click='addAns(all)' type="checkbox"></span>
+          </li>
         </ul>
         <section style='display:none' v-for='(y,index_1) in qData.quesCategory' :key='index_1' class='fr w75 f16 y-flow' :id='"body_"+index_1'>
             <div id='Next_btn' class='fl w100 center'>
@@ -21,16 +25,20 @@
                <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
               </ul>
             </div>
-            <div v-for='(i,index_2) in y.ques' class='fl w100'>    
+            <div v-for='(i,index_2) in y.ques' class='fl w100' :key='index_2'>    
                 <div class=' fl w60 p10-20'>
                 {{i.questionText}} 
                 </div>
                 <ul class='fl w40 p5-10'>
                     <li class='fl w40 p5-10 center'>
-                        <input type='checkbox' id="ans_" value='i' @click='include(i)' :data-ans='JSON.stringify(i)' :data-que='JSON.stringify(i)' >
+                       <!-- {{ (i.isMandatory = "0") == "0" ? null: null}} -->
+                        <input type='checkbox' v-model='cData' :value='mData.quesCategory[index_1].ques[index_2]'  :disabled='cData.findIndex(x => x.questionId == mData.quesCategory[index_1].ques[index_2].questionId && x.isMandatory == "1") >= 0' >
+                    <!-- @click='include(i)' -->
                     </li>
+                     
                     <li class='fl w40 p5-10 center'>
-                        <input type='checkbox' id="ans_" value='i' @click='mand(i)' :data-ans='JSON.stringify(i)' :data-que='JSON.stringify(i)' >
+                        <input type='checkbox' v-model='cData' :value='JSON.parse(JSON.stringify(i))'>
+                     <!-- @click='mand(i)' -->
                     </li>
                 </ul>
             </div>
@@ -64,8 +72,11 @@ export default {
     props: ['quesData','sub','nxt','draft'],
     data() {
         return {
-            cData:[],
-            qData:[]
+            cData: [],
+            mData: [],
+            qData: [],
+            all: null,
+            allM: null
         }
     },
 
@@ -75,12 +86,28 @@ export default {
             self.$store.commit('showProgress')
              $.post(api.getQues,{questionCategoryParent : "1"}).done(function(data){
             //get q obj
-             self.qData = JSON.parse(data);
+            var temp = JSON.parse(data);
+               temp.quesCategory.forEach(element => {
+                   element.ques.forEach(c => {
+                       c.isMandatory = "0"
+                   })
+               });
+             var temp2 = JSON.parse(data);
+               temp2.quesCategory.forEach(element => {
+                   element.ques.forEach(c => {
+                       c.isMandatory = "1"
+                   })
+               });  
+             
+             self.mData = temp
+             self.qData = temp2;
+             self.all = [].concat.apply([],temp.quesCategory.map(x => x.ques.map( y => y)));
+             self.allM = [].concat.apply([],temp2.quesCategory.map(x => x.ques.map( y => y)));
              $(function(){
                 
                     $('ul#tab_v_head li').removeClass('tb-v--active');
                     $('ul#tab_v_head li:first-child').addClass('tb-v--active');
-                    $('#content > section:first-child').css('display','block');
+                    $('#content section#body_0').css('display','inline');
                 
             });
         
@@ -89,13 +116,31 @@ export default {
             self.$store.commit('showProgress')
             $.get(api.getQues,{questionCategoryParent : "1"}).done(function(data){
             //get q obj\
-             self.qData = data;
-             $(function(){
-                
-                    $('ul#tab_v_head li').removeClass('tb-v--active');
-                    $('ul#tab_v_head li:first-child').addClass('tb-v--active');
-                    $('#content > section:first-child').css('display','block');
-            })
+            var temp = JSON.parse(JSON.stringify(data));
+               temp.quesCategory.forEach(element => {
+                   element.ques.forEach(c => {
+                       c.isMandatory = "0"
+                   });
+               });
+               var temp2 = JSON.parse(JSON.stringify(data));
+               temp2.quesCategory.forEach(element => {
+                   element.ques.forEach(c => {
+                       c.isMandatory = "1"
+                   });
+               });
+             self.qData = temp2;
+             self.mData = temp;
+            
+            
+             self.all = [].concat.apply([],temp.quesCategory.map(x => x.ques.map( y => y)));
+             self.allM = [].concat.apply([],temp2.quesCategory.map(x => x.ques.map( y => y)));
+               // console.log(self.mData)
+                $(function(){
+                    
+                        $('ul#tab_v_head li').removeClass('tb-v--active');
+                        $('ul#tab_v_head li:first-child').addClass('tb-v--active');
+                        $('#content  section#body_0').css('display','block');
+                });
               
             });
         }
@@ -144,6 +189,7 @@ export default {
     methods: {
         submitAnswers: function(){//sub mitting the parent cat alone
             const self = this;
+            
             (self.cData.length > 0) ? 
             (function(){
             self.$store.commit('submitRfpCat',{arr:self.cData,status:"0"}) 
@@ -154,6 +200,18 @@ export default {
         },
         submitAnswersFinal: function(){//finishing the rfp
             const self = this;
+            self.cData.map(function(x){
+                delete x.questionText
+                delete x.groupQuestionId
+                if(x.hasOwnProperty('concatAns')) delete x.concatAns;
+                if(x.hasOwnProperty('answer')){
+                    for(var i in obj.answer){
+                    delete obj.answer[i].answer;
+                    }
+                }
+                
+            });
+            // console.log(self.cData)
             if(self.cData.length > 0) {
                 if(confirm('Are you sure you want finish the RFP')){
                  self.$store.commit('submitRfpCat',{arr:self.cData,status:"1"})
@@ -174,8 +232,16 @@ export default {
             )()
             : alert('You should include atleast one question') ;
         },
-        addAns: function(id){
-            console.log($('#ans_'+id).data('ans'));
+        addAns: function(obj){
+            const self = this;
+           
+            if(self.cData.length === self.all.length){
+                self.cData = [];
+            }else{
+               self.cData = [];
+               self.cData = obj; 
+            }
+            
         },
         show: function(id){
             $('div#content section').hide();

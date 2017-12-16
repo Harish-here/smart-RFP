@@ -45,6 +45,7 @@ hr{ margin-bottom:0px !important; }
 .roboto{font-family: 'Roboto', sans-serif;font-size:21px;}
 /* ---- atomic  -----*/
 .pl-25{padding-left:25px; }
+
 .pl-40{padding-left:40px;}
 .cursor{cursor: pointer;}
 .trans{ transition: 0.3s; }
@@ -52,6 +53,7 @@ hr{ margin-bottom:0px !important; }
 .br-l{background-color: #fafafa !important;}
 .u{text-decoration: underline;}
 /* ---- padding  -----*/
+.p2-4{padding: 2px 4px;}
 .p5-10{ padding:5px 10px; }
 .p20-40{ padding:20px 40px; }
 .p10-20{padding : 10px 20px;}
