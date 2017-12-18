@@ -1,12 +1,12 @@
 <template>
- <div id='question' class='h-75'>
+ <div id='question' class='h-60'>
     <ul  id='tab_v_head' class='fl w25 b6 f12 al-left'>
-        <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index' :key='index'>{{i.questionCategory}}</li>
+        <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index' :key='index' :class='{"tb-v--active":index === 0}'>{{i.questionCategory}}</li>
        <!-- <li class='p20-40 tb tb-v--active'>Payment</li> -->
     </ul>
    <!-- <pre>{{ cData }}</pre> -->
     <div id='content'>
-        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' class='fr w75 f16 h-75 y-flow' :id='"body_"+index_1' :key='index_1'>       
+        <section  v-for='(y,index_1) in qData.quesCategory' class='fr w75 f12 y-flow'  :class='{"dbNo":index_1 !== 0}' :id='"body_"+index_1' :key='index_1'>       
             <div id='Next_btn' class='fl w100 center'>
               <ul>
                 <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
@@ -22,7 +22,7 @@
                         </div>
                         <div class='fl w40 p10-20'>
                             <div class='di  pl-25' v-for='(j,z) in i.concatAns' :key='j.answerId'>
-                                <input v-model='i.answer' :value='[j]'  type='radio' :name='i.questionText' :id='"ans_" + i.questionId'> {{j.answerText}}
+                                <input v-model='i.answer' :value='[j]'  type='radio' :name='i.questionText' :id='"ans_" + i.questionId'> {{j.answer}}
                             </div>
                         </div>
                     </div>
@@ -35,8 +35,6 @@
                                 <input type='text' 
                                        v-model='i.answer[0].answer'
                                        :id='"ans_" + i.questionId' 
-                                       :data-ans='JSON.stringify({answerId:"",answer:""})' 
-                                       :data-que='JSON.stringify(i)' 
                                        :name='i.questionText'
                                         
                                         > <!-- v-model='sample[index_1].ques[index_2].answer.answer' @input='txtAns(i.questionId)' -->
@@ -49,7 +47,7 @@
                         </div>
                         <div class='fl w40 p10-20'>
                             <div class='di  pl-25' v-for='j in i.concatAns' :key='j.answerId'>
-                                <input v-model='i.answer' type='radio'  :name='i.questionText' :value='[j]'> {{j.answerText}}
+                                <input v-model='i.answer' type='radio'  :name='i.questionText' :value='[j]'> {{j.answer}}
                             </div>
                         </div>
                     </div>
@@ -59,7 +57,7 @@
                         </div>
                         <ul class='fl w100 p20-40'>
                             <li v-for='j in i.concatAns' class='fl w33 p10-20' :key='j.answerId'>
-                                <input type='checkbox' v-model='i.answer' :value='j' > {{j.answerText}}
+                                <input type='checkbox' v-model='i.answer' :value='j' > {{j.answer}}
                             </li>
                         </ul>
                     </div>
@@ -86,22 +84,7 @@ export default {
     created(){
         const self =this;
        // self.qData = Object.assign({},self.quesData);
-        $(function(){
-                $('ul#tab_v_head li').removeClass('tb-v--active');
-                $('ul#tab_v_head li:first-child').addClass('tb-v--active');
-               $('section#body_0').css('display','block')
-           
-        });
-       
-        console.log(self.qData)
-    },
-
-    watch: {
-        'quesData' : function(){
-             $('ul#tab_v_head li').removeClass('tb-v--active');
-            $('ul#tab_v_head li:first-child').addClass('tb-v--active');
-            $('section#body_0').css('display','block');
-        }
+      
     },
 
     computed : {
@@ -187,8 +170,8 @@ export default {
             }
         },
         show: function(id){
-            $('div#content section').hide();
-            $('div#content section#body_'+id).show();
+            $('div#content section').addClass('dbNo');
+            $('div#content section#body_'+id).removeClass('dbNo');
             $('#tab_v_head li').removeClass('tb-v--active');
             $('li#tabc_'+id).addClass('tb-v--active');
         },

@@ -1,15 +1,15 @@
 <template>
 <div id='preview' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='roboto b3 dib p5-10'>RFP Answers</div>
+      <div class='roboto b3 dib'>RFP Answers</div>
       <ul class='fr'>
         <li class='di p5-10 f14 fr '><button id='shrink' class='btn btn-default btn-xs' @click='expand' data-active='no'>Expand All</button></li>
       </ul>
       <hr>
     </header>
     <!-- main RFP -->
-      <section data-active='no' v-if='listData.length != undefined && listData.length > 0 ' v-for='i in listData'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId' :key='i.questionCategoryParentId'>
-            <h4 class='fl w100 b5 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b5 btn btn-default btn-xs'> + </span></h4>
+      <section data-active='no' v-for='i in listData'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId' :key='i.questionCategoryParentId'>
+            <h4 class='fl w100 b5 f16 p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b5 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 p5-10 dbNo' :id='"ques_"+i.questionCategoryParentId'>
                     <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory' :key='j.questionCategoryId'>
                         <thead>

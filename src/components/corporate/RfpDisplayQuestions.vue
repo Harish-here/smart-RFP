@@ -1,22 +1,24 @@
 <template>
- <div id='questionCorp' class='h-75'>
+ <div id='questionCorp' class='h-100'>
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
-        <li class='p20-40 tb' v-for='(i,index) in qData.quesCategory' @click='show(index)' :id='index' :key='index'>{{i.questionCategory}}</li>
+        <li class='p20-40 tb' v-for='(i,index) in qData.quesCategory' @click='show(index)' :id='index' :key='index' :class='{"tb-v--active":index === 0}'>{{i.questionCategory}}</li>
     </ul>
-    <div id='content'>
-        <ul class='fr w40 b6 f14'>
-          <li style='visibility:hidden;'  class='fr w10 f14'> <button class='btn btn-default btn-xs' type='button'><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-          </button>
-          </li>
-          <li style='visibility:hidden;'  class='fr w10 f10'>skip</li>
-          <li class='fr w25 center'>Mandatory <br>
-              <span > <input @click='addAns(allM)' type="checkbox"></span>
-          </li>
-          <li class='fr w25 center'>Include <br>
-              <span  > <input @click='addAns(all)' type="checkbox"></span>
-          </li>
-        </ul>
-        <section style='display:none' v-for='(y,index_1) in qData.quesCategory' :key='index_1' class='fr w75 f16 y-flow' :id='"body_"+index_1'>
+    <div id='content' class='fl w75'>
+        <div class='fl w100'>
+            <ul class='fr w40 b6 p5-10 mr-67 '>
+                <li  class='fr w10 dbNo'> <button class='btn btn-default btn-xs' type='button'><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                </button>
+                </li>
+                <li  class='fr w10 f10 dbNo'>skip</li>
+                <li class='fr w40 center p5-10'>Mandatory <br>
+                    <span > <input @click='addAnsM(allM)' type="checkbox" :disabled='man'></span>
+                </li>   
+                <li class='fr w40 center p5-10'>Include <br>
+                    <span  > <input @click='addAns(all)' type="checkbox" :disabled='inc'></span>
+                </li>
+            </ul> 
+        </div> 
+        <section v-for='(y,index_1) in qData.quesCategory' :key='index_1' class='fl w100 f12 y-flow' :class='{"dbNo":index_1 !== 0}' :id='"body_"+index_1'>
             <div id='Next_btn' class='fl w100 center'>
               <ul>
                <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
@@ -76,7 +78,9 @@ export default {
             mData: [],
             qData: [],
             all: null,
-            allM: null
+            allM: null,
+            inc: false,
+            man: false,
         }
     },
 
@@ -232,11 +236,24 @@ export default {
             )()
             : alert('You should include atleast one question') ;
         },
+        addAnsM: function(obj){
+            const self = this;
+            self.inc = true;
+            if(self.cData.length === self.all.length ){
+                self.cData = [];
+                 self.inc = false;
+            }else{
+               self.cData = [];
+               self.cData = obj; 
+            }
+            
+        },
         addAns: function(obj){
             const self = this;
-           
+           self.man = true;
             if(self.cData.length === self.all.length){
                 self.cData = [];
+                self.man = false;
             }else{
                self.cData = [];
                self.cData = obj; 
@@ -244,10 +261,10 @@ export default {
             
         },
         show: function(id){
-            $('div#content section').hide();
-            $('div#content section#body_'+id).show();
-            $('li').removeClass('tb-v--active');
-            $('li#'+id).addClass('tb-v--active');
+            $('div#content section').addClass('dbNo');
+            $('div#content section#body_'+id).removeClass('dbNo');
+            $('#tab_v_head li').removeClass('tb-v--active');
+            $('li#tabc_'+id).addClass('tb-v--active');
         },
         // txtAns: _.debounce(function(id){
         //     console.log($('#ans_'+id).data('ans'));

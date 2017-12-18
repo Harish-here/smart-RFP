@@ -1,5 +1,5 @@
 <template>
- <div id='displayCorp'>
+ <div id='displayCorp' class='fl w100 p10-20'>
     <header class='fl w100 p10-20'>
       <div class='roboto b3 dib'>RFP - Questions</div>
       <ul class='fr p5-10'>
@@ -20,7 +20,7 @@
       <li id='tab_36' data-id='36' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Group / Meetings</li>
       <li id='tab_44' data-id='44' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Corporate Q/A</li>
     </ul>
-    <div id='tab_body' class='fl w100 p5-10 h-75'>
+    <div id='tab_body' class='fl w100 p5-10'>
         <RfpDisplayQuestions @parentDone='moveNxt' :draft='toDraft' :quesData='qData' :sub='show.questionBar' @doneSubmit='closeQues'  @close='closeQues' :nxt='nxt' />
     </div>
     

@@ -1,7 +1,7 @@
 <template>
 <div id='trash' class='p10-20'>
     <header class='fl w100 p10-20'>
-      <div class='f18 b6 dib'>Trashed RFP</div>
+      <div class='roboto dib'>Trashed RFP</div>
       <ul class='fr p5-10 dbNo'>
         <li class='di p5-10 f16'><i class="fa fa-pencil" aria-hidden="true"></i></li>
         <li class='di p5-10 f16'><i class="fa fa-trash" aria-hidden="true"></i></li>

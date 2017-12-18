@@ -85,7 +85,7 @@ const store = new Vuex.Store({
     },
     showProgress: function(state){
       if(api.forProd){
-        setProgress(2);
+        setProgress(.5);
       }
     },
     setPath(state,pat){

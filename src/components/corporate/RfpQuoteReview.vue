@@ -71,7 +71,7 @@
     <!-- RFP thing -->
     <div class='fl w100 f16 b5 p10-20'>Hotel's Response </div>
      <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
-            <h4 class='fl w100 b5 accordian p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b5 btn btn-default btn-xs'> + </span></h4>
+            <h4 class='fl w100 b5 f16 p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b5 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 dbNo' :id='"ques_"+i.questionCategoryParentId'>
                     <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory'>
                         <thead>
@@ -122,7 +122,7 @@ export default {
         self.$store.commit('showProgress');
         (api.forProd) ?
                         $.post(api.getQuotesReview,{'rfpId' : t.rid,'hotelId' : t.hid }).done(function(data){
-                            setProgress(3);
+                            setProgress(.5);
                             self.basicData = JSON.parse(data)
                         }) :
                         axios(api.getQuotesReview).then(function(data){
@@ -130,7 +130,10 @@ export default {
                         });
 
                         axios('http://www.hobse.com/demo/index.php/customer/price/displaytariff/'+t.hid).then(function(data){
-                            self.content = data.data
+                            self.content = data.data;
+                            $(function(){
+                                $('#pageHead').hide();
+                            })
                         });
 
         (api.forProd) ?
