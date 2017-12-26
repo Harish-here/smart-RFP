@@ -18,17 +18,17 @@
             </tr>
           </thead>
           <tbody v-if='listData.hasOwnProperty("rfp")'>
-            <tr v-for='i in listData.rfp' :key='i.rfpId'>
+            <tr v-for='i in listData.rfp' :key='i.rfpId' :class='{"bg-acc":i.connected === "connected"}'>
               <td class='w20'>{{i.rfp}}</td>
               <td class='w20'>{{i.location.map(x => x.label).join(', ')}}</td>
-              <td class='green b6 w10'>{{i.connected}}</td>
+              <td class='b6 w10' :class='{"orange":i.connected === "pending","green":i.connected === "connected"}'>{{i.connected}}</td>
               <td class='center w10'>{{i.roomsYear}}</td>
               <td class='center w10'> <span class='badge badge-primary'>{{i.noOfHotels}} </span></td>
               <td class='center w10'> <span class='badge badge-primary'>{{i.noOfQuotes}}</span> </td>
               <td class='w20'>
                 <button @click='go({path:"/"+$store.state.path+"/corprate/quotelist/"+i.rfpId})' class='btn btn-info btn-xs'>View Details</button>
                 
-                <button  v-if='i.connected !== "connected"' @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this quote to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
+                <button  v-if='i.connected !== "connected"' @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this RFP to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
               </td>
             </tr>
           </tbody>

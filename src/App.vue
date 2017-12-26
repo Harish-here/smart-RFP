@@ -1,5 +1,10 @@
 <template>
-  <div id="app" class='fl w100'>
+  <div id="app">
+    <transition name='fade'>
+      <div v-show='toShow' class='fl w100 pab p5-10 center white bg-green b6' style='top:0'>
+         {{label}}
+      </div>
+    </transition>
     <nav id='corporate' v-if='!showHotel' class='fl w10 bg-drk h-full al-left b6 f16 teal br-l cursor'>
       <div class='p20-40 center act' @click='go({path:"/"+$store.state.path+"/corprate/"},1)'><i class="fa fa-envelope-open-o" aria-hidden="true"></i><br>RFP's</div>
       <div  class='p20-40 center' @click='go({path:"/"+$store.state.path+"/corprate/create"},2)'><i class="fa fa-telegram" aria-hidden="true"></i><br/>Create </div>
@@ -18,11 +23,7 @@
     <div id='main_container' class='fl w90 h-full y-flow'>
         <router-view/>
     </div>
-    <transition name='fade'>
-      <div v-show='toShow' class='fl w100 pab p5-10 center white bg-green b6' style='top:0'>
-         {{label}}
-      </div>
-    </transition>
+    
   </div>
 </template>
 

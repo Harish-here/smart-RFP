@@ -3,17 +3,15 @@
     <header class='fl w100 p10-20'>
     <button @click='go' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
       <div class='roboto b3 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP Name"}} </div>
-      <ul class='fr'>
-        <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'>
-         <i class="fa fa-file-text-o" aria-hidden="true"></i> Default Cover Letter</button></li>
-        <li class='di p5-10 f12 dbNo'><button class='btn btn-default btn-xs'> <i class="fa fa-download" aria-hidden="true"></i> Download PDF</button></li>
-        <li class='p5-10 f14 fr' v-if='showAccept'><button id='decline' class='btn btn-default btn-sm' @click='decline'>Decline</button></li>
-        <li class='p5-10 f14 fr' v-if='showAccept'><button id='accept' class='btn btn-info btn-sm' @click='showSlab = true'>Accept</button></li>
-        <li class='p5-10 f14 fr' v-if='!showAccept'><button class='btn btn-success btn-sm opa' disabled>Accepted</button></li>
+      <ul class='fr' v-if='listData.hasOwnProperty("basic")'>
+        <li class='p5-10 f14 fr' v-if='showAccept  && !showDecline'><button id='decline' class='btn btn-default btn-sm' @click='decline'>Decline</button></li>
+        <li class='p5-10 f14 fr' v-if='showAccept && !showDecline'><button id='accept' class='btn btn-info btn-sm' @click='showSlab = true'>Accept</button></li>
+        <li class='p5-10 f14 fr' v-if='!showAccept && !showDecline'><button class='btn btn-success btn-sm opa' disabled>Accepted</button></li>
+        <li class='p5-10 f14 fr' v-if='showDecline'><button class='btn btn-danger btn-sm opa' disabled>Declined</button></li>
         <li v-show='showSlab' class='p10-20 f14 fr'>
             <select v-model='slabId'>
                 <option value='1' selected disabled>Price slab</option>
-                <option v-if='slabData.length > 0' v-for='i in slabData' :value='i.value'>{{ i.label}}</option>
+                <option v-if='slabData.length > 0' v-for='i in slabData' :value='i.value' :key='i.value'>{{ i.label}}</option>
             </select>
         </li>
         <li v-show='showSlab' class=' p5-10 f14 fr'>
@@ -28,7 +26,7 @@
             <h4 class='fl w50 b5'>RFP Details</h4>
             <div v-if='listData.hasOwnProperty("basic") && listData.basic.length > 0' id='basic_ques' key='basic details'>
                 <ul  v-for='i in listData.basic'  id='acc_' class='fl w100'>
-                    <li v-for='j in i.ques'>
+                    <li v-for='j in i.ques' :key='j.bqText'>
                         <div class='fl w50 p5-10'>{{j.bqText}}</div>
                         <div class='fl w50 b5 p5-10'>{{ ( j.answerId.length === 0) ? j.answer : j.answerId.map(x => x.label).join(', ')}}</div>
                     </li>
@@ -43,13 +41,13 @@
         </div>
     </section>
     <!-- main RFP -->
-      <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
+      <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId' :key='i.questionCategoryParentId'>
             <h4 class='fl w100 b5 f16  p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b5 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 p5-10 dbNo' :id='"ques_"+i.questionCategoryParentId'>
                     <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory' :key='j.questionCategoryId'>
                         <thead>
                             <tr>    
-                                <th colspan='2'>{{ j.questionCategory }}</th>
+                                <th class='w70'>{{ j.questionCategory }}</th><th class='w30'>Your Answers</th>
                             </tr>
                         </thead>
                         <tbody v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId'>
@@ -135,7 +133,7 @@ export default {
         },
         showAccept(){
             const self = this;
-            if(self.listData.hasOwnProperty('status') && self.listData.status === 'accepted'){
+            if(self.listData.hasOwnProperty('status') && (self.listData.status == 'accepted' || self.listData.status == 'quoted' || self.listData.status == 'shortlisted') ){
                 return false
             }else{
                 if(self.$route.params.stat !== 'con'){
@@ -145,6 +143,14 @@ export default {
                 }
                 
             }
+        },
+        showDecline(){
+            const self = this;
+            if(self.listData.hasOwnProperty('status') && self.listData.status == 'declined'){
+                return true;
+            }else{
+                 return false;
+            }  
         }
     },
 

@@ -17,7 +17,8 @@
              <th class='w15'>RFP </th> 
              <th class='w15'>Location</th> 
              <th class='w10 center'>Rooms / Year</th> <!-- <th>Travels / month</th> <th>Travels / year</th> -->  
-             <th class='w15 center'>status</th> 
+             <th class='w15 center'>RFP status</th>
+             <th class='w15 center'>Quote status</th> 
              <th class='w15'>Actions</th>
             </tr>
           </thead>
@@ -29,7 +30,7 @@
           <tbody v-if='listData !== null && listData.hasOwnProperty("comp")'>
             <tr v-if='listData.comp.length > 0'
                 v-for='i in listData.comp'
-                key='list Data'
+                :key='i.rfp.value'
                 :class='{opa: (i.status === "declined") ? true : false}'>
                 <td class='w15'>{{i.company.label}}</td>
                 <td class='w15'>{{i.rfp.label}}</td>
@@ -37,10 +38,11 @@
                 <td class='w10 center'>{{i.roomsYear}}</td>
               <!--  <td class='w15'>{{i.travelPerMonth}}</td>
                 <td class='w10'>{{i.travelPerYear}}</td> -->
-                <td class='b6 red w10 center'>{{i.status}}</td>
+                <td class='b6 w10 center' :class='{"red":i.rfpStatus == "closed" || i.rfpStatus == "cancelled","green":i.rfpStatus != "closed" && i.rfpStatus != "cancelled"}' >{{i.rfpStatus}}</td>
+                <td class='b6 w10 center' :class='{"red":i.status == "declined" || i.status == "rejected","green":i.status != "declined" && i.status != "rejected"}' >{{i.status}}</td>
                 <td class='w10'>
-                  <button v-if='i.status !== "declined"' class='btn btn-info btn-xs' @click='move(i.rfp.value)' key='give quote'>Give Quote</button>
-                  <button class='btn btn-default btn-xs' key='cant give quote' disabled v-else>Give Quote</button>
+                  <button v-if='i.status !== "declined" && i.status !=="quoted"' class='btn btn-info btn-xs' @click='move(i.rfp.value)' key='give quote'>Give Quote</button>
+                  <button class='btn btn-default btn-xs' key='cant give quote' @click='move(i.rfp.value)' v-else>View Details</button>
                 </td>
             </tr>
             <tr v-if='listData.comp.length === 0'>

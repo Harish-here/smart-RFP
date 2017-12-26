@@ -14,7 +14,7 @@
                     <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory' :key='j.questionCategoryId'>
                         <thead>
                             <tr>    
-                                <th colspan='2'>{{ j.questionCategory }}</th>
+                                <th class='w70'>{{ j.questionCategory }}</th><th class='w30'>Your Answers</th>
                             </tr>
                         </thead>
                         <tbody v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId'>

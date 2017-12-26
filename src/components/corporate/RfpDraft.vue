@@ -15,11 +15,14 @@
             </tr>
           </thead>
           <tbody v-if='listData.hasOwnProperty("rfp") && listData.rfp.length > 0'>
-            <tr v-for='i in listData.rfp'>
+            <tr v-for='i in listData.rfp' :key='i.rfpId'>
                 <td class='w20'>{{i.rfp}}</td>
                 <td class='w40'>{{ (i.hasOwnProperty('location') && i.location.length > 0 ) ? i.location.map((x)=> x.label).join(',') : 'No location Selected'}}</td>
                 <td class='orange b6 w20'>Pending</td>
-                <td class='w20 center'><button @click='go({rfpId:i.rfpId,rfpName:i.rfp})' class='btn btn-info btn-xs'>Forward to hotels</button></td>
+                <td class='w20 center'>
+                    <button @click='go({rfpId:i.rfpId,rfpName:i.rfp})' class='btn btn-info btn-xs'>Forward to hotels</button>
+                    <button @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this RFP to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </td>
             </tr>
           </tbody>
           <tbody v-if='!listData.hasOwnProperty("rfp")'>
@@ -60,7 +63,18 @@ export default {
             const self = this;
             self.$store.commit('setRfp',obj);
             self.$store.commit('submitRfpCat',{arr:[""],status:"1"});
+        },
+        trash: function(id){
+        const self = this;
+        if(confirm('Are you sure to Trash this RFP?')){
+          $.post(api.trashRFP,{rfpId:id}).done(function(data){
+            axios(api.getDraftList).then(function(data){ 
+              self.listData = data.data;
+              self.$store.commit('showAlert',"RFP moved to Trash..!");
+            });
+          });
         }
+      }
     }
 }
 </script>

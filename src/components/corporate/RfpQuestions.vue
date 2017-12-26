@@ -21,7 +21,7 @@
       <li id='tab_44' data-id='44' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Corporate Q/A</li>
     </ul>
     <div id='tab_body' class='fl w100 p5-10'>
-        <RfpDisplayQuestions @parentDone='moveNxt' :draft='toDraft' :quesData='qData' :sub='show.questionBar' @doneSubmit='closeQues'  @close='closeQues' :nxt='nxt' />
+        <RfpDisplayQuestions @parentDone='moveNxt' :incList='iList' :manList='mList' :draft='toDraft' :quesData='qData' :sub='show.questionBar' @doneSubmit='closeQues'  @close='closeQues' :nxt='nxt' />
     </div>
     
  </div>
@@ -41,7 +41,9 @@ export default {
         questionBar : false
       },
       qData:'',
-      toDraft: false
+      toDraft: false,
+      mList: [],
+      iList: []
     }
   },
 
@@ -84,10 +86,27 @@ export default {
       }
     },
     getQues : function(id){
+      const self= this;
       self.$store.commit('showProgress')
      $.post(api.getQues,{questionCategoryParent : id}).done(function(data){
+      
+      var temp = JSON.parse(JSON.stringify(data));
+               temp.quesCategory.forEach(element => {
+                   element.ques.forEach(c => {
+                       c.isMandatory = "0"
+                   });
+               });
+               var temp2 = JSON.parse(JSON.stringify(data));
+               temp2.quesCategory.forEach(element => {
+                   element.ques.forEach(c => {
+                       c.isMandatory = "1"
+                   });
+               });
+             self.iList = temp2;
+             self.mList = temp;
+      
       //get q obj
-      self.quesData = JSON.parse(data);
+      self.qData = JSON.parse(data);
     })
     }
   },

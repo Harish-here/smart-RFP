@@ -7,7 +7,7 @@ const prodPath = 'http://www.hobse.com/demo/index.php/customer/rfp';
 const prodPathH = 'http://www.hobse.com/demo/index.php/admin/rfp';
 export default {
     getQues : decide(prodPath+'/getQues','https://api.myjson.com/bins/slf8j'),
-    getQuesH : decide(prodPathH+'/getQues','https://api.myjson.com/bins/slf8j'),
+    getQuesH : decide(prodPathH+'/getQues','https://api.myjson.com/bins/1ey0lb'),
     sendQues : decide(prodPath+'/sendQues','http://localhost/'),
     sendQuesH : decide(prodPathH+'/sendQues','http://localhost/'),
     forProd : forProd,

@@ -37,20 +37,20 @@
           <tbody v-if='listData.hasOwnProperty("hotels") && listData.hotels.length > 0'>
             <tr v-for='i in listData.hotels' 
                 :key='i.hotelId'
-                :class='{opa:(i.status === "declined") ? true:false}'>
-            <td class='w25'>{{i.hotel}} <span class='badge badge-info f10' v-show='i.shortlist ==="1"'>Shortlisted</span></td>
-            <td class='w15'>{{i.location}}</td>
-            <td class='b5 w10' :class='{red:(i.status === "declined") ? true : false,green: (i.status !== "declined") ? true : false}'>{{i.status}}</td>
-            <td class='center w10'>{{i.roomsYear}}</td>
-            <td class='center w15'>{{i.minPrice}} - {{i.maxPrice}}</td>
-            <td class=' w20' v-if='i.status !== "declined"'>
-              <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-info btn-xs'>View Details</button>
-              <button v-show='i.shortlist !== "1"' @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
-              <button v-show='i.shortlist !== "0"' @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>Unshortlist</button>
-            </td>
-            <td class='red b5 w20' v-else>
-              <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-info btn-xs'>View Details</button>
-            </td>
+                :class='{"opa":(i.status === "declined") ? true:false,"bg-acc":(i.status === "accepted") ? true:false}'>
+              <td class='w25'>{{i.hotel}} <span class='badge badge-info f10' v-show='i.shortlist ==="1"'>Shortlisted</span></td>
+              <td class='w15'>{{i.location}}</td>
+              <td class='b5 w10' :class='{red:(i.status === "declined") ? true : false,green: (i.status !== "declined") ? true : false}'>{{i.status}}</td>
+              <td class='center w10'>{{i.roomsYear}}</td>
+              <td class='center w15'>{{i.minPrice}} - {{i.maxPrice}}</td>
+              <td class=' w20' v-if='i.status !== "declined"'>
+                <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-info btn-xs'>View Details</button>
+                <button v-if='i.status != "declined" || i.status == "accepted"' v-show='i.shortlist !== "1"' @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
+                <button v-if='i.status != "declined" || i.status == "accepted"' v-show='i.shortlist !== "0"' @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>Unshortlist</button>
+              </td>
+              <td class='red b5 w20' v-else>
+                <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-info btn-xs'>View Details</button>
+              </td>
             </tr>
           </tbody>
           <tbody v-if='listData.hasOwnProperty("hotels") && listData.hotels.length === 0'>

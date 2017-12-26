@@ -1,7 +1,7 @@
 <template>
  <div id='questionCorp' class='h-100'>
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
-        <li class='p20-40 tb' v-for='(i,index) in qData.quesCategory' @click='show(index)' :id='index' :key='index' :class='{"tb-v--active":index === 0}'>{{i.questionCategory}}</li>
+        <li class='p20-40 tb' v-for='(i,index) in qData.quesCategory' @click='show(index)' :id='index' :key='i.questionCategoryId' :class='{"tb-v--active":index === 0}'>{{i.questionCategory}}</li>
     </ul>
     <div id='content' class='fl w75'>
         <div class='fl w100'>
@@ -18,7 +18,7 @@
                 </li>
             </ul> 
         </div> 
-        <section v-for='(y,index_1) in qData.quesCategory' :key='index_1' class='fl w100 f12 y-flow' :class='{"dbNo":index_1 !== 0}' :id='"body_"+index_1'>
+        <section v-for='(y,index_1) in qData.quesCategory' :key='y.questionCategoryId' class='fl w100 f12 y-flow' :class='{"dbNo":index_1 !== 0}' :id='"body_"+index_1'>
             <div id='Next_btn' class='fl w100 center'>
               <ul>
                <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
@@ -71,7 +71,7 @@ import _ from 'lodash'
 import api from '@/api/api'
 export default {
     name: 'RfpDisplayQuestions',
-    props: ['quesData','sub','nxt','draft'],
+    props: ['quesData','sub','nxt','draft','incList','manList'],
     data() {
         return {
             cData: [],
@@ -103,48 +103,36 @@ export default {
                    })
                });  
              
-             self.mData = temp
+             self.mData = temp;
              self.qData = temp2;
              self.all = [].concat.apply([],temp.quesCategory.map(x => x.ques.map( y => y)));
              self.allM = [].concat.apply([],temp2.quesCategory.map(x => x.ques.map( y => y)));
-             $(function(){
-                
-                    $('ul#tab_v_head li').removeClass('tb-v--active');
-                    $('ul#tab_v_head li:first-child').addClass('tb-v--active');
-                    $('#content section#body_0').css('display','inline');
-                
-            });
+             
         
             });
         }else{
             self.$store.commit('showProgress')
             $.get(api.getQues,{questionCategoryParent : "1"}).done(function(data){
-            //get q obj\
-            var temp = JSON.parse(JSON.stringify(data));
-               temp.quesCategory.forEach(element => {
-                   element.ques.forEach(c => {
-                       c.isMandatory = "0"
-                   });
-               });
-               var temp2 = JSON.parse(JSON.stringify(data));
-               temp2.quesCategory.forEach(element => {
-                   element.ques.forEach(c => {
-                       c.isMandatory = "1"
-                   });
-               });
-             self.qData = temp2;
-             self.mData = temp;
-            
-            
-             self.all = [].concat.apply([],temp.quesCategory.map(x => x.ques.map( y => y)));
-             self.allM = [].concat.apply([],temp2.quesCategory.map(x => x.ques.map( y => y)));
-               // console.log(self.mData)
-                $(function(){
+                    //get q obj\
+                    var temp = JSON.parse(JSON.stringify(data));
+                    temp.quesCategory.forEach(element => {
+                        element.ques.forEach(c => {
+                            c.isMandatory = "0"
+                        });
+                    });
+                    var temp2 = JSON.parse(JSON.stringify(data));
+                    temp2.quesCategory.forEach(element => {
+                        element.ques.forEach(c => {
+                            c.isMandatory = "1"
+                        });
+                    });
+                    self.qData = temp2;
+                    self.mData = temp;
                     
-                        $('ul#tab_v_head li').removeClass('tb-v--active');
-                        $('ul#tab_v_head li:first-child').addClass('tb-v--active');
-                        $('#content  section#body_0').css('display','block');
-                });
+                    
+                    self.all = [].concat.apply([],temp.quesCategory.map(x => x.ques.map( y => y)));
+                    self.allM = [].concat.apply([],temp2.quesCategory.map(x => x.ques.map( y => y)));
+                    // c
               
             });
         }
@@ -171,13 +159,54 @@ export default {
            if(api.forProd){ self.$store.commit('showProgress')
              $.post(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
       //get q obj
-             self.qData = JSON.parse(data);
+             
+            var temp = JSON.parse(data);
+               temp.quesCategory.forEach(element => {
+                   element.ques.forEach(c => {
+                       c.isMandatory = "0"
+                   })
+               });
+             var temp2 = JSON.parse(data);
+               temp2.quesCategory.forEach(element => {
+                   element.ques.forEach(c => {
+                       c.isMandatory = "1"
+                   })
+               });  
+             self.mData = [];
+             self.qData = [];
+             self.mData = temp;
+             self.qData = temp2;
+             self.all = [];
+             self.allM = [];
+             self.all = [].concat.apply([],temp.quesCategory.map(x => x.ques.map( y => y)));
+             self.allM = [].concat.apply([],temp2.quesCategory.map(x => x.ques.map( y => y)));
             });
         }else{ self.$store.commit('showProgress')
-            $.get(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
+            $.get(api.getQuesH,{questionCategoryParent : self.nxt}).done(function(data){
       //get q obj
     //   console.log(data)
-             self.qData = data;
+            // self.qData = data;
+             
+            var temp = data;
+               temp.quesCategory.forEach(element => {
+                   element.ques.forEach(c => {
+                       c.isMandatory = "0"
+                   })
+               });
+             var temp2 = data;
+               temp2.quesCategory.forEach(element => {
+                   element.ques.forEach(c => {
+                       c.isMandatory = "1"
+                   })
+               });  
+              self.mData = [];
+             self.qData = [];
+             self.mData = temp;
+             self.qData = temp2;
+             self.all = [];
+             self.allM = [];
+             self.all = [].concat.apply([],temp.quesCategory.map(x => x.ques.map( y => y)));
+             self.allM = [].concat.apply([],temp2.quesCategory.map(x => x.ques.map( y => y)));
             });
         }
         },
@@ -187,6 +216,10 @@ export default {
                 self.submitAsDraft();
             }
             
+        },
+        'incList': function(){
+            const self = this;
+            self.qData
         }
     },
 
@@ -209,8 +242,8 @@ export default {
                 delete x.groupQuestionId
                 if(x.hasOwnProperty('concatAns')) delete x.concatAns;
                 if(x.hasOwnProperty('answer')){
-                    for(var i in obj.answer){
-                    delete obj.answer[i].answer;
+                    for(var i in x.answer){
+                    delete x.answer[i].answer;
                     }
                 }
                 
@@ -218,8 +251,7 @@ export default {
             // console.log(self.cData)
             if(self.cData.length > 0) {
                 if(confirm('Are you sure you want finish the RFP')){
-                 self.$store.commit('submitRfpCat',{arr:self.cData,status:"1"})
-                 
+                 self.$store.commit('submitRfpCat',{arr:self.cData,status:"1"});
                 }   
              }
             else{
