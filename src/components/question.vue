@@ -1,12 +1,12 @@
 <template>
  <div id='question' class='h-60'>
     <ul  id='tab_v_head' class='fl w25 b6 f12 al-left'>
-        <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index' :key='index' :class='{"tb-v--active":index === 0}'>{{i.questionCategory}}</li>
+        <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index' :key='i.questionCategoryId' :class='{"tb-v--active":index === 0}'>{{i.questionCategory}}</li>
        <!-- <li class='p20-40 tb tb-v--active'>Payment</li> -->
     </ul>
    <!-- <pre>{{ cData }}</pre> -->
     <div id='content'>
-        <section  v-for='(y,index_1) in qData.quesCategory' class='fr w75 f12 y-flow'  :class='{"dbNo":index_1 !== 0}' :id='"body_"+index_1' :key='index_1'>       
+        <section  v-for='(y,index_1) in qData.quesCategory' class='fr w75 f12 y-flow'  :class='{"dbNo":index_1 !== 0}' :id='"body_"+index_1' :key='y.questionCategoryId'>       
             <div id='Next_btn' class='fl w100 center'>
               <ul>
                 <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
@@ -73,7 +73,7 @@ import api from '@/api/api'
 
 export default {
     name: 'question',
-    props: ['quesData','current','next'],
+    props: ['quesData','current','nxt'],
     data() {
         return {
             cData:[],
@@ -83,7 +83,7 @@ export default {
 
     created(){
         const self =this;
-       // self.qData = Object.assign({},self.quesData);
+      self.cData = self.qData;
       
     },
 
@@ -93,10 +93,34 @@ export default {
         },
         sample(){
             const self = this
-           var arr = [self.quesData.quesCategory];
-           return arr 
+           //var arr = [...self.quesData.quesCategory];
+           return self.nxt
+        },
+        sam(){
+            return this.current
         }
     },
+
+    watch : {
+        'sample': function(){
+            const self = this;
+           if(self.sample){
+               self.cData = [];
+               self.cData = self.qData;
+            //    console.log(self.cData)
+            //    console.log(this.ques)
+           }
+        },
+        'qData': function(){
+            // console.log('ne')
+            const self = this;
+            console.log(self.qData)
+        },
+        'sam' : function(){
+            console.log(self.current)
+        }
+    },
+
     methods: {
         submitAnswers: function(){
             const self = this;

@@ -229,8 +229,14 @@ export default {
             
             (self.cData.length > 0) ? 
             (function(){
-            self.$store.commit('submitRfpCat',{arr:self.cData,status:"0"}) 
-            self.$emit('parentDone')}
+            self.$store.commit('submitRfpCat',{arr:self.cData,status:"0"});
+            self.all = [];
+            self.allM = [];
+            self.cData = []; 
+            self.inc= false;
+            self.man= false;
+            self.$emit('parentDone');
+            }
             )()
             : alert('You should include atleast one question') ;
             
@@ -263,6 +269,7 @@ export default {
             (self.cData.length > 0) ? 
             (function(){
             self.$store.commit('submitRfpCat',{arr:self.cData,status:"0|"}); 
+            self.cData = [];
            // self.$emit('parentDone')
             }
             )()

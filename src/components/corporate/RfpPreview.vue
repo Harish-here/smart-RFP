@@ -27,7 +27,7 @@
     </section>
       
       <!-- main RFP -->
-      <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :id='"par_"+i.questionCategoryParentId'>
+      <section data-active='no' v-if='listData.hasOwnProperty("rfpQues") && listData.rfpQues.length > 0 ' v-for='i in listData.rfpQues'  class='fl w100 p5-10' :key='i.questionCategoryParentId' :id='"par_"+i.questionCategoryParentId'>
             <h4 class='fl w100 b5 f16 p5-10' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='cursor b6 btn btn-default btn-xs'> + </span></h4>
                 <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class='fl w100 p5-10 dbNo' :id='"ques_"+i.questionCategoryParentId'>
                     <table class='table table-striped w80' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory' :key='j.questionCategoryId'>
@@ -38,10 +38,10 @@
                         </thead>
                         <tbody v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId'>
                             
-                                <tr v-for='y in j.ques'>
-                                    <td class=' pl-25'>{{y.questionText}}</td>
-                                    <td class='b5 w70' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "Included" }}</td>
-                                    <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Included': y.answer}}</td>
+                                <tr v-for='y in j.ques' :key='y.questionId'>
+                                    <td class='w70 pl-25'>{{y.questionText}}</td>
+                                    <td class='b5 w30' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : (y.mandate == "1") ? "Mandatory" : "Included" }}</td>
+                                    <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? (y.mandate == "1") ? "Mandatory" : "Included" : y.answer}}</td>
                                 </tr>
                              
                         </tbody>

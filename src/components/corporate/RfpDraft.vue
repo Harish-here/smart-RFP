@@ -9,30 +9,32 @@
           <thead class='bg-ddd'>
             <tr>
              <th class='w20'>RFP Name</th>
-             <th class='w40'>Locations</th>
-             <th class='w20'>Status</th>
+             <th class='w30'>Locations</th>
+             <th class='w20 center'>Due Date</th>
+             <th class='w15 center'>Rooms / Year</th>
              <th class='w20 center'>Actions</th>
             </tr>
           </thead>
           <tbody v-if='listData.hasOwnProperty("rfp") && listData.rfp.length > 0'>
             <tr v-for='i in listData.rfp' :key='i.rfpId'>
                 <td class='w20'>{{i.rfp}}</td>
-                <td class='w40'>{{ (i.hasOwnProperty('location') && i.location.length > 0 ) ? i.location.map((x)=> x.label).join(',') : 'No location Selected'}}</td>
-                <td class='orange b6 w20'>Pending</td>
+                <td class='w30'>{{ (i.hasOwnProperty('location') && i.location.length > 0 ) ? i.location.map((x)=> x.label).join(',') : 'No location Selected'}}</td>
+                <td class='w20 center'>{{i.dueDate}}</td>
+                <td class='w15 center'>{{i.roomsYear}}</td>
                 <td class='w20 center'>
-                    <button @click='go({rfpId:i.rfpId,rfpName:i.rfp})' class='btn btn-info btn-xs'>Forward to hotels</button>
+                    <button @click='go({rfpId:i.rfpId,rfpName:i.rfp})' class='btn btn-ghost btn-xs'>Forward to hotels</button>
                     <button @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this RFP to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
                 </td>
             </tr>
           </tbody>
           <tbody v-if='!listData.hasOwnProperty("rfp")'>
             <tr>
-              <td colspan='4' class='center gray'>Getting the RFPs, you saved...</td>
+              <td colspan='5' class='center gray'>Getting the RFPs, you saved...</td>
             </tr>
           </tbody>
           <tbody v-if='listData.hasOwnProperty("rfp") && listData.rfp.length === 0'>
             <tr>
-              <td colspan='4' class='center gray'>No Saved RFP</td>
+              <td colspan='5' class='center gray'>No Saved RFP</td>
             </tr>
           </tbody>
 

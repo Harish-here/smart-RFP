@@ -23,13 +23,13 @@
           </tbody>
           <tbody  v-if='listData !== null && listData.length > 0'>
             <tr
-             v-for='i in listData'>
+             v-for='i in listData' :key='i.rfp.value'>
             <td>{{i.hotel.label}}</td>
             <td>{{i.rfp.label}}</td>
             <td>{{ i.location.map((x)=> x.label).join(',')}}</td>
             <td class='center'>{{i.roomsYear}}</td>
             <td class='green b6 center'>Connected</td>
-            <td class='center'><button @click='back({path:"/"+$store.state.path+"/corprate/quotereview/"+i.rfp.value+"/"+i.hotel.value+"/c"})' class='btn btn-info btn-xs'>View Details</button></td>    
+            <td class='center'><button @click='back({path:"/"+$store.state.path+"/corprate/quotereview/"+i.rfp.value+"/"+i.hotel.value+"/c"})' class='btn btn-ghost btn-xs'>View Details</button></td>    
             </tr>
           </tbody>
           <tbody v-if='listData !== null && listData.length === 0'>

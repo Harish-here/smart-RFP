@@ -128,3 +128,14 @@ hr{ margin-bottom:0px !important; }
 .table td, .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
 	padding:10px !important;
 }
+
+/* Ghost btn*/
+.btn-ghost{
+	border: 1px solid #009688;
+	color:#009688;
+	background-color: #fff;
+}
+.btn-ghost:hover{
+	background-color: #009688;
+	color:#fff;
+}

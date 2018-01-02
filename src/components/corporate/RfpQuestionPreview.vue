@@ -35,9 +35,9 @@
                         <tbody v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId'>
                             
                                 <tr v-for='y in j.ques' :key='y.questionId'>
-                                    <td class=' pl-25'>{{y.questionText}}</td>
-                                    <td class='b5 w70' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : "Included" }}</td>
-                                    <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? 'Included': y.answer}}</td>
+                                    <td class='w70 pl-25'>{{y.questionText}}</td>
+                                    <td class='b5 w30' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : (y.mandate == "1") ? "Mandatory" : "Included" }}</td>
+                                    <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? (y.mandate == "1") ? "Mandatory" : "Included": y.answer}}</td>
                                 </tr>
                              
                         </tbody>

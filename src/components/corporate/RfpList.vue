@@ -11,22 +11,24 @@
              <th class='w15'>RFP Name</th> 
              <th class='w20'>Cities</th> 
              <th class='w10'>Status</th> 
-             <th class='w10'>Rooms / Year</th> 
+             <th class='w10 center'>Rooms / Year</th>
+             <th class='w10 center'>Due Date</th> 
              <th class='center w10'>No of Hotels</th> 
-             <th class='center'>No of Quotes</th> 
-             <th class='w20'>Actions</th>
+             <th class='center w10'>No of Quotes</th> 
+             <th class='w15'>Actions</th>
             </tr>
           </thead>
           <tbody v-if='listData.hasOwnProperty("rfp")'>
             <tr v-for='i in listData.rfp' :key='i.rfpId' :class='{"bg-acc":i.connected === "connected"}'>
-              <td class='w20'>{{i.rfp}}</td>
+              <td class='w15'>{{i.rfp}}</td>
               <td class='w20'>{{i.location.map(x => x.label).join(', ')}}</td>
               <td class='b6 w10' :class='{"orange":i.connected === "pending","green":i.connected === "connected"}'>{{i.connected}}</td>
               <td class='center w10'>{{i.roomsYear}}</td>
+              <td class='center w10'>{{i.dueDate}}</td>
               <td class='center w10'> <span class='badge badge-primary'>{{i.noOfHotels}} </span></td>
               <td class='center w10'> <span class='badge badge-primary'>{{i.noOfQuotes}}</span> </td>
-              <td class='w20'>
-                <button @click='go({path:"/"+$store.state.path+"/corprate/quotelist/"+i.rfpId})' class='btn btn-info btn-xs'>View Details</button>
+              <td class='w15'>
+                <button @click='go({path:"/"+$store.state.path+"/corprate/quotelist/"+i.rfpId})' class='btn btn-ghost btn-xs'>View Details</button>
                 
                 <button  v-if='i.connected !== "connected"' @click='trash(i.rfpId)' class='btn btn-default btn-xs' title='move this RFP to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
               </td>
