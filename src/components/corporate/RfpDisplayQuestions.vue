@@ -1,7 +1,7 @@
 <template>
  <div id='questionCorp' class='h-100'>
     <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
-        <li class='p20-40 tb' v-for='(i,index) in qData.quesCategory' @click='show(index)' :id='index' :key='i.questionCategoryId' :class='{"tb-v--active":index === 0}'>{{i.questionCategory}}</li>
+        <li class='p20-40 tb' v-for='(i,index) in qData.quesCategory' @click='show(index)' :id='"tabc_"+index' :class='{"tb-v--active":(index === 0) ? true:false}' :key='i.questionCategoryId' >{{i.questionCategory}}</li>
     </ul>
     <div id='content' class='fl w75'>
         <div class='fl w100'>
@@ -9,12 +9,12 @@
                 <li  class='fr w10 dbNo'> <button class='btn btn-default btn-xs' type='button'><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                 </button>
                 </li>
-                <li  class='fr w10 f10 dbNo'>skip</li>
+                
                 <li class='fr w40 center p5-10'>Mandatory <br>
-                    <span > <input @click='addAnsM(allM)' type="checkbox" :disabled='man'></span>
+                    <span> <input @click='addAnsM(allM)' type="checkbox" :disabled='man' v-model='vman'></span>
                 </li>   
                 <li class='fr w40 center p5-10'>Include <br>
-                    <span  > <input @click='addAns(all)' type="checkbox" :disabled='inc'></span>
+                    <span> <input @click='addAns(all)' type="checkbox" :disabled='inc' v-model='vinc'></span>
                 </li>
             </ul> 
         </div> 
@@ -62,7 +62,34 @@
             </div>
         </section>
     </transition>
-    
+    <!-- check questions -->
+    <div class='pab w25 p10-20 card' style='bottom:30px;right:30px;border-radius:5px;border:1px solid #fff;'>
+      <span class='fl p2-4 bl b6'>Total questions added - {{cData.length}}</span>
+      <button data-toggle='modal' data-target='#myModal2' class='fr btn btn-ghost btn-xs' @click='getHotel' :disabled='cData.length === 0'>Check Hotels for this</button>
+    </div>
+    <div class="modal right fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+
+                        <div class="modal-header fl w100">
+                          <button type="button" class="close pab" data-dismiss="modal" aria-label="Close" style='right:0;top:2px;'><span class='f22' aria-hidden="true">&times;</span></button>
+                          <!--<div class='btn btn-info btn-xs center fr' style='margin-right:10px;'>Proccess</div> -->
+                          <h4>Hotels <small>Matches for your questions</small></h4>
+                        </div>
+
+                        <div class="modal-body fl w100">
+                          <ul class='fl w100'>
+                              <li class='p5-10' v-for='i in hotelList' :key='i.id' style='margin-bottom:8px;border:1px solid #f3f3f3'>
+                                  <span class='f14 b6 p5-10 blue'>{{i.name}}</span>
+                                  <span class='p5-10'>{{i.star}}</span>
+                              </li>
+                          </ul>
+                          
+                        </div>
+
+                      </div><!-- modal-content -->
+                </div><!-- modal-dialog -->
+	 </div>
  </div>
 </template>
 <script>
@@ -81,6 +108,9 @@ export default {
             allM: null,
             inc: false,
             man: false,
+            vman: false,
+            vinc: false,
+            hotelList:[{name:"sun mount",start:'4',id:"2"},{name:"sun mount",start:'4',id:"2"}]
         }
     },
 
@@ -142,25 +172,31 @@ export default {
     computed : {
         sample() {
             return this.sub
+        },
+        total(){
+            return { ques : this.cData.map(function(x){
+               return x.questionId
+            })
+            }
         }
     },
 
     watch: {
-        'sample' : function(){
-            const self = this;
-            
-            if(self.sample){
-               this.submitAnswersFinal();
-                this.$emit('doneSubmit');
-            }
-        },
-        'nxt' : function(){
-            const self = this;
-           if(api.forProd){ self.$store.commit('showProgress')
-             $.post(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
-      //get q obj
-             
-            var temp = JSON.parse(data);
+            'sample' : function(){
+                const self = this;
+                
+                if(self.sample){
+                this.submitAnswersFinal();
+                    this.$emit('doneSubmit');
+                }
+            },
+            'nxt' : function(){
+                const self = this;
+            if(api.forProd){ self.$store.commit('showProgress')
+                $.post(api.getQues,{questionCategoryParent : self.nxt}).done(function(data){
+        //get q obj
+                
+                var temp = JSON.parse(data);
                temp.quesCategory.forEach(element => {
                    element.ques.forEach(c => {
                        c.isMandatory = "0"
@@ -174,12 +210,16 @@ export default {
                });  
              self.mData = [];
              self.qData = [];
+             self.vman = false;
+             self.vmin = false;
              self.mData = temp;
              self.qData = temp2;
              self.all = [];
              self.allM = [];
              self.all = [].concat.apply([],temp.quesCategory.map(x => x.ques.map( y => y)));
+             
              self.allM = [].concat.apply([],temp2.quesCategory.map(x => x.ques.map( y => y)));
+            //  console.log(self.allM);
             });
         }else{ self.$store.commit('showProgress')
             $.get(api.getQuesH,{questionCategoryParent : self.nxt}).done(function(data){
@@ -187,26 +227,32 @@ export default {
     //   console.log(data)
             // self.qData = data;
              
-            var temp = data;
+            var temp = JSON.parse(JSON.stringify(data));
                temp.quesCategory.forEach(element => {
                    element.ques.forEach(c => {
                        c.isMandatory = "0"
                    })
                });
-             var temp2 = data;
+              
+             var temp2 = JSON.parse(JSON.stringify(data));
                temp2.quesCategory.forEach(element => {
                    element.ques.forEach(c => {
                        c.isMandatory = "1"
                    })
-               });  
+               }); 
+               console.log(temp2.quesCategory); 
               self.mData = [];
              self.qData = [];
              self.mData = temp;
              self.qData = temp2;
+             self.vman = false;
+             self.vinc = false;
              self.all = [];
              self.allM = [];
              self.all = [].concat.apply([],temp.quesCategory.map(x => x.ques.map( y => y)));
+            console.log(self.all)
              self.allM = [].concat.apply([],temp2.quesCategory.map(x => x.ques.map( y => y)));
+            //  console.log(self.allM)
             });
         }
         },
@@ -235,6 +281,8 @@ export default {
             self.cData = []; 
             self.inc= false;
             self.man= false;
+            self.vman = false;
+             self.vinc = false;
             self.$emit('parentDone');
             }
             )()
@@ -270,6 +318,8 @@ export default {
             (function(){
             self.$store.commit('submitRfpCat',{arr:self.cData,status:"0|"}); 
             self.cData = [];
+            self.vman = false;
+             self.vinc = false;
            // self.$emit('parentDone')
             }
             )()
@@ -305,10 +355,7 @@ export default {
             $('#tab_v_head li').removeClass('tb-v--active');
             $('li#tabc_'+id).addClass('tb-v--active');
         },
-        // txtAns: _.debounce(function(id){
-        //     console.log($('#ans_'+id).data('ans'));
-        //     console.log($('#ans_'+id).data('que'));
-        // },700),
+       
         emits: function(){
             this.$emit('close',1)
         },
@@ -353,6 +400,12 @@ export default {
             const self = this;
            obj['isMandatory'] = "1";
             self.include(obj);
+        },
+        getHotel: function(){
+            const self = this;
+            $.post(api.getHotel,self.total).done(function(data){
+               // self.hotelList = JSON.parse(data)
+            });
         }
 
     },

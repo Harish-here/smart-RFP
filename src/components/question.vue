@@ -1,7 +1,7 @@
 <template>
  <div id='question' class='h-60'>
     <ul  id='tab_v_head' class='fl w25 b6 f12 al-left'>
-        <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index' :key='i.questionCategoryId' :class='{"tb-v--active":index === 0}'>{{i.questionCategory}}</li>
+        <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index'  :class='{"tb-v--active":index === 0}' :key='i.questionCategoryId'>{{i.questionCategory}}</li>
        <!-- <li class='p20-40 tb tb-v--active'>Payment</li> -->
     </ul>
    <!-- <pre>{{ cData }}</pre> -->
@@ -15,7 +15,7 @@
                 <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
               </ul>
             </div>
-            <div v-for='(i,index_2) in y.ques' :key='i.questionId'>
+            <div v-for='i in y.ques' :key='i.questionId'>
                     <div v-if='i.questionSubTypeId === "7"'>
                         <div class=' fl w60 p10-20'>
                         {{i.questionText}} ?

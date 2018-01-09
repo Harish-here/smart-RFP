@@ -55,6 +55,7 @@ hr{ margin-bottom:0px !important; }
 .opa{opacity: .4;}
 .br-l{background-color: #fafafa !important;}
 .u{text-decoration: underline;}
+.card{box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);}
 /* ---- padding  -----*/
 .p2-4{padding: 2px 4px;}
 .p5-10{ padding:5px 10px; }
@@ -138,4 +139,56 @@ hr{ margin-bottom:0px !important; }
 .btn-ghost:hover{
 	background-color: #009688;
 	color:#fff;
+}
+
+/*left bar*/
+/*******************************
+* MODAL AS LEFT/RIGHT SIDEBAR
+*******************************/
+.modal.left .modal-dialog,
+.modal.right .modal-dialog {
+	position: fixed;
+	margin: auto;
+	width: 350px;
+	height: 100%;
+	-webkit-transform: translate3d(0%, 0, 0);
+		-ms-transform: translate3d(0%, 0, 0);
+		 -o-transform: translate3d(0%, 0, 0);
+			transform: translate3d(0%, 0, 0);
+}
+
+.modal.left .modal-content,
+.modal.right .modal-content {
+	height: 100%;
+	overflow-y: auto;
+}
+
+.modal.left .modal-body,
+.modal.right .modal-body {
+	padding: 15px 15px 80px;
+}
+
+	
+/*Right*/
+.modal.right.fade .modal-dialog {
+	right: -320px;
+	-webkit-transition: opacity 0.2s linear, right 0.2s ease-out;
+	   -moz-transition: opacity 0.2s linear, right 0.2s ease-out;
+		 -o-transition: opacity 0.2s linear, right 0.2s ease-out;
+			transition: opacity 0.2s linear, right 0.2s ease-out;
+}
+
+.modal.right.fade.in .modal-dialog {
+	right: 0;
+}
+
+/* ----- MODAL STYLE ----- */
+.modal-content {
+	border-radius: 0;
+	border: none;
+}
+
+.modal-header {
+	border-bottom-color: #EEEEEE;
+	background-color: #FAFAFA;
 }

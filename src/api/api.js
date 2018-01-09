@@ -1,4 +1,4 @@
-let forProd = true;
+let forProd = false;
 
 function decide(prod,local){
     return (forProd) ? prod : local;
@@ -39,5 +39,6 @@ export default {
     getDraftList: decide(prodPath +'/getDraftList','https://api.myjson.com/bins/ny6xz'),
     getConnected: decide(prodPath +'/getConnected','https://api.myjson.com/bins/nam3n'),
     getHotelTrash: decide(prodPathH +'/getHotelTrash','https://api.myjson.com/bins/ihe2f'),//not done in backend
-    moveTrashToDraft: decide(prodPath+'/moveTrashToDraft','http://localhost/')
+    moveTrashToDraft: decide(prodPath+'/moveTrashToDraft','http://localhost/'),
+    getHotel: decide(prodPath+'/','http://localhost/')//dummy data must arrive
 }
