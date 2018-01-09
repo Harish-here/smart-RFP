@@ -63,7 +63,7 @@
         </section>
     </transition>
     <!-- check questions -->
-    <div class='pab w25 p10-20 card' style='bottom:30px;right:30px;border-radius:5px;border:1px solid #fff;'>
+    <div class='pab p10-20 card' style='bottom:30px;right:30px;border-radius:5px;border:1px solid #fff;z-index:1000;background-color:#fff;'>
       <span class='fl p2-4 bl b6'>Total questions added - {{cData.length}}</span>
       <button data-toggle='modal' data-target='#myModal2' class='fr btn btn-ghost btn-xs' @click='getHotel' :disabled='cData.length === 0'>Check Hotels for this</button>
     </div>
@@ -78,12 +78,15 @@
                         </div>
 
                         <div class="modal-body fl w100">
-                          <ul class='fl w100'>
+                          <ul class='fl w100' v-if='hotelList.length > 0'>
                               <li class='p5-10' v-for='i in hotelList' :key='i.id' style='margin-bottom:8px;border:1px solid #f3f3f3'>
-                                  <span class='f14 b6 p5-10 blue'>{{i.name}}</span>
-                                  <span class='p5-10'>{{i.star}}</span>
+                                  <span class='f14 b6 p5-10 w70' style="color:#4285f4;">{{i.name}}</span>
+                                  <span class='p5-10 fr'>Star - {{i.star}}</span>
                               </li>
                           </ul>
+                          <div class='fl w100 p10-20 gray center' v-else>
+                              No Matching hotels
+                          </div>    
                           
                         </div>
 
@@ -110,7 +113,7 @@ export default {
             man: false,
             vman: false,
             vinc: false,
-            hotelList:[{name:"sun mount",start:'4',id:"2"},{name:"sun mount",start:'4',id:"2"}]
+            hotelList:[]
         }
     },
 
@@ -240,7 +243,7 @@ export default {
                        c.isMandatory = "1"
                    })
                }); 
-               console.log(temp2.quesCategory); 
+            //    console.log(temp2.quesCategory); 
               self.mData = [];
              self.qData = [];
              self.mData = temp;
@@ -378,7 +381,7 @@ export default {
            const self = this;
            var obj = self.remove(JSON.parse(JSON.stringify(objs)));
            if(self.cData.length > 0){
-               var arr = _.filter(self.cData,{'questionId' : obj.questionId});
+            //    var arr = _.filter(self.cData,{'questionId' : obj.questionId});
                if(arr.length == 0) {
                    self.cData.push(obj);//push que obj
                }else{//remove the ques obj
@@ -403,8 +406,8 @@ export default {
         },
         getHotel: function(){
             const self = this;
-            $.post(api.getHotel,self.total).done(function(data){
-               // self.hotelList = JSON.parse(data)
+            $.post(api.getHotel,{ rfpId:self.$store.state.rfp.rfpId,ques: self.total.ques}).done(function(data){
+               self.hotelList = JSON.parse(data)
             });
         }
 

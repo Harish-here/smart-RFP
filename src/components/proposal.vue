@@ -32,7 +32,7 @@
             <tr v-if='listData.comp.length > 0'
                 v-for='i in listData.comp'
                 :key='i.rfp.value'
-                :class='{opa: (i.status === "declined") ? true : false}'>
+                :class='{opa: i.status === "declined" || i.rfpStatus == "withdrawn"}'>
                 <td class='w15'>{{i.company.label}}</td>
                 <td class='w15'>{{i.rfp.label}}</td>
                 <td class='w15'>{{i.location.map(x => x.label).join(', ')}}</td>
@@ -40,10 +40,10 @@
                 <td class='w10 center'>{{i.dueDate}}</td>
               <!--  <td class='w15'>{{i.travelPerMonth}}</td>
                 <td class='w10'>{{i.travelPerYear}}</td> -->
-                <td class='b6 w10 center' :class='{"red":i.rfpStatus == "closed" || i.rfpStatus == "cancelled","green":i.rfpStatus != "closed" && i.rfpStatus != "cancelled"}' >{{i.rfpStatus}}</td>
+                <td class='b6 w10 center' :class='{"red":i.rfpStatus == "closed" || i.rfpStatus == "withdrawn","green":i.rfpStatus != "closed" && i.rfpStatus != "withdrawn"}' >{{i.rfpStatus}}</td>
                 <td class='b6 w10 center' :class='{"red":i.status == "declined" || i.status == "rejected","green":i.status != "declined" && i.status != "rejected"}' >{{i.status}}</td>
                 <td class='w10'>
-                  <button v-if='i.status !== "declined" && i.status !=="quoted"' class='btn btn-info btn-xs' @click='move(i.rfp.value)' key='give quote'>Give Quote</button>
+                  <button v-if='(i.status !== "declined" && i.status !=="quoted") || i.rfpStatus == "withdrawn"' class='btn btn-info btn-xs' @click='move(i.rfp.value)' key='give quote'>Give Quote</button>
                   <button class='btn btn-ghost btn-xs' key='cant give quote' @click='move(i.rfp.value)' v-else>View Details</button>
                 </td>
             </tr>
