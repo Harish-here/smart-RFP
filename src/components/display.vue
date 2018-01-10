@@ -2,13 +2,10 @@
  <div id='display' class='p10-20'>
     <header class='fl w100 p10-20'>
       <div class='roboto b3 dib'>RFP - Questions</div>
-      <ul class='fr p5-10 dbNo'>
+      <ul class='fr p5-10'>
         <li class='di p5-10'>
-          <button class='btn btn-primary btn-xs b6'><i class="fa fa-plus" aria-hidden="true"></i> Save</button>
+          <button class='btn btn-primary btn-sm b6' @click='exit'> Save & Exit</button>
         </li>
-        <li class='di p5-10 b6'><button class='btn btn-default btn-xs b6'>Clear all</button></li>
-        <li class='di p5-10 f16'><i class="fa fa-pencil" aria-hidden="true"></i></li>
-        <li class='di p5-10 f16'><i class="fa fa-trash" aria-hidden="true"></i></li>
       </ul>
       <hr>
     </header>
@@ -22,7 +19,7 @@
       <li id='tab_44' data-id='44' class='fl p10-20 tb' @click='moveToNext(44)'>Corporate Q/A</li>
     </ul>
     <div id='tab_body' class='fl w100 p5-10 h-75'>
-        <Question :quesData='quesData' current='null' next='null' @finish='sumbit' />
+        <Question :quesData='quesData' current='null' next='null' @finish='sumbit' :save='save' @exit='move' />
     </div>
     
  </div>
@@ -40,7 +37,8 @@ export default {
     return {
       quesData : [],
       curr : null,
-      next: false
+      next: false,
+      save: false
 
     }
   },
@@ -115,6 +113,14 @@ export default {
         });
       }
     
+    },
+    exit: function(){
+      this.save = true;
+    },
+    move:function(){
+      this.save= false;
+      const self = this
+      this.$router.push({path:"/"+self.$store.state.path+"/hotel"});
     }
   },
   created(){
@@ -173,6 +179,10 @@ export default {
       //   });
     });
     }
+    $(function(){
+        $('nav#hotel div').removeClass('act');
+        $('nav#hotel div:nth-child(3)').addClass('act');
+        });
     
 
   }

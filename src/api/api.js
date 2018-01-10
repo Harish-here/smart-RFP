@@ -40,5 +40,7 @@ export default {
     getConnected: decide(prodPath +'/getConnected','https://api.myjson.com/bins/nam3n'),
     getHotelTrash: decide(prodPathH +'/getHotelTrash','https://api.myjson.com/bins/ihe2f'),//not done in backend
     moveTrashToDraft: decide(prodPath+'/moveTrashToDraft','http://localhost/'),
-    getHotel: decide(prodPath+'/hotelsbyques','http://localhost/')//dummy data must arrive
+    getHotel: decide(prodPath+'/hotelsbyques','http://localhost/'),
+    hotelBookmark: decide(prodPath+'/hoteBookmark','http://localhost/'),
+    hotelUnBookmark: decide(prodPath+'/hotelUnBookmark','http://localhost/')
 }

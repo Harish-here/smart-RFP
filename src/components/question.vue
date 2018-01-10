@@ -73,7 +73,7 @@ import api from '@/api/api'
 
 export default {
     name: 'question',
-    props: ['quesData','current','nxt'],
+    props: ['quesData','current','nxt','save'],
     data() {
         return {
             cData:[],
@@ -116,8 +116,12 @@ export default {
             const self = this;
             console.log(self.qData)
         },
-        'sam' : function(){
-            console.log(self.current)
+        'save' : function(){
+           if(this.save){
+              
+               this.submitAnswers();
+               this.$emit('exit')
+           }
         }
     },
 

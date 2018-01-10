@@ -26,7 +26,7 @@
           </tbody>
           <tbody v-if='listData !== null && listData.hasOwnProperty("comp")'>
             <tr v-if='listData.comp.length > 0 '
-                v-for='i in listData.comp'>
+                v-for='i in listData.comp' :key='i.rfp.value'>
                 <td class='w20'>{{ i.company.label }}</td>
                 <td class='w25'>{{ i.rfp.label }}</td>
                 <td class='w15 b6'>{{ (i.hasOwnProperty('location') && i.location.length > 0) ? i.location.map(x => x.label).join(', ') : "No location" }}</td>
@@ -63,6 +63,10 @@ export default {
         self.$store.commit('showProgress');
         axios(api.getHotelTrash).then(function(data){
             self.listData = data.data
+        });
+        $(function(){
+        $('nav#hotel div').removeClass('act');
+        $('nav#hotel div:nth-child(5)').addClass('act');
         });
         
     },

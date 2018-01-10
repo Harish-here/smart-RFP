@@ -63,7 +63,7 @@
         </section>
     </transition>
     <!-- check questions -->
-    <div class='pab p10-20 card' style='bottom:30px;right:30px;border-radius:5px;border:1px solid #fff;z-index:1000;background-color:#fff;'>
+    <div class='pab p10-20 card' style='bottom:10px;right:30px;border-radius:5px;border:1px solid #fff;z-index:1000;background-color:#fff;'>
       <span class='fl p2-4 bl b6'>Total questions added - {{cData.length}}</span>
       <button data-toggle='modal' data-target='#myModal2' class='fr btn btn-ghost btn-xs' @click='getHotel' :disabled='cData.length === 0'>Check Hotels for this</button>
     </div>
@@ -81,6 +81,7 @@
                           <ul class='fl w100' v-if='hotelList.length > 0'>
                               <li class='p5-10' v-for='i in hotelList' :key='i.id' style='margin-bottom:8px;border:1px solid #f3f3f3'>
                                   <span class='f14 b6 p5-10 w70' style="color:#4285f4;">{{i.name}}</span>
+                                  <span class='p5-10 fr cursor'><i title='Bookmark this hotel' :id='"book_"+i.id' @click='bookmark("book_"+i.id)' class="f14 fa fa-bookmark-o teal" aria-hidden="true"></i></span>
                                   <span class='p5-10 fr'>Star - {{i.star}}</span>
                               </li>
                           </ul>
@@ -113,7 +114,9 @@ export default {
             man: false,
             vman: false,
             vinc: false,
-            hotelList:[]
+            hotelList:[
+                {name:'harish',star:4,id:2}
+            ]
         }
     },
 
@@ -409,6 +412,20 @@ export default {
             $.post(api.getHotel,{ rfpId:self.$store.state.rfp.rfpId,ques: self.total.ques}).done(function(data){
                self.hotelList = JSON.parse(data)
             });
+        },
+        bookmark: function(id){
+            const self = this;
+                if($('i#'+id).hasClass('fa-bookmark-o')){
+                    self.$store.commit('showProgress')
+                    $.post(api.hotelBookmark,{ rfpId:self.$store.state.rfp.rfpId,hotels: [id]}).done(function(data){
+                       $('i#'+id).removeClass('fa-bookmark-o').addClass('fa-bookmark');
+                    });
+            }else{
+                self.$store.commit('showProgress')
+                    $.post(api.hotelUnBookmark,{ rfpId:self.$store.state.rfp.rfpId,hotels: [id]}).done(function(data){
+                       $('i#'+id).removeClass('fa-bookmark').addClass('fa-bookmark-o');
+                    });
+            }
         }
 
     },

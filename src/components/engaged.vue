@@ -66,8 +66,11 @@ export default {
         axios(api.getEngaged).then(function(data){
             self.listData = data.data
         });
-        // $('nav#hotel div').removeClass('act');
-        // $('nav#hotel div:nth-child(2)').addClass('act');
+        $(function(){
+            $('nav#hotel div').removeClass('act');
+        $('nav#hotel div:nth-child(2)').addClass('act');
+        });
+        
     },
 
     methods: {
