@@ -81,7 +81,8 @@
                           <ul class='fl w100' v-if='hotelList.length > 0'>
                               <li class='p5-10' v-for='i in hotelList' :key='i.id' style='margin-bottom:8px;border:1px solid #f3f3f3'>
                                   <span class='f14 b6 p5-10 w70' style="color:#4285f4;">{{i.name}}</span>
-                                  <span class='p5-10 fr cursor'><i title='Bookmark this hotel' :id='"book_"+i.id' @click='bookmark("book_"+i.id)' class="f14 fa fa-bookmark-o teal" aria-hidden="true"></i></span>
+                                  <span class='p5-10 fr cursor'>
+                                      <i title='Bookmark this hotel' :id='"book_"+i.id' @click='bookmark(i.id)' class="f14 fa teal" :class='{"fa-bookmark": i.bookmarkStatus === "bookmarked","fa-bookmark-o":i.bookmarkStatus === "notBookmarked"}' aria-hidden="true"></i></span>
                                   <span class='p5-10 fr'>Star - {{i.star}}</span>
                               </li>
                           </ul>
@@ -415,7 +416,7 @@ export default {
         },
         bookmark: function(id){
             const self = this;
-                if($('i#'+id).hasClass('fa-bookmark-o')){
+                if($('i#book_'+id).hasClass('fa-bookmark-o')){
                     self.$store.commit('showProgress')
                     $.post(api.hotelBookmark,{ rfpId:self.$store.state.rfp.rfpId,hotels: [id]}).done(function(data){
                        $('i#'+id).removeClass('fa-bookmark-o').addClass('fa-bookmark');
@@ -423,7 +424,7 @@ export default {
             }else{
                 self.$store.commit('showProgress')
                     $.post(api.hotelUnBookmark,{ rfpId:self.$store.state.rfp.rfpId,hotels: [id]}).done(function(data){
-                       $('i#'+id).removeClass('fa-bookmark').addClass('fa-bookmark-o');
+                       $('i#book_'+id).removeClass('fa-bookmark').addClass('fa-bookmark-o');
                     });
             }
         }

@@ -45,8 +45,8 @@
               <td class='center w15'>{{i.minPrice}} - {{i.maxPrice}}</td>
               <td class=' w20' v-if='i.status !== "declined"'>
                 <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-ghost btn-xs'>View Details</button>
-                <button v-if='(i.status != "declined" || i.status != "accepted") && i.shortlist !== "1"'  @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
-                <button v-if='(i.status != "declined" || i.status != "accepted") && i.shortlist !== "0"'  @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>Unshortlist</button>
+                <button v-if='(i.status != "declined" || i.status != "accepted") && i.shortlist !== "1" && $store.state.permission!= 0'  @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
+                <button v-if='(i.status != "declined" || i.status != "accepted") && i.shortlist !== "0" && $store.state.permission!= 0'  @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>Unshortlist</button>
               </td>
               <td class='red b5 w20' v-else>
                 <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-info btn-xs'>View Details</button>

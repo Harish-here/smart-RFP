@@ -15,6 +15,7 @@ const store = new Vuex.Store({
       nextScreen:7,
       list:null,
     },
+    permission:1,
     rfp: {
       rfpId: null,
       rfpName: null,
@@ -30,6 +31,9 @@ const store = new Vuex.Store({
   mutations: {
     changeHotelMode (state,mode){
         state.hotel.mode = mode;
+    },
+    setPermission(state,per){
+      state.permission = per;
     },
     setNextScreen (state,screen){
       state.hotel.nextScreen = screen;

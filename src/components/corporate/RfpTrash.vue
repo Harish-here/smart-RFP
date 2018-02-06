@@ -11,7 +11,7 @@
              <th class='w30'>RFP Name</th>
              <th class='w30'>Locations</th> 
              <th class='w20 center'>Rooms / Year</th>
-             <th class='w30 center'>Action</th>
+             <th class='w30 center' v-if="$store.state.permission!= 0">Action</th>
             </tr>
           </thead>
           <tbody v-if='listData === null'>
@@ -25,7 +25,7 @@
                 <td class='w30'>{{i.rfp}}</td>
                 <td class='w30'>{{ (i.hasOwnProperty('location') && i.location.length > 0) ? i.location.map((x)=> x.label).join(',') : 'No location Selected'}}</td>
                 <td class='w20 center'>{{i.roomsYear}}</td>
-                <td class='w30 center'>
+                <td class='w30 center' v-if="$store.state.permission!= 0">
                     <button @click='sendTo(i)' class='btn btn-ghost btn-xs'>Move to Saved</button>
                 </td>
             </tr>

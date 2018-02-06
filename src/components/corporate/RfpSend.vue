@@ -42,7 +42,8 @@
                 </tr>
             </thead>
             <tbody v-if='listData.length !== undefined && listData.length > 0'
-                    v-for='j in listData'>
+                    v-for='j in listData'
+                    :key='j'>
                 <tr>
                     <td colspan='6' class='f16 b6 center bg-gray'>{{j.city}}</td>
                 </tr>
@@ -51,6 +52,7 @@
                     <td class='w30'>{{i.hotelName}} 
                         <span v-if='i.status === "Favourite"' title='Favorite Hotel'><i class="fa fa-heart red" aria-hidden="true"></i></span>
                         <span v-else-if='i.status !== "Not Connected"' title='Connected Hotel'><i class="fa fa-link blue" aria-hidden="true"></i></span>
+                        <span title='Bookmarked Hotel'><i class="fa teal" :class='{"fa-bookmark": i.bookmarkStatus === "bookmarked","fa-bookmark-o":i.bookmarkStatus === "notBookmarked"}' aria-hidden="true"></i></span>
                     </td>
                     <td class='w10 center'>{{i.star}}</td>
                     <td class='w15 center'>{{i.locality}}</td>

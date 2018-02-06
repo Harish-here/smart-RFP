@@ -4,7 +4,7 @@
       <button @click='back' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
       <div class='di roboto b3 p10-20'>{{ (basicData.hasOwnProperty('hotelName')) ? basicData.hotelName : 'Hotel Name'}}</div> 
       <span class='di btn btn-info btn-xs'> View profile</span>
-      <ul class='fr' v-if='basicData.hasOwnProperty("quoteStatus") && basicData.quoteStatus === "pending"'>
+      <ul class='fr' v-if='basicData.hasOwnProperty("quoteStatus") && basicData.quoteStatus === "pending" && $store.state.permission!= 0'>
         <li class='fl p5-10'><button id='accept' class='btn btn-primary btn-sm' @click='agree'> <i class="fa fa-check" aria-hidden="true"></i> Approve</button></li>
         <li class='fl p5-10'><button id='decline' class='btn btn-danger btn-sm' @click='disagree'> <i class="fa fa-remove" aria-hidden="true"></i> Reject</button></li>
       </ul>
