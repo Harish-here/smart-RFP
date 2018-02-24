@@ -5,14 +5,14 @@
          {{label}}
       </div>
     </transition>
-    <nav id='corporate' v-if='!showHotel' class='fl w10 bg-drk h-full al-left b6 f16 teal br-l cursor'>
+    <nav id='corporate' v-if='!showHotel' class='fl w10 bg-drk h-full al-left b6 f16  br-l cursor'>
       <div id='nav_1' class='p20-40 center act' @click='go({path:"/"+$store.state.path+"/corprate/"},1)'><i class="fa fa-envelope-open-o" aria-hidden="true"></i><br>RFP's</div>
       <div id='nav_2' v-if='$store.state.permission != 0'  class='p20-40 center' @click='go({path:"/"+$store.state.path+"/corprate/create"},2)'><i class="fa fa-telegram" aria-hidden="true"></i><br/>Create </div>
       <div id='nav_3' class='p20-40 center' @click='go({path:"/"+$store.state.path+"/corprate/connected"},3)'><i class="fa fa-handshake-o" aria-hidden="true"></i><br/>Contracted</div>
       <div id='nav_4' class='p20-40 center' @click='go({path:"/"+$store.state.path+"/corprate/draft"},4)'><i class="fa fa-vcard-o" aria-hidden="true"></i><br/>Saved</div>
       <div id='nav_5' href='#' class='p20-40 center' @click='go({path:"/"+$store.state.path+"/corprate/trash"},5)'><i class="fa fa-trash" aria-hidden="true"></i><br/> Trash</div> 
     </nav>
-    <nav id='hotel' v-if='showHotel' class='fl w10 bg-drk h-full al-left b6 f16 teal br-l cursor'>
+    <nav id='hotel' v-if='showHotel' class='fl w10 bg-drk h-full al-left b6 f16  br-l cursor'>
       <div id='nav_1' class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel"},1)'><i class="fa fa-inbox" aria-hidden="true"></i><br/> Proposal</div>
       <div id='nav_2' class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel/engaged"},2)'><i class="fa fa-linux" aria-hidden="true"></i><br/> Engaged</div>
       <div id='nav_3' class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel/questions"},3)'><i class="fa fa-cogs" aria-hidden="true"></i><br/> Settings</div>

@@ -4,14 +4,14 @@
       <div class='roboto b3 dib'>RFP - Send</div>
       <hr>
     </header>
-    <ul id='tab_head' class='fl w100 p5-10 b6 f18 center'>
+    <ul id='tab_head' class='fl w20 p5-10 b6 f18 center'>
       <li id='tab1' @click='switchTab("hotel_overall","tab1")' class='fl p10-20 tb tb--active'>Overall Hotels ({{ numOfhotels }})</li>
       <li id='tab2' @click='switchTab("hotel_included","tab2")' class='fl p10-20 tb'>Included Hotels ({{ listDataInc.length }})</li>
-      <li class='fr w15 p5-10'>
+      <li class='fl w15 p5-10'>
             <button class='btn btn-primary' @click='publishRfp'><i class="fa fa-paper-plane" aria-hidden="true"></i> Publish RFP</button>
-        </li>
+      </li>
     </ul>
-    <div id='hotel_area'>
+    <div id='hotel_area' class='fl w80'>
         <section  id='hotel_overall' class='fl w100 p5-10'>
             <div v-show='false' id='action_area' class='fl w100 p5-10'>
                 <ul class='fl w100 p5-10 b6 f16'>

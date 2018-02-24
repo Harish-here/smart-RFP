@@ -2,13 +2,13 @@
 <div id='RfpList' class='p10-20'>
     <header class='fl w100 p10-20'>
       <div class='di roboto b3'>RFP - Published</div>
-      <span class='badge badge-primary' v-if='filter.hasOwnProperty("label")'><b>{{filter.label}}</b> <span @click='filter = {};filterChildren="";' class='p2-4 cursor f14'>x</span></span>
+      <span class='badge badge-primary mr-bt-5' v-if='filter.hasOwnProperty("label")'><b>{{filter.label}}</b> <span @click='filter = {};filterChildren="";' class='p2-4 cursor f14'>x</span></span>
           <select v-if='listGroup.length !== 0' v-model='filterChildren' class='br-none' style='font-size:11px;width:100px;'>
             <option value=''>All</option>
             <option v-for='i in listGroup' :value='i' :key='i'>{{i}}</option>
             <!-- <option value='d'>klklk</option> -->
           </select>
-          <span class='fr p2-4'>
+          <span class='fr p2-4 mr-bt-5'>
             <button class='btn btn-default btn-sm' @click='refreshList'><i class='fa fa-refresh'></i></button>
           </span>
           <div class='btn-group fr center p2-4'>
@@ -65,11 +65,14 @@
             </tr>
           </tbody>
           <tbody v-if='listDatacomp.hasOwnProperty("rfp") && listDatacomp.rfp.length > 0 && listDatacomp.rfp[0].hasOwnProperty("groupName")' v-for='i in listDatacomp.rfp' :key='i.groupName'> 
-                    <tr><td class='bg-gray b6' colspan='8'>{{i.groupName}}</td></tr>
-                    <tr  v-for='y in i.list' :key='y.id'>
+                    <tr>
+                      <td class='bg-gray b6' colspan='4'>{{i.groupName}}</td>
+                      <td class='bg-gray' colspan='4'>Total - <span class='badge badge-info'>{{i.list.length}}</span></td>
+                    </tr>
+                    <tr  v-for='y in i.list' :key='y.id' :class='{"opa": y.connected === "expired"}'>
                       <td class='w15'>{{y.rfp}}</td>
                       <td class='w20'>{{y.location.map(x => x.label).join(', ')}}</td>
-                      <td class='w10' :class='{"orange":y.connected === "pending","green":y.connected === "connected"}'>{{y.connected}}</td>
+                      <td class='w10 b6 ' :class='{"orange":y.connected === "pending","green":y.connected === "connected"}'>{{y.connected}}</td>
                       <td class='center w10'>{{y.roomsYear}}</td>
                       <td class='center w10'>{{y.dueDate}}</td>
                       <td class='center w10'> <span class='badge badge-primary'>{{y.noOfHotels}} </span></td>

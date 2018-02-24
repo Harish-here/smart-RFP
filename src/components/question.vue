@@ -2,13 +2,12 @@
  <div id='question' class='h-60'>
     <ul  id='tab_v_head' class='fl w25 b6 f12 al-left'>
         <li v-for='(i,index) in qData.quesCategory' class='p20-40 tb' @click='show(index)' :id='"tabc_"+index'  :class='{"tb-v--active":index === 0}' :key='i.questionCategoryId'>{{i.questionCategory}}</li>
-       <!-- <li class='p20-40 tb tb-v--active'>Payment</li> -->
     </ul>
    <!-- <pre>{{ cData }}</pre> -->
     <div id='content'>
-        <section  v-for='(y,index_1) in qData.quesCategory' class='fr w75 f12 y-flow'  :class='{"dbNo":index_1 !== 0}' :id='"body_"+index_1' :key='y.questionCategoryId'>       
+        <section  v-for='(y,index_1) in qData.quesCategory' class='fl w100 f12 y-flow bg-least'  :class='{"dbNo":index_1 !== 0}' :id='"body_"+index_1' :key='y.questionCategoryId'>       
             <div id='Next_btn' class='fl w100 center'>
-              <ul>
+              <ul class='p5-10'>
                 <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
                     <button :id='index_1' class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next</button>
                 </li>
@@ -17,20 +16,20 @@
             </div>
             <div v-for='i in y.ques' :key='i.questionId'>
                     <div v-if='i.questionSubTypeId === "7"'>
-                        <div class=' fl w60 p10-20'>
+                        <div class=' fl w100 p10-20 b6'>
                         {{i.questionText}} ?
                         </div>
-                        <div class='fl w40 p10-20'>
-                            <div class='di  pl-25' v-for='(j,z) in i.concatAns' :key='j.answerId'>
+                        <div class='fl w100 p10-20'>
+                            <div class='di  pl-25' v-for='j in i.concatAns' :key='j.answerId'>
                                 <input v-model='i.answer' :value='[j]'  type='radio' :name='i.questionText' :id='"ans_" + i.questionId'> {{j.answer}}
                             </div>
                         </div>
                     </div>
                     <div v-else-if='i.questionSubTypeId === "1" || i.questionSubTypeId === "2" || i.questionSubTypeId === "3" || i.questionSubTypeId === "4" ||  i.questionSubTypeId === "6" '>
-                        <div class=' fl w60 p10-20'>
+                        <div class=' fl w100 p10-20 b6'>
                         {{i.questionText}} 
                         </div>
-                        <div class='fl w40 p10-20'>
+                        <div class='fl w100 p10-20'>
                             <div class='pl-25'>
                                 <input type='text' 
                                        v-model='i.answer[0].answer'
@@ -42,17 +41,17 @@
                         </div>
                     </div>
                     <div v-else-if='i.questionSubTypeId === "9"'>
-                        <div class=' fl w60 p10-20'>
+                        <div class=' fl w100 p10-20 b6'>
                         {{i.questionText}} 
                         </div>
-                        <div class='fl w40 p10-20'>
+                        <div class='fl w100 p10-20'>
                             <div class='di  pl-25' v-for='j in i.concatAns' :key='j.answerId'>
                                 <input v-model='i.answer' type='radio'  :name='i.questionText' :value='[j]'> {{j.answer}}
                             </div>
                         </div>
                     </div>
                     <div v-else>
-                        <div class=' fl w100 p10-20'>
+                        <div class=' fl w100 p10-20 b6'>
                         {{i.questionText}} 
                         </div>
                         <ul class='fl w100 p20-40'>
@@ -73,7 +72,7 @@ import api from '@/api/api'
 
 export default {
     name: 'question',
-    props: ['quesData','current','nxt','save'],
+    props: ['quesData','current','nxt','save',],
     data() {
         return {
             cData:[],
@@ -114,14 +113,18 @@ export default {
         'qData': function(){
             // console.log('ne')
             const self = this;
-            console.log(self.qData)
+           
         },
         'save' : function(){
            if(this.save){
-              
                this.submitAnswers();
                this.$emit('exit')
            }
+        },
+        'nxt': function(){
+            if(this.nxt){
+              this.submitAnswers();  
+            }
         }
     },
 
@@ -154,58 +157,14 @@ export default {
             });
 
         },
-        addAns: function(id){
-            const self= this;
-            let ansObj,quesObj,isThere =false,isId9 = false;
-                ansObj = $('#ans_'+id).data('ans');
-                quesObj = $('#ans_'+id).data('que');
-                //delete the unneccessary
-                delete quesObj.questionText;
-                delete quesObj.isMandatory;
-                delete quesObj.answer;
-                if(quesObj.hasOwnProperty('concatAns')) {
-                    delete quesObj.concatAns;
-                } 
-                var qId = quesObj.questionId;
-                var qsubId = quesObj.questionSubTypeId;
-                if(qsubId === "1" || qsubId === "2" || qsubId === "3" || qsubId === "4" ||  qsubId === "6"){
-                    ansObj['answer'] = $('#ans_'+id).val();
-                     
-                }
-                quesObj['answer'] = [ansObj];
-            if(self.cData.length > 0){ 
-               var arr = _.filter(self.cData,{'questionId' : qId});
-                if(arr.length == 0){
-                    //questionObj not present
-                    self.cData.push(quesObj);
-                }else{//questionObj present
-                     var index = _.findIndex(self.cData,{'questionId' : qId});
-                     if(qsubId == "8"){
-                         var arr2 = _.filter(self.cData[index].answer,ansObj);
-                        ( arr2.length == 0 ) ? 
-                        self.cData[index].answer.push(ansObj) ://add the new answer  
-                        self.cData[index].answer.splice(_.findIndex(self.cData[index].answer.ansObj),1); //remmove the naswer if he unchecked; 
-                     }
-                     else{
-                         self.cData[index].answer = [];
-                         self.cData[index].answer.push(ansObj);
-                     }
-                }        
-            }
-            else{
-                
-                self.cData.push(quesObj);
-            }
-        },
+        
         show: function(id){
             $('div#content section').addClass('dbNo');
             $('div#content section#body_'+id).removeClass('dbNo');
             $('#tab_v_head li').removeClass('tb-v--active');
             $('li#tabc_'+id).addClass('tb-v--active');
-        },
-        txtAns: _.debounce(function(id){
-            this.addAns(id);
-        },700)
+        }
+        
     },
 
 }
@@ -213,5 +172,14 @@ export default {
 <style scoped>
 input[type=number]{
 width:100px;
+outline:none;
+
+}
+input:focus{
+    outline:none;
+}
+input[type=number],input[type=text]{
+    height:24px;
+    width:100%;
 }
 </style>

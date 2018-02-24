@@ -1,14 +1,14 @@
 <template>
- <div id='questionCorp' class='h-100'>
-    <ul  id='tab_v_head' class='fl w25 p5-10 b6 f12 al-left'>
+ <div id='questionCorp' class='h-60'>
+    <ul  id='tab_v_head' class='fl w30 p5-10 b6 f12 al-left'>
         <li class='p20-40 tb' v-for='(i,index) in qData.quesCategory' @click='show(index)' :id='"tabc_"+index' :class='{"tb-v--active":(index === 0) ? true:false}' :key='i.questionCategoryId' >{{i.questionCategory}}</li>
     </ul>
-    <div id='content' class='fl w75'>
+    <div id='content' class='fl w70'>
         <div class='fl w100'>
-            <ul class='fr w40 b6 p5-10 mr-67 '>
-                <li  class='fr w10 dbNo'> <button class='btn btn-default btn-xs' type='button'><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+            <ul class='fr w40 b6 p5-10 ' style='margin-right:52px;'>
+                <!-- <li  class='fr w10 dbNo'> <button class='btn btn-default btn-xs' type='button'><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                 </button>
-                </li>
+                </li> -->
                 
                 <li class='fr w40 center p5-10'>Mandatory <br>
                     <span> <input @click='addAnsM(allM)' type="checkbox" :disabled='man' v-model='vman'></span>
@@ -65,7 +65,7 @@
     <!-- check questions -->
     <div class='pab p10-20 card' style='bottom:10px;right:30px;border-radius:5px;border:1px solid #fff;z-index:1000;background-color:#fff;'>
       <span class='fl p2-4 bl b6'>Total questions added - {{cData.length}}</span>
-      <button data-toggle='modal' data-target='#myModal2' class='fr btn btn-ghost btn-xs' @click='getHotel' :disabled='cData.length === 0'>Check Hotels for this</button>
+      <button data-toggle='modal' data-target='#myModal2' class='fr btn btn-ghost btn-xs' @click='getHotel' :disabled='cData.length === 0'>Matched Hotels for this</button>
     </div>
     <div class="modal right fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
                 <div class="modal-dialog" role="document">
@@ -257,7 +257,7 @@ export default {
              self.all = [];
              self.allM = [];
              self.all = [].concat.apply([],temp.quesCategory.map(x => x.ques.map( y => y)));
-            console.log(self.all)
+            
              self.allM = [].concat.apply([],temp2.quesCategory.map(x => x.ques.map( y => y)));
             //  console.log(self.allM)
             });
@@ -381,28 +381,28 @@ export default {
             const self =this;
             self.cData.splice(index,1);
         },
-        include: function(objs){
-           const self = this;
-           var obj = self.remove(JSON.parse(JSON.stringify(objs)));
-           if(self.cData.length > 0){
-            //    var arr = _.filter(self.cData,{'questionId' : obj.questionId});
-               if(arr.length == 0) {
-                   self.cData.push(obj);//push que obj
-               }else{//remove the ques obj
-               var index = self.cData.findIndex((ele) => { return  ele.questionId == obj.questionId});
-                  if(obj['isMandatory'] == "0" && self.cData[index].isMandatory != "1"){
+        // include: function(objs){
+        //    const self = this;
+        //    var obj = self.remove(JSON.parse(JSON.stringify(objs)));
+        //    if(self.cData.length > 0){
+        //     //    var arr = _.filter(self.cData,{'questionId' : obj.questionId});
+        //        if(arr.length == 0) {
+        //            self.cData.push(obj);//push que obj
+        //        }else{//remove the ques obj
+        //        var index = self.cData.findIndex((ele) => { return  ele.questionId == obj.questionId});
+        //           if(obj['isMandatory'] == "0" && self.cData[index].isMandatory != "1"){
                         
-                        self.removeObj(index) ;
-                   }else{
-                       (obj['isMandatory'] == "1" && self.cData[index].isMandatory == "1") ? self.removeObj(index) : self.cData[index].isMandatory == "1" ;
-                        //self.cData.push(obj);
-                   }
-               }
-           }else{
-               self.cData.push(obj);
-           }
+        //                 self.removeObj(index) ;
+        //            }else{
+        //                (obj['isMandatory'] == "1" && self.cData[index].isMandatory == "1") ? self.removeObj(index) : self.cData[index].isMandatory == "1" ;
+        //                 //self.cData.push(obj);
+        //            }
+        //        }
+        //    }else{
+        //        self.cData.push(obj);
+        //    }
            
-        },
+        // },
         mand: function(obj){
             const self = this;
            obj['isMandatory'] = "1";

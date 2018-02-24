@@ -7,9 +7,10 @@
           <button class='btn btn-primary btn-sm b6' @click='exit'> Save & Exit</button>
         </li>
       </ul>
+      <div v-if='ss' class='pab saveBox'>Saving...</div>
       <hr>
     </header>
-    <ul id='tab_head' class='fl w100 p5-10 b6 f12 center'>
+    <ul id='tab_head' class='fl w10 p5-10 b6 f12 center'>
       <li id='tab_1' data-id='1' class='fl p10-20 tb tb--active' @click='moveToNext(1)'>Property Baisc</li>
       <li id='tab_7' data-id='7' class='fl p10-20 tb' @click='moveToNext(7)'>Client Specific</li>
       <li id='tab_24' data-id='24' class='fl p10-20 tb' @click='moveToNext(24)'>Safety & Security</li>
@@ -19,7 +20,7 @@
       <li id='tab_44' data-id='44' class='fl p10-20 tb' @click='moveToNext(44)'>Corporate Q/A</li>
     </ul>
     <div id='tab_body' class='fl w100 p5-10 h-75'>
-        <Question :quesData='quesData' current='null' next='null' @finish='sumbit' :save='save' @exit='move' />
+        <Question :quesData='quesData' :nxt='moveTab' @finish='sumbit' :save='save' @exit='move' />
     </div>
     
  </div>
@@ -38,13 +39,14 @@ export default {
       quesData : [],
       curr : null,
       next: false,
-      save: false
+      save: false,
+      moveTab: false,
+      ss:false
 
     }
   },
   methods: {
     sumbit: function(id){
-      
       const self =this;
       var nxt = self.$store.state.hotel.nextScreen;
       $('#tab_head li ').removeClass('tb--active');
@@ -60,12 +62,14 @@ export default {
        self.$store.commit('setNextScreen',nnxt);
 
       }
-     
+     this.ss = false;
     },
     moveToNext : function(id){
       const self = this;
       this.$store.commit('setNextScreen',id);
-      alert('Please Click Save button in last sub category and you\'ll be moved to next category');
+     // alert('Please Click Save button in last sub category and you\'ll be moved to next category');
+     this.moveTab = true;
+     this.ss = true;
     },
     getQues : function(id){
       const self = this;
@@ -88,6 +92,7 @@ export default {
               });
           
             self.quesData = temp;
+            self.moveTab = false;
         });
       }else{
          $.get(api.getQuesH,{questionCategoryParent : id}).done(function(data){
@@ -119,7 +124,6 @@ export default {
     },
     move:function(){
       this.save= false;
-      const self = this
       this.$router.push({path:"/"+self.$store.state.path+"/hotel"});
     }
   },
@@ -190,5 +194,13 @@ export default {
 </script>
 
 <style>
-
+.saveBox{
+    border: 1px solid #e1e1e1;
+    padding: 4px;
+    background-color: lightblue;
+    color: aliceblue;
+    font-weight: 600;
+    top: 5px;
+    left: 50%;
+}
 </style>

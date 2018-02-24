@@ -9,10 +9,10 @@
         <li class='fl p5-10'><button id='decline' class='btn btn-danger btn-sm' @click='disagree'> <i class="fa fa-remove" aria-hidden="true"></i> Reject</button></li>
       </ul>
       <ul class='fr p5-10' v-if='basicData.quoteStatus === "accepted"'>
-        <li class='fl p5-10'><button id='accept' class='btn btn-primary btn-sm opa' disabled> Accepted</button></li>
+        <li class='fl p5-10'><div id='accept' class='btn btn-primary btn-sm opa'> Accepted</div></li>
       </ul>
       <ul class='fr p5-10' v-if='basicData.quoteStatus === "declined"'>
-        <li class='fl p5-10'><button id='decline' class='btn btn-danger btn-sm' disabled> <i class="fa fa-remove" aria-hidden="true"></i> Declined</button></li>
+        <li class='fl p5-10'><div id='decline' class='btn btn-danger btn-sm' disabled> <i class="fa fa-remove" aria-hidden="true"></i> Declined</div></li>
       </ul>
       <hr>
     </header>

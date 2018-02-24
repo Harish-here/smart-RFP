@@ -2,9 +2,12 @@
 /* normalization */
 *{ font-family: sans-serif;font-size:12px; }
 hr{ margin-bottom:0px !important; }
-nav a{ text-decoration: none; display: block;padding-left: 10px;color:#337a7;}
-nav div:hover{ color:#fff;background-color:#009688;text-decoration: none;}
+nav div:hover{ background-color:#fff;color:#000;text-decoration: none;}
+nav {background-color: #e1e1e1 !important;color: #000;}
 nav a:visited{text-decoration: none;}
+.v-select ,.dropdown-toggle{ border-radius:0px !important;}
+.v-select .open-indicator { bottom: -2px;}
+.v-select .selected-tag{margin : 0px 1px 0 3px !important;height: 22px !important;padding:0px .25em !important;}
 
 nav div .fa{font-size: 22px;}
 ul,li{padding: 0px;margin: 0px;list-style: none;}
@@ -52,7 +55,7 @@ hr{ margin-bottom:0px !important; }
 .cursor{cursor: pointer;}
 .trans{ transition: 0.3s; }
 .opa{opacity: .4;}
-.br-l{background-color: #fafafa !important;}
+.br-l{background-color: #fafafa;}
 .u{text-decoration: underline;}
 .card{box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);}
 /* ---- padding  -----*/
@@ -63,16 +66,27 @@ hr{ margin-bottom:0px !important; }
 
 
 /* ---- component  -----*/
-.tb{ border-left: none; border-right: none;border-top:none; border-bottom:none; cursor: pointer;}
+
+.tb{ cursor: pointer;
+	border: solid 1px #e3e3e3;
+	width: 100%;
+	text-align: left;
+	padding: 10px 10px 10px 12px !important;
+	background-color: #fff;
+	box-shadow: 0px 1px 0px 0px rgba(36,38,47,0.10), 0px 4px 6px 0px rgba(0,0,0,0.06);
+	margin: 3px 0 !important;}
 /* .tb:hover{border-bottom: 3px solid #ddd; cursor: pointer;} */
-.tb--active{ border-top: 3px solid #4285f4; color: #4285f4; }
-.tb-v--active{ border-left:3px solid #4285f4; color: #4285f4; }
+.tb--active{
+	 background: #f4a742;
+	color: #fff;
+	border: 0;}
+.tb-v--active{  color: #000;background-color: #f9f9f9; }
 /* .tb-v--active:hover,.tb--active:hover{background-color: #fff;} */
 
 /* ---- color  -----   */
 .bg-drk{ background-color: #fff;}
 .hover{ background-color: #50617c; }
-.act{background-color: #009688; color:#fff;}
+.act{background-color: #fff; color:#000;}
 .bg-ddd{ background-color:#fff; }
 .bg-dd{ background-color: #fff; }
 .bg-green{background-color:green !important;}
@@ -87,6 +101,33 @@ hr{ margin-bottom:0px !important; }
 .bg-high{background-color: #f9f9f9;}
 .teal{color:#009688 !important;}
 .bg-acc{background-color: #e7ffeb;}
+.br-none{border: none;}
+.br-none:focus{outline: none;}
+.mr-bt-5{margin-bottom: 5px;}
+/* scroll bar*/
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
+}
+/*   table   */
+.table td, .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+	padding:10px !important;
+}
 
 
 /* font / text */
@@ -113,4 +154,55 @@ hr{ margin-bottom:0px !important; }
 .btn-ghost:hover{
 	background-color: #009688;
 	color:#fff;
+}
+/*left bar*/
+/*******************************
+* MODAL AS LEFT/RIGHT SIDEBAR
+*******************************/
+.modal.left .modal-dialog,
+.modal.right .modal-dialog {
+	position: fixed;
+	margin: auto;
+	width: 500px;
+	height: 100%;
+	-webkit-transform: translate3d(0%, 0, 0);
+		-ms-transform: translate3d(0%, 0, 0);
+		 -o-transform: translate3d(0%, 0, 0);
+			transform: translate3d(0%, 0, 0);
+}
+
+.modal.left .modal-content,
+.modal.right .modal-content {
+	height: 100%;
+	overflow-y: auto;
+}
+
+.modal.left .modal-body,
+.modal.right .modal-body {
+	padding: 15px 15px 80px;
+}
+
+	
+/*Right*/
+.modal.right.fade .modal-dialog {
+	right: -320px;
+	-webkit-transition: opacity 0.2s linear, right 0.2s ease-out;
+	   -moz-transition: opacity 0.2s linear, right 0.2s ease-out;
+		 -o-transition: opacity 0.2s linear, right 0.2s ease-out;
+			transition: opacity 0.2s linear, right 0.2s ease-out;
+}
+
+.modal.right.fade.in .modal-dialog {
+	right: 0;
+}
+
+/* ----- MODAL STYLE ----- */
+.modal-content {
+	border-radius: 0;
+	border: none;
+}
+
+.modal-header {
+	border-bottom-color: #EEEEEE;
+	background-color: #FAFAFA;
 }

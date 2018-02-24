@@ -2,11 +2,10 @@
  <div id="Rfp_Quote_List" class='p10-20'>
     <header class='fl w100 p5-10'>
       <button @click='back({path:"/"+$store.state.path+"/corprate/"})' class='btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
-      <div class='roboto b3 dib'> Quotes Received</div>
-      <br>
-      <div class='roboto b3 pl-40 di'>{{ (listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> 
       
-      <ul class='fr w60 p5-10'>
+      <div class='roboto b3 di p5-10'>{{ (listData.hasOwnProperty('rfpName')) ? listData.rfpName : "RFP Name"}}</div> 
+      <div class='di f11 gray p2-4'> Quotes Received</div>
+      <ul class='fr w60 p5-10 top-br'>
         <li class='fr w20'>
           <button @click='back({path:"/"+$store.state.path+"/corprate/questionview/"+$route.params.id})' class='btn btn-info btn-xs'>Preview RFP</button>
         </li>
@@ -43,10 +42,10 @@
               <td class='b5 w10' :class='{red:(i.status === "declined") ? true : false,green: (i.status !== "declined") ? true : false}'>{{i.status}}</td>
               <td class='center w10'>{{i.roomsYear}}</td>
               <td class='center w15'>{{i.minPrice}} - {{i.maxPrice}}</td>
-              <td class=' w20' v-if='i.status !== "declined"'>
+              <td class=' w20' v-if='i.status != "declined" || i.status != "accepted"'>
                 <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-ghost btn-xs'>View Details</button>
-                <button v-if='(i.status != "declined" || i.status != "accepted") && i.shortlist !== "1" && $store.state.permission!= 0'  @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
-                <button v-if='(i.status != "declined" || i.status != "accepted") && i.shortlist !== "0" && $store.state.permission!= 0'  @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>Unshortlist</button>
+                <button v-if='i.shortlist !== "1" && $store.state.permission != 0'  @click='shortlist(i.hotelId)' class='btn btn-default btn-xs' title='Shorlist this quote'>Shorlist it</button> 
+                <button v-if='i.shortlist !== "0" && $store.state.permission != 0'  @click='notShortlist(i.hotelId)' class='btn btn-success btn-xs' title='Unshorlist this quote'>Unshortlist</button>
               </td>
               <td class='red b5 w20' v-else>
                 <button @click='go({path:"/"+$store.state.path+"/corprate/quotereview/"+listData.rfpId+"/"+i.hotelId+"/q"})' class='btn btn-info btn-xs'>View Details</button>
@@ -144,4 +143,9 @@ export default {
 </script>
 
 <style>
+.top-br{
+  border:1px solid lightgray;
+  background-color: #f7f7f7;
+  border-radius: 2px;
+}
 </style>

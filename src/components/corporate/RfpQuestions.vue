@@ -11,7 +11,7 @@
       </ul>
       <hr class='w100'>
     </header>
-    <ul id='tab_head' class='fl w100 p5-10 b6 f12 center'>
+    <ul id='tab_head' class='fl w10 p5-10 b6 f12 center'>
       <li id='tab_1' data-id='1' class='fl p10-20 tb tb--active' @click='getQuestion("Property Baisc")'>Property Baisc</li>
       <li id='tab_7' data-id='7' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Client Specific</li>
       <li id='tab_24' data-id='24' class='fl p10-20 tb' @click='getQuestion("Property Baisc")'>Safety & Security</li>
@@ -36,7 +36,7 @@ export default {
   components: {RfpDisplayQuestions},
   data() {
     return {
-      nxt: '',
+      nxt: '1',
       show: {
         questionBar : false
       },
@@ -48,8 +48,7 @@ export default {
   },
 
   created(){
-    const self =this;
-    self.nxt = "7";
+  
   },
 
   methods: {

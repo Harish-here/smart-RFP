@@ -27,6 +27,7 @@
                 <td class='w20 center'>{{i.roomsYear}}</td>
                 <td class='w30 center' v-if="$store.state.permission!= 0">
                     <button @click='sendTo(i)' class='btn btn-ghost btn-xs'>Move to Saved</button>
+                    <button @click='back({path:"/"+$store.state.path+"/corprate/questionview/"+i.rfpId+"/t"})' class='btn btn-ghost btn-xs'>View</button>
                 </td>
             </tr>
             <tr v-if='listData.rfp.length === 0'>
@@ -67,7 +68,10 @@ export default {
                     });
                 })
             }
-        }
+        },
+        back: function(obj){
+            this.$router.push(obj);
+        },
     }
 }
 </script>
