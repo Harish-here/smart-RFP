@@ -66,7 +66,7 @@
                       <td class='w10 center'>{{y.roomsYear}}</td>
                       <td class='w30 center' v-if="$store.state.permission!= 0">
                           <button @click='go({rfpId:y.rfpId,rfpName:y.rfp})' class='btn btn-ghost btn-xs'>Forward to hotels</button>
-                          <button @click='back({path:"/"+$store.state.path+"/corprate/questionview/"+y.rfpId})' class='btn btn-ghost btn-xs'>View</button>
+                          <button @click='back({path:"/"+$store.state.path+"/corprate/questionview/"+y.rfpId+"/s"})' class='btn btn-ghost btn-xs'>View</button>
                           <button @click='trash(y.rfpId)' class='btn btn-default btn-xs' title='move this RFP to trash'><i class="fa fa-trash" aria-hidden="true"></i></button>
                       </td>
                     </tr>

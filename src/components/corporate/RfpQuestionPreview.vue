@@ -77,9 +77,9 @@ export default {
                     self.listData = JSON.parse(data);
                 }) :
                 axios(api.getPreview).then(function(data){
-                    self.listData = data.data
+                    self.listData = data.data;
+                    
                 }) ;
-
 
     },
     methods: {
@@ -112,7 +112,12 @@ export default {
       },
       back : function(obj){
           const self = this;
-          self.$router.push(obj)
+         //redirect to correct page based on the type @param in url
+          switch(self.$route.params.type){
+              case 's': self.$router.push({path:"/"+self.$store.state.path+"/corprate/draft"});break;
+              case 't' : self.$router.push({path:"/"+self.$store.state.path+"/corprate/trash"});break;
+              case 'q' : self.$router.push({path:"/"+self.$store.state.path+"/corprate/quotelist/"+self.$route.params.id});break;
+          }
       }
     }
 }

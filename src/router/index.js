@@ -99,7 +99,7 @@ export default new Router({
       component: RfpQuoteReview,
     },
     {
-      path: '/:foo(.*?)/corprate/questionview/:id',
+      path: '/:foo(.*?)/corprate/questionview/:id/:type',
       name: 'RfpQuestionPreview',
       component: RfpQuestionPreview,
     },

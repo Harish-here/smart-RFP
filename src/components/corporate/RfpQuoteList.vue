@@ -7,7 +7,7 @@
       <div class='di f11 gray p2-4'> Quotes Received</div>
       <ul class='fr w60 p5-10 top-br'>
         <li class='fr w20'>
-          <button @click='back({path:"/"+$store.state.path+"/corprate/questionview/"+$route.params.id})' class='btn btn-info btn-xs'>Preview RFP</button>
+          <button @click='back({path:"/"+$store.state.path+"/corprate/questionview/"+$route.params.id+"/q"})' class='btn btn-info btn-xs'>Preview RFP</button>
         </li>
         <li class='fr w20 p5-10'>
           <span class='gray b5'>Budget</span> - <b>{{(rfpData.hasOwnProperty('basic')) ? '₹'+rfpData.basic[2].ques[0].answer : "₹ -----"  }}</b>
