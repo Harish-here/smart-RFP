@@ -17,7 +17,7 @@
       <hr>
     </header>
     <div class='fl w100 f16 b5 p10-20'>Hotel's Details</div>
-    <section id='basic_detail' class='fl w100 p5-10'>
+    <section id='basic_detail' class='fl w100 p5-10 br-sh'>
         <ul class='fl w50 p5-10'>
             <li class='fl w100 p10-20'>
                 <div class='fl w30  b5'>Hotel</div>

@@ -67,7 +67,7 @@ export default {
 
   watch: {
     'this.$router' (to,from){
-      console.log(this.$router.path)
+     // console.log(this.$router.path)
     }
   },
   created(){
@@ -84,7 +84,7 @@ export default {
 
     axios(api.checkPermission).then(function(data){
       self.$store.commit('setPermission',data.data.permission);
-      console.log(data);
+     // console.log(data);
     });
   }
 };

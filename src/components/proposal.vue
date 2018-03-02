@@ -9,7 +9,7 @@
       </ul>
       <hr>
     </header>
-    <section id='proposal_list' class='fl w100 p5-10'>
+    <!-- <section v-if='false' id='proposal_list' class='fl w100 p5-10'>
         <table class='table'>
           <thead class='bg-ddd'>
             <tr>
@@ -17,7 +17,7 @@
              <th class='w15'>RFP </th> 
              <th class='w10'>Location</th> 
              <th class='w10 center'>Rooms / Year</th>
-             <th class='w10 center'>Due Date</th> <!-- <th>Travels / month</th> <th>Travels / year</th> -->  
+             <th class='w10 center'>Due Date</th>
              <th class='w15 center'>RFP status</th>
              <th class='w15 center'>Quote status</th> 
              <th class='w10'>Actions</th>
@@ -38,8 +38,7 @@
                 <td class='w15'>{{i.location.map(x => x.label).join(', ')}}</td>
                 <td class='w10 center'>{{i.roomsYear}}</td>
                 <td class='w10 center'>{{i.dueDate}}</td>
-              <!--  <td class='w15'>{{i.travelPerMonth}}</td>
-                <td class='w10'>{{i.travelPerYear}}</td> -->
+            
                 <td class='b6 w10 center' :class='{"red":i.rfpStatus == "closed" || i.rfpStatus == "withdrawn","green":i.rfpStatus != "closed" && i.rfpStatus != "withdrawn"}' >{{i.rfpStatus}}</td>
                 <td class='b6 w10 center' :class='{"red":i.status == "declined" || i.status == "rejected","green":i.status != "declined" && i.status != "rejected"}' >{{i.status}}</td>
                 <td class='w10'>
@@ -52,6 +51,40 @@
             </tr>
           </tbody>
         </table>
+        
+    </section> -->
+    <section class='fl w100'>
+      <ul class='grid_contanier'>
+        <li class='br-el grid-next cursor'
+            v-if='listData !== null && listData.hasOwnProperty("comp") && listData.comp.length > 0'
+            v-for='i in listData.comp'
+            :key='i.rfp.value'
+            :class='{opa: i.status === "declined" || i.rfpStatus == "withdrawn"}'
+            @click='move(i.rfp.value)'
+        >
+          <div class='br-btm p5-10 b6 f14' :title='i.rfp.label'>{{ (i.rfp.label.length > 32) ?  i.rfp.label.substring(0,32)+'...' : i.rfp.label  }}</div>
+          <div class='grid-middle'>
+            <div class='p5-10 centering center'>
+              <div>
+                <span class='gray f11'>Due Date</span>
+                <div class='f14'>{{i.dueDate}}</div>
+              </div>
+            </div>
+            <div class='center centering'>
+              <div>
+                <span class='f14 b6'>ROOMS</span>
+                <div class='f18 b6 brinjal'>{{i.roomsYear}}</div>
+                <span class='gray center'>Annually</span>
+              </div>
+            </div>
+          </div>
+          <div class='f14 p2-4 center'>{{i.company.label}}</div>
+          <div class='bg-gray p2-4'>
+            <div class='fl w50'>RFP - <span :class='{"red":i.rfpStatus == "closed" || i.rfpStatus == "withdrawn","green":i.rfpStatus != "closed" && i.rfpStatus != "withdrawn"}'>{{i.rfpStatus}}</span></div>
+            <div class='fr w50 al-right'>Quote - <span :class='{"red":i.status == "declined" || i.status == "rejected","green":i.status != "declined" && i.status != "rejected"}'>{{i.status}}</span></div>
+          </div>
+        </li>  
+      </ul>
     </section>
 
 
@@ -90,6 +123,24 @@ export default {
 </script>
 
 <style>
+.grid_contanier{
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  grid-auto-rows: 150px;
+  grid-gap: 20px;
+}
+.grid-next{
+  display:grid;
+  grid-template-rows: 30px auto 20px 20px;
 
-
+}
+.grid-middle{
+  display:grid;
+  grid-template-columns: 3fr 2fr;
+}
+.centering{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

@@ -1,4 +1,4 @@
-let forProd = true;
+let forProd = false;
 
 function decide(prod, local) {
     return (forProd) ? prod : local;
@@ -12,7 +12,7 @@ export default {
     sendQuesH: decide(prodPathH + '/sendQues', 'http://localhost/'),
     forProd: forProd,
     rfpDecline: decide(prodPathH + '/decline', 'http://localhost/'),
-    getProposal: decide(prodPathH + '/getProposal', 'https://api.myjson.com/bins/1cvxjf'),
+    getProposal: decide(prodPathH + '/getProposal', 'https://api.myjson.com/bins/1dzrhx'),
     getHotelPre: decide(prodPathH + '/getHotelPre', 'https://api.myjson.com/bins/kkg5f'),
     getHotelPreCustomer: decide(prodPath + '/getHotelPre', 'https://api.myjson.com/bins/kkg5f'),
     getHotelAns: decide(prodPathH + '/getHotelAns', 'https://api.myjson.com/bins/1easv7'),//???

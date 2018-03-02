@@ -85,15 +85,15 @@ export default {
         },
         expand : function(){
             if($('#shrink').data('active') === 'no'){
-                $('section h4>span').html('-');
-                $('section div').removeClass('dbNo');
-                $('section div').addClass('dbi');
+                $('#preview section h4>span').html('-');
+                $('#preview section > div').removeClass('dbNo');
+                $('#preview section div').addClass('dbi');
                 $('#shrink').data('active','yes');
                 $('#shrink').html('Shrink All');
             }else{
-            $('section h4>span').html('+');
-                $('section div').removeClass('dbi');
-                $('section div').addClass('dbNo');
+                $('#preview section h4>span').html('+');
+                $('#preview section > div').removeClass('dbi');
+                $('#preview section > div').addClass('dbNo');
                 $('#shrink').data('active','no');
                 $('#shrink').html('Expand All'); 
             }

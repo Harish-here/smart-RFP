@@ -104,6 +104,10 @@ hr{ margin-bottom:0px !important; }
 .br-none{border: none;}
 .br-none:focus{outline: none;}
 .mr-bt-5{margin-bottom: 5px;}
+.br-sh{border: 1px solid #e1e1e1;background-color: #f9f9f9;}
+.br-el{border:1px solid #e1e1e1;}
+.br-btm{border-bottom:1px solid #e1e1e1;}
+.brinjal{color:#50617c;}
 /* scroll bar*/
 ::-webkit-scrollbar-track
 {
