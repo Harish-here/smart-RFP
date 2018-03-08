@@ -39,7 +39,7 @@
             </tr>
           </thead>
           <tbody v-if='listData.hasOwnProperty("rfp") && !filter.hasOwnProperty("label")'>
-            <tr v-for='i in listData.rfp' :key='i.rfpId' :class='{"bg-acc":i.connected === "connected"}'>
+            <tr v-for='i in listData.rfp' :key='i.rfpId' :class='{"bg-acc":i.connected === "connected","opa": i.connected === "expired"}'>
               <td class='w15'>{{i.rfp}}</td>
               <td class='w20'>{{i.location.map(x => x.label).join(', ')}}</td>
               <td class='b6 w10' :class='{"orange":i.connected === "pending","green":i.connected === "connected"}'>{{i.connected}}</td>
