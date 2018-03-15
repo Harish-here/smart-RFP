@@ -2,7 +2,8 @@
 <div id='preview' class='p10-20'>
     <header class='fl w100 p10-20'>
     <button @click='go' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
-      <div class='roboto b3 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP Name"}} </div>
+      <div class='roboto b3 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP Name"}} <i title='Get this as report' @click='getPdf' class="fa fa-download cursor" aria-hidden="true"></i>
+      </div>
       <ul class='fr' v-if='listData.hasOwnProperty("basic")'>
         <li class='p5-10 f14 fr' v-if='showAccept  && !showDecline'><button id='decline' class='btn btn-default btn-sm' @click='decline'>Decline</button></li>
         <li class='p5-10 f14 fr' v-if='showAccept && !showDecline'><button id='accept' class='btn btn-info btn-sm' @click='showSlab = true'>Accept</button></li>
@@ -25,7 +26,7 @@
         <div v-show='true' id='question_set_' class='fl w60 p5-10'>
             <h4 class='fl w50 b5'>RFP Details</h4>
             <div v-if='listData.hasOwnProperty("basic") && listData.basic.length > 0' id='basic_ques' key='basic details'>
-                <ul  v-for='i in listData.basic'  id='acc_' class='fl w100'>
+                <ul  v-for='(i,z) in listData.basic' :key='z' id='acc_' class='fl w100'>
                     <li v-for='j in i.ques' :key='j.bqText'>
                         <div class='fl w50 p5-10'>{{j.bqText}}</div>
                         <div class='fl w50 b5 p5-10'>{{ ( j.answerId.length === 0) ? j.answer : j.answerId.map(x => x.label).join(', ')}}</div>
@@ -165,7 +166,11 @@ export default {
                 $('section#par_'+id).attr('data-active','no')
                 $('#par_'+id+' h4>span').html('+');
         }
-                
+              
+        },
+
+        getPdf: function(){
+            
         },
         expand : function(){
             if($('#shrink').data('active') == 'no'){
@@ -187,7 +192,7 @@ export default {
           if(confirm('selected slab will be sent as quote to this RFP')){
               self.$store.commit('showProgress');
             $.post(api.setSlab,{slabId:self.slabId,hotelId:'',rfpId:self.$route.params.rid}).done(function(data){
-                console.log(data);
+                
                 self.showSlab = false;
                 $('#accept').attr('disabled','disabled').removeClass('btn-primary').addClass('btn-success').html('Accepted');
                 $('#decline').hide();

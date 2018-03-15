@@ -36,7 +36,7 @@ export default {
   components: {RfpDisplayQuestions},
   data() {
     return {
-      nxt: '1',
+      nxt: '7',
       show: {
         questionBar : false
       },
