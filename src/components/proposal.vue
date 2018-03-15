@@ -7,7 +7,16 @@
         <li class='di p5-10 f16'><i class="fa fa-trash" aria-hidden="true"></i></li>
         <li class='di p5-10 f16'><i class="fa fa-ellipsis-v" aria-hidden="true"></i></li>
       </ul>
-      <hr>
+      <div class='fr p5-10'>
+        <div class='wrapper-input'>
+          <input type='text' placeholder="search RFP" v-model='searchString'>
+          <i v-if='searchString.length === 0' class="fa fa-search" aria-hidden="true"></i>
+          <i v-if='searchString.length !== 0' class="fa fa-close cursor" @click='searchString = ""' aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class='fl w100 p10-20 center trans' v-if='searchString.length !== 0'>
+        <div>Results for <span class='b6 black'>{{searchString}}</span></div>
+      </div>
     </header>
     <!-- <section v-if='false' id='proposal_list' class='fl w100 p5-10'>
         <table class='table'>
@@ -57,7 +66,7 @@
       <ul class='grid_contanier'>
         <li class='br-el grid-next cursor'
             v-if='listData !== null && listData.hasOwnProperty("comp") && listData.comp.length > 0'
-            v-for='i in listData.comp'
+            v-for='i in filterList'
             :key='i.rfp.value'
             :class='{opa: i.status === "declined" || i.rfpStatus == "withdrawn"}'
             @click='move(i.rfp.value)'
@@ -83,7 +92,8 @@
             <div class='fl w50'>RFP - <span :class='{"red":i.rfpStatus == "closed" || i.rfpStatus == "withdrawn","green":i.rfpStatus != "closed" && i.rfpStatus != "withdrawn"}'>{{i.rfpStatus}}</span></div>
             <div class='fr w50 al-right'>Quote - <span :class='{"red":i.status == "declined" || i.status == "rejected","green":i.status != "declined" && i.status != "rejected"}'>{{i.status}}</span></div>
           </div>
-        </li>  
+        </li>
+        <!-- <li class='gray' v-else>Wups! Nothing Matched</li>   -->
       </ul>
     </section>
 
@@ -98,7 +108,8 @@ export default {
     name: 'proposal',
     data(){
         return {
-            listData : null
+            listData : null,
+            searchString : ''
         }
     },
     created(){
@@ -112,6 +123,18 @@ export default {
         
       
     },
+
+    computed: {
+      filterList(){
+        const self = this;
+        if(this.listData !== null && this.searchString.length > 0){
+          return this.listData.comp.filter(x => x.rfp.label.toLowerCase().includes(self.searchString.toLowerCase()))
+        }else{
+          return (this.listData !== null && self.listData.hasOwnProperty('comp')) ?  this.listData.comp : []
+        }
+      }
+    },
+
     methods: {
       move: function(id){
         const self = this;
@@ -142,5 +165,17 @@ export default {
   display:flex;
   justify-content: center;
   align-items: center;
+}
+.wrapper-input{
+  border: 1px solid rgba(0,0,0,.1);
+  padding:5px;
+  font-size: 12px;
+}
+.wrapper-input input {
+  outline: none;
+  border: none;
+}
+.trans{
+  transition: ease 0.5;
 }
 </style>
