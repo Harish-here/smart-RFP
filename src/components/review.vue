@@ -2,7 +2,7 @@
 <div id='preview' class='p10-20'>
     <header class='fl w100 p10-20'>
     <button @click='go' class='di btn btn-default btn-sm'><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
-      <div class='roboto b3 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP Name"}} <i title='Get this as report' @click='getPdf' class="fa fa-download cursor" aria-hidden="true"></i>
+      <div class='roboto b3 dib p5-10'>{{ (listData.hasOwnProperty('rfp')) ? listData.rfp.label : "RFP Name"}} <a :href='"http://www.hobse.com/demo/index.php/admin/rfp/contract?rfpId="+rfp' target='_blank'><i title='Get this as report'  class="fa fa-download cursor" aria-hidden="true"></i></a>
       </div>
       <ul class='fr' v-if='listData.hasOwnProperty("basic")'>
         <li class='p5-10 f14 fr' v-if='showAccept  && !showDecline'><button id='decline' class='btn btn-default btn-sm' @click='decline'>Decline</button></li>
@@ -87,12 +87,14 @@ export default {
             listData: [],
             slabId: null,
             slabData: [],
-            showSlab: false
+            showSlab: false,
+            rfp:''
         }
     },
     created(){
         const self =this;
         self.$store.commit('showProgress');
+        self.rfp = self.$route.params.rid;
         (api.forProd) ?
         $.post(api.getHotelPre,{rfpId: self.$route.params.rid,hotelId: ''}).done(function(data){
             self.listData = JSON.parse(data); //getting the preview of that rfp
