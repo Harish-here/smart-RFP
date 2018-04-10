@@ -93,7 +93,7 @@
             <div class='fr w50 al-right'>Quote - <span :class='{"red":i.status == "declined" || i.status == "rejected","green":i.status != "declined" && i.status != "rejected"}'>{{i.status}}</span></div>
           </div>
         </li>
-        <!-- <li class='gray' v-else>Wups! Nothing Matched</li>   -->
+        <li class='gray' v-else>Wups! No Proposal Received</li>  
       </ul>
     </section>
 
