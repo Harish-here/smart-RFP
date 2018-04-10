@@ -15,7 +15,7 @@
     <nav id='hotel' v-if='showHotel' class='fl w10 bg-drk h-full al-left b6 f16  br-l cursor'>
       <div id='nav_1' class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel"},1)'><i class="fa fa-inbox" aria-hidden="true"></i><br/> Proposal</div>
       <div id='nav_2' class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel/engaged"},2)'><i class="fa fa-linux" aria-hidden="true"></i><br/> Engaged</div>
-      <div id='nav_3' class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel/questions"},3)'><i class="fa fa-cogs" aria-hidden="true"></i><br/> Settings</div>
+      <div id='nav_3' class='p20-40 center act' @click='goo({path:"/"+$store.state.path+"/hotel/questions"},3)'><i class="fa fa-cogs" aria-hidden="true"></i><br/> Settings</div>
       <div id='nav_4' class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel/preview"},4)'><i class="fa fa-book" aria-hidden="true"></i> Preview</div>
       <div id='nav_5' class='p20-40 center' @click='goo({path:"/"+$store.state.path+"/hotel/trash"},5)'><i class="fa fa-trash" aria-hidden="true"></i> Trash</div>
     </nav>

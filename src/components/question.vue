@@ -6,61 +6,64 @@
    <!-- <pre>{{ cData }}</pre> -->
     <div id='content'>
         <section  v-for='(y,index_1) in qData.quesCategory' class='fl w100 f12 y-flow bg-least'  :class='{"dbNo":index_1 !== 0}' :id='"body_"+index_1' :key='y.questionCategoryId'>       
-            <div id='Next_btn' class='fl w100 center'>
+            <div id='Next_btn' class='fl w100 center' v-if='y.ques.length > 0'>
               <ul class='p5-10'>
-                <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
-                    <button :id='index_1' class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next</button>
+                <li class='fr p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
+                    <button :id='index_1' class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next <i class="fa fa-chevron-right" aria-hidden="true"></i></button>
                 </li>
                 <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
               </ul>
             </div>
-            <div v-for='i in y.ques' :key='i.questionId'>
-                    <div v-if='i.questionSubTypeId === "7"'>
-                        <div class=' fl w100 p10-20 b6'>
-                        {{i.questionText}} ?
-                        </div>
-                        <div class='fl w100 p10-20'>
-                            <div class='di  pl-25' v-for='j in i.concatAns' :key='j.answerId'>
-                                <input v-model='i.answer' :value='[j]'  type='radio' :name='i.questionText' :id='"ans_" + i.questionId'> {{j.answer}}
+            <div v-if='y.ques.length > 0'>
+                <div v-for='i in y.ques' :key='i.questionId'>
+                        <div v-if='i.questionSubTypeId === "7"'>
+                            <div class=' fl w100 p10-20 b6'>
+                            {{i.questionText}} ?
+                            </div>
+                            <div class='fl w100 p10-20'>
+                                <div class='di  pl-25' v-for='j in i.concatAns' :key='j.answerId'>
+                                    <input v-model='i.answer' :value='[j]'  type='radio' :name='i.questionText' :id='"ans_" + i.questionId'> {{j.answer}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div v-else-if='i.questionSubTypeId === "1" || i.questionSubTypeId === "2" || i.questionSubTypeId === "3" || i.questionSubTypeId === "4" ||  i.questionSubTypeId === "6" '>
-                        <div class=' fl w100 p10-20 b6'>
-                        {{i.questionText}} 
-                        </div>
-                        <div class='fl w100 p10-20'>
-                            <div class='pl-25'>
-                                <input type='text' 
-                                       v-model='i.answer[0].answer'
-                                       :id='"ans_" + i.questionId' 
-                                       :name='i.questionText'
-                                        
-                                        > <!-- v-model='sample[index_1].ques[index_2].answer.answer' @input='txtAns(i.questionId)' -->
+                        <div v-else-if='i.questionSubTypeId === "1" || i.questionSubTypeId === "2" || i.questionSubTypeId === "3" || i.questionSubTypeId === "4" ||  i.questionSubTypeId === "6" '>
+                            <div class=' fl w100 p10-20 b6'>
+                            {{i.questionText}} 
+                            </div>
+                            <div class='fl w100 p10-20'>
+                                <div class='pl-25'>
+                                    <input type='text' 
+                                        v-model='i.answer[0].answer'
+                                        :id='"ans_" + i.questionId' 
+                                        :name='i.questionText'
+                                            
+                                            > <!-- v-model='sample[index_1].ques[index_2].answer.answer' @input='txtAns(i.questionId)' -->
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div v-else-if='i.questionSubTypeId === "9"'>
-                        <div class=' fl w100 p10-20 b6'>
-                        {{i.questionText}} 
-                        </div>
-                        <div class='fl w100 p10-20'>
-                            <div class='di  pl-25' v-for='j in i.concatAns' :key='j.answerId'>
-                                <input v-model='i.answer' type='radio'  :name='i.questionText' :value='[j]'> {{j.answer}}
+                        <div v-else-if='i.questionSubTypeId === "9"'>
+                            <div class=' fl w100 p10-20 b6'>
+                            {{i.questionText}} 
+                            </div>
+                            <div class='fl w100 p10-20'>
+                                <div class='di  pl-25' v-for='j in i.concatAns' :key='j.answerId'>
+                                    <input v-model='i.answer' type='radio'  :name='i.questionText' :value='[j]'> {{j.answer}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div v-else>
-                        <div class=' fl w100 p10-20 b6'>
-                        {{i.questionText}} 
+                        <div v-else>
+                            <div class=' fl w100 p10-20 b6'>
+                            {{i.questionText}} 
+                            </div>
+                            <ul class='fl w100 p20-40'>
+                                <li v-for='j in i.concatAns' class='fl w33 p10-20' :key='j.answerId'>
+                                    <input type='checkbox' v-model='i.answer' :value='j' > {{j.answer}}
+                                </li>
+                            </ul>
                         </div>
-                        <ul class='fl w100 p20-40'>
-                            <li v-for='j in i.concatAns' class='fl w33 p10-20' :key='j.answerId'>
-                                <input type='checkbox' v-model='i.answer' :value='j' > {{j.answer}}
-                            </li>
-                        </ul>
-                    </div>
+                </div>
             </div>
+            <div class='center' v-else>No questions here</div>
         </section>
     </div>
  </div>
@@ -83,6 +86,8 @@ export default {
     created(){
         const self =this;
       self.cData = self.qData;
+       $('nav#hotel div').removeClass('act');
+          $('nav#hotel div:nth-child(3)').addClass('act');
       
     },
 

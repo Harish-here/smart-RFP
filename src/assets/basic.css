@@ -47,7 +47,7 @@ hr{ margin-bottom:0px !important; }
 .hide{ visibility: hidden; }
 
 /** font */
-.roboto{font-family: 'Roboto', sans-serif;font-size:21px;}
+.roboto{font-family: 'Roboto', sans-serif;font-size:21px;color:#000;}
 /* ---- atomic  -----*/
 .pl-25{padding-left:25px; }
 .mr-67{margin-right: 67px;}
