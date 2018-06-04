@@ -21,8 +21,10 @@
         <section v-for='(y,index_1) in qData.quesCategory' :key='y.questionCategoryId' class='fl w100 f12 y-flow' :class='{"dbNo":index_1 !== 0}' :id='"body_"+index_1'>
             <div id='Next_btn' class='fl w100 center'>
               <ul>
-               <li class='di p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
-                <button :id='index_1' class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next</button>
+               <li class='fr p10-20' v-if='(qData.quesCategory.length) != (index_1 + 1)'>
+                <button :id='index_1' class='btn btn-primary btn-sm' @click='show(index_1 + 1)'>Next
+                    <i aria-hidden="true" class="fa fa-chevron-right"></i>
+                </button>
                </li>
                <li class='di p10-20' v-else> <button class='btn btn-primary btn-sm' @click='submitAnswers'>save and Continue to next category</button></li>
               </ul>
