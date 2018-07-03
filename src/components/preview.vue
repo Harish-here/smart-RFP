@@ -3,7 +3,7 @@
     <header class='fl w100 p10-20'>
       <div class='roboto b3 dib'>RFP Answers</div>
       <ul class='fr'>
-        <li class='di p5-10 f14 fr '><button id='shrink' class='btn btn-default btn-xs' @click='expand' data-active='no'>Expand All</button></li>
+        <!-- <li class='di p5-10 f14 fr '><button id='shrink' class='btn btn-default btn-xs' @click='expand' data-active='no'>Expand All</button></li> -->
       </ul>
       <hr>
     </header>
@@ -40,40 +40,42 @@
                         
             </section>
         </div>
-            <div>
-        <div class='grid' >
-            <!-- main RFP -->
-                <section data-active='no' v-for='i in listData' v-if='i.quesCategory.length > 0' class='br-el mar'  :id='"par_"+i.questionCategoryParentId' :key='i.questionCategoryParentId'>
-                        <div class='f16 p5-10 bg-gray center b6' v-if='i.quesCategory.length > 0' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='dbNo cursor b5 btn btn-default btn-xs'> + </span></div>
-                            <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class=' ' :id='"ques_"+i.questionCategoryParentId'>
-                                <table class='table table-striped ' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory' :key='j.questionCategoryId'>
-                                    <thead>
-                                        <tr>    
-                                            <th colspan='2'>{{ j.questionCategory }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId'>
-                                        
-                                            <tr v-for='y in j.ques' :key='y.questionId'>
-                                                <td class='w70 pl-25'>{{y.questionText}}</td>
-                                                <td class='b5 w30' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : (y.mandate == "1") ? "Mandatory" : "Included" }}</td>
-                                                <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? (y.mandate == "1") ? "Mandatory" : "Included": y.answer}}</td>
-                                            </tr>
-                                        
-                                    </tbody>
-                                    <tbody  v-else>
-                                        <tr class='centering'>
-                                                <td colspan='2' class='pl-25 reds b5'>No question were included in this subcategory</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <aside class='pl-25 red b5 centering' v-else>
-                               <span> No Questions included in this Category</span>
-                            </aside>
-                            
-                </section>
-            </div></div>
+            <div style='float:left;'>
+                <div class='grid' >
+                    <!-- main RFP -->
+                        <section data-active='no' v-for='i in listData' v-if='i.quesCategory.length > 0' class='br-el mar'  :id='"par_"+i.questionCategoryParentId' :key='i.questionCategoryParentId'>
+                                <div class='f16 p5-10 bg-gray center b6' v-if='i.quesCategory.length > 0' >{{i.questionCategoryParent}} <span @click='open(i.questionCategoryParentId)' v-show='i.quesCategory.length > 0' class='dbNo cursor b5 btn btn-default btn-xs'> + </span></div>
+                                    <div v-if='i.hasOwnProperty("quesCategory") && i.quesCategory.length > 0' class=' ' :id='"ques_"+i.questionCategoryParentId'>
+                                        <table class='table table-striped ' v-if='i.quesCategory.length > 0' v-for='j in i.quesCategory' :key='j.questionCategoryId'>
+                                            <thead>
+                                                <tr>    
+                                                    <th colspan='2'>{{ j.questionCategory }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody v-if='j.ques.length > 0' :id='"acc_"+j.questionCategoryId'>
+                                                
+                                                    <tr v-for='y in j.ques' :key='y.questionId'>
+                                                        <td class='w70 pl-25'>{{y.questionText}}</td>
+                                                        <td class='b5 w30' v-if='y.questionSubTypeId === "8"'> {{ (y.answer.length > 0) ? y.answer.map((x) => { return x.answer }).join(', ') : (y.mandate == "1") ? "Mandatory" : "Included" }}</td>
+                                                        <td class='b5 w30' v-else>{{( y.answer.length  === 1) ? y.answer[0].answer : (y.answer.length ===0) ? (y.mandate == "1") ? "Mandatory" : "Included": y.answer}}</td>
+                                                    </tr>
+                                                
+                                            </tbody>
+                                            <tbody  v-else>
+                                                <tr class='centering'>
+                                                        <td colspan='2' class='pl-25 reds b5'>No question were included in this subcategory</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <aside class='pl-25 red b5 centering' v-else>
+                                    <span> No Questions included in this Category</span>
+                                    </aside>
+                                    
+                        </section>
+                </div>
+            </div>
+        
 
 </div>
 </template>
@@ -137,7 +139,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 .grid{
     /* display:grid;
